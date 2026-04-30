@@ -24,17 +24,26 @@ public class Producto {
     @NotBlank(message = "El nombre del producto no puede esta vacio")
     @Column(nullable = false, length = 100)
     private String nombre_producto;
+    
     //DESCRIPCION
     @NotBlank(message = "La descripcion no puede estar vacia")
     @Column(nullable = false, length = 100)
     private String descripcion_producto;
+    
     //PRECIO
     @Min(value = 0, message = "El precio debe ser mayor a 0")
     @NotNull(message = "Debe ingresar un precio")
     private Integer precio_producto;
+
     //STOCK
     @Min(value = 0, message = "El stock debe ser mayor a 0")
     @NotNull(message = "Debe ingresar la cantidad de stock")
     private Integer stock_producto;
+
+    //IDCATEGORIA - LO RECIBE DE CATEGORIA
+    @ManyToOne(fetch = FetchType.EAGER) // Muchos productos tienen una categoría
+    @JoinColumn(name = "id_categoria", nullable = false) // Nombre de la columna FK en la tabla producto
+    @NotNull(message = "El producto debe tener una categoría válida")
+    private Categoria categoria;
 
 }
