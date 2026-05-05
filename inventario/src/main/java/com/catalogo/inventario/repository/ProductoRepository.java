@@ -12,12 +12,14 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ProductoRepository extends JpaRepository<Producto, Integer>{
 
-    Optional<Producto> findById_producto(Integer id_producto);
+    Optional<Producto> findById_Producto(Integer id_producto);
 
-    List<Producto> findByNombre_producto(String nombre_producto);
+    List<Producto> findByNombre_ProductoIgnoreCase(String nombre_producto);
 
-    List<Producto> findByPrecio_producto(Integer precio_producto);
+    List<Producto> findByPrecio_Producto(Integer precio_producto);
 
-    List<Producto> findByStock_producto(Integer stock_producto);
+    List<Producto> findByStock_Producto(Integer stock_producto);
+
+    List<Producto> findByCategoria_Id_Categoria(Integer id_categoria);
 
 }
