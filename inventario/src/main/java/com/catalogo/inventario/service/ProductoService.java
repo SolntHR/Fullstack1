@@ -15,32 +15,32 @@ public class ProductoService {
     private ProductoRepository repository;
 
     // GET: listar todos los productos
-    public List<Producto> findAll() {
+    public List<Producto> listaProductos() {
         return repository.findAll();
     }
 
     // GET: buscar por id
-    public Optional<Producto> findById(Integer id) {
+    public Optional<Producto> buscarPorId(Integer id) {
         return repository.findById(id);
     }
 
     // GET: buscar por nombre
-    public List<Producto> findByName(String nombre_producto) {
-        return repository.findByNombre_ProductoIgnoreCase(nombre_producto);
+    public List<Producto> buscarPorNombre(String nombre) {
+        return repository.findByNombre_ProductoIgnoreCase(nombre);
     }
 
     // GET: buscar por categoria (objeto Categoria completo)
-    public List<Producto> findByCategory(Integer id_Categoria) {
+    public List<Producto> buscarPorCategoria(Integer id_Categoria) {
         return repository.findByCategoria_Id_Categoria(id_Categoria);
     }
 
     // POST: agregar producto
-    public Producto save(Producto producto) {
+    public Producto agregar(Producto producto) {
         return repository.save(producto);
     }
 
     // PUT: actualizar producto
-    public Optional<Producto> update(Integer id, Producto productoActualizado) {
+    public Optional<Producto> productoUpdate(Integer id, Producto productoActualizado) {
         return repository.findById(id).map(productoExistente -> {
             productoExistente.setNombre_producto(productoActualizado.getNombre_producto());
             productoExistente.setPrecio_producto(productoActualizado.getPrecio_producto());
@@ -51,7 +51,7 @@ public class ProductoService {
     }
 
     // DELETE: eliminar producto
-    public boolean delete(Integer id) {
+    public boolean eliminar(Integer id) {
         if (repository.existsById(id)) {
             repository.deleteById(id);
             return true;

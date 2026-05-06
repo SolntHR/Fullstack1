@@ -26,17 +26,17 @@ public class CategoriaController {
     public List<Categoria> listarCategoria(){
         return service.listarCategoria();
     }
-
-    @GetMapping("/categoria/{id}")
+    //Get: Buscar por id
+    @GetMapping("/categoriaI/{id}")
     public Optional<Categoria> buscarPorId(@PathVariable Integer id){
         return service.idCategoria(id);
     }
-
-    @GetMapping("/categoria/{nombre}")
+    //Get: Buscar por nombre
+    @GetMapping("/categoriaN/{nombre}")
     public Optional <Categoria> buscarPorNombre(@PathVariable String nombre){
         return service.nombreCategoria(nombre);
     }
-
+    
     @PostMapping
     public Categoria crear(@RequestBody Categoria categoria){
         return service.guardarCategoria(categoria);
@@ -50,6 +50,17 @@ public class CategoriaController {
             return "Categoria Actualizada Correctamente";
         }else {
             return "Categoria no encontrada con id: "+id;
+        }
+    }
+
+    @DeleteMapping("/eliminar/{id}")
+    public String eliminarCategoria(@PathVariable Integer id){
+        Optional<Categoria> existente = service.idCategoria(id);
+        if(existente.isPresent()){
+            service.eliminarCategoria(id);
+            return "Categoria eliminada correctamente";
+        }else{
+            return "Categoria no encontrada con id: " + id;
         }
     }
 }
