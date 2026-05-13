@@ -17,9 +17,9 @@ public class Categoria {
     //IDCATEGORIA
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_categoria;
+    private Integer idCategoria;
     //NOMBRE_CATEGORIA
     @NotBlank(message = "El nombre del producto no puede esta vacio")
     @Column(nullable = false, length = 40)
-    private String nombre_categoria;
+    private String nombre;
 }

@@ -2,7 +2,11 @@ package com.catalogo.inventario.controller;
 
 import com.catalogo.inventario.model.Categoria;
 import com.catalogo.inventario.service.CategoriaService;
+
+import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,6 +15,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import com.catalogo.inventario.dto.CategoriaDetalleDTO;
+import com.catalogo.inventario.dto.CategoriaListadoDTO;
+import com.catalogo.inventario.dto.CategoriaSimpleDTO;
 
 @RestController
 
@@ -43,7 +50,7 @@ public class CategoriaController {
     }
 
     @PutMapping("/actualizar-categoria/{id}")
-    public String actualizar(@PathVariable Integer id, @RequestBody Categoria categoria){
+    public String actualizar(@Valid @PathVariable Integer id, @RequestBody Categoria categoria){
         Optional<Categoria> existente = service.idCategoria(id);
         if(existente.isPresent()){
             service.actualizarCategoria(id, categoria);
@@ -62,5 +69,25 @@ public class CategoriaController {
         }else{
             return "Categoria no encontrada con id: " + id;
         }
+    }
+
+    //DTO
+    @GetMapping("/listar-dto")
+    public List<CategoriaListadoDTO> listarDTO(){
+        return service.listarDTO();
+    }
+
+    @GetMapping("/{id}/detalle-simple")
+    public CategoriaSimpleDTO obtenerDetalleSimple(@PathVariable Integer id){
+        return service.obtenerDetalleSimple(id);
+    }
+
+    @GetMapping("/{id}/detalle-completo")
+    public ResponseEntity<CategoriaDetalleDTO> obtenerDetalleCompleto(@PathVariable Integer id){
+        CategoriaDetalleDTO dto = service.obtenerCategoriaConProductos(id);
+        if(dto == null){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(dto);
     }
 }

@@ -1,8 +1,12 @@
 package com.catalogo.inventario.controller;
 
+import com.catalogo.inventario.dto.ProductoDetalleDTO;
+import com.catalogo.inventario.dto.ProductoListadoDTO;
+import com.catalogo.inventario.dto.ProductoSimpleDTO;
 import com.catalogo.inventario.model.Producto;
 import com.catalogo.inventario.service.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -63,4 +67,25 @@ public class ProductoController {
             return "Producto no encontrado con id: " + id;
         }
     }
+
+    //DTO
+    @GetMapping("/listado-dto")
+    public List<ProductoListadoDTO> obtenerListado(){
+        return service.listarProductoDTO();
+    }
+    
+    @GetMapping("/simple-dto")
+    public List<ProductoSimpleDTO> obtenerSimple(){
+        return service.listarProductoSimpleDTO();
+    }
+
+    @GetMapping("/{id}/detalle")
+    public ResponseEntity<ProductoDetalleDTO> obtenerDetalle(@PathVariable Integer id){
+        ProductoDetalleDTO  dto = service.obtenerDetalleProducto(id);
+        if(dto == null){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(dto);
+    }
 }
+

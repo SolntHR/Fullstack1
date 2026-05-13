@@ -18,12 +18,12 @@ public class Producto {
     //ID
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_producto;
+    private Integer idproducto;
 
     //NOMBRE
     @NotBlank(message = "El nombre del producto no puede esta vacio")
     @Column(nullable = false, length = 100)
-    private String nombre_producto;
+    private String nombreProducto;
     
     //DESCRIPCION
     @NotBlank(message = "La descripcion no puede estar vacia")
@@ -33,12 +33,12 @@ public class Producto {
     //PRECIO
     @Min(value = 0, message = "El precio debe ser mayor a 0")
     @NotNull(message = "Debe ingresar un precio")
-    private Integer precio_producto;
+    private Integer precio;
 
     //STOCK
     @Min(value = 0, message = "El stock debe ser mayor a 0")
     @NotNull(message = "Debe ingresar la cantidad de stock")
-    private Integer stock_producto;
+    private Integer stock;
 
     //IDCATEGORIA - LO RECIBE DE CATEGORIA
     @ManyToOne(fetch = FetchType.EAGER) // Muchos productos tienen una categoría
