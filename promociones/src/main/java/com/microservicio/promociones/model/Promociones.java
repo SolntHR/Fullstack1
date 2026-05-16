@@ -1,4 +1,4 @@
-package com.microsrvicio.promociones.model;
+package com.microservicio.promociones.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -29,7 +29,7 @@ public class Promociones {
 
     // CODIGO PROMOCIONAL
     @NotBlank(message = "El codigo promocional no puede estar vacio")
-    @Column(name = "codigo_promocional", length = 10, nullable = false, unique = true)
+    @Column(name = "codigo_promocional", length = 25, nullable = false, unique = true)
     private String codigoPromocional;
 
     // DESCUENTO

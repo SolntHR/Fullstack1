@@ -1,10 +1,10 @@
-package com.microsrvicio.promociones.service;
-
-import com.microsrvicio.promociones.model.Promociones;
-import com.microsrvicio.promociones.repository.PromocionesRepository;
+package com.microservicio.promociones.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.microservicio.promociones.model.Promociones;
+import com.microservicio.promociones.repository.PromocionesRepository;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -44,7 +44,7 @@ public class PromocionesService {
 
     // OBTENER PROMOCIONES POR RANGO DE FECHAS
     public List<Promociones> buscarPorRangoFechas(LocalDate fechaInicio, LocalDate fechaFin) {
-        return repository.findByBetweenFechaInicioAndFechaFin(fechaInicio, fechaFin);
+        return repository.findByFechaInicioBeforeAndFechaFinAfter(fechaInicio, fechaFin);
     }
 
     // OBTENER PROMOCIONES POR FECHA DE FIN
@@ -52,14 +52,24 @@ public class PromocionesService {
         return repository.findByFechaFinBefore(fechaFin);
     }
 
-    // OBTENER PROMOCIONES POR MONTO MINIMO
-    public List<Promociones> buscarPorMontoMinimo(BigDecimal montoMinimo) {
+    // OBTENER PROMOCIONES POR MONTO MINIMO MAYOR A
+    public List<Promociones> buscarPorMontoMinimoMayor(BigDecimal montoMinimo) {
         return repository.findByMontoMinimoGreaterThan(montoMinimo);
     }
 
-    // OBTENER PROMOCIONES POR VECES DE USO
-    public List<Promociones> buscarPorVecesUso(Integer vecesUso) {  
+    // OBTENER PROMOCIONES POR MONTO MINIMO MENOR A
+    public List<Promociones> buscarPorMontoMinimoMenor(BigDecimal montoMinimo) {
+        return repository.findByMontoMinimoLessThan(montoMinimo);
+    }
+
+    // OBTENER PROMOCIONES POR VECES DE USO MENOR A
+    public List<Promociones> buscarPorVecesUsoMenor(Integer vecesUso) {  
         return repository.findByVecesUsoLessThan(vecesUso);
+    }
+
+    // OBTENER PROMOCIONES POR VECES DE USO MAYOR A
+    public List<Promociones> buscarPorVecesUsoMayor(Integer vecesUso) {
+        return repository.findByVecesUsoGreaterThan(vecesUso);
     }
 
     // OBTENER PROMOCIONES POR DESCUENTO MAYOR A
@@ -74,9 +84,9 @@ public class PromocionesService {
 
     /*------------------------------------------------------------------------*/
 
-    // CREAR NUEVA PROMOCION
+    // AGREGAR NUEVA PROMOCION
 
-    public Promociones crearPromocion(Promociones promocion) {
+    public Promociones agregarPromocion(Promociones promocion) {
         return repository.save(promocion);
     }
 
@@ -103,5 +113,35 @@ public class PromocionesService {
         }
     return false;
     }
-   
+
+    // APLICAR PROMOCION
+    // uso montoCOmpra por mientras se hace ese MS
+    public BigDecimal aplicarPromocion(String codigoPromocional, BigDecimal montoCompra){
+        // Buscar si existe la promocion
+        Promociones promocion = repository.findByCodigoPromocional(codigoPromocional)
+                .orElseThrow(() -> new RuntimeException("Promoción no encontrada"));
+        // Validar si la promocion esta activa
+        LocalDate hoy = LocalDate.now();
+        if (hoy.isBefore(promocion.getFechaInicio()) || hoy.isAfter(promocion.getFechaFin())) {
+            throw new RuntimeException("La promoción no está activa");
+        }
+        // Validar si la promocion tiene veces de uso disponibles
+        if (promocion.getVecesUso() <= 0) {
+            throw new RuntimeException("La promoción ha alcanzado su límite de uso");
+        }
+        // Validar si el monto de compra cumple con el monto minimo
+        if (montoCompra.compareTo(promocion.getMontoMinimo()) < 0) {
+            throw new RuntimeException("El monto de compra no cumple con el monto mínimo requerido");
+        }
+        // Restar las veces de uso
+        promocion.setVecesUso(promocion.getVecesUso() - 1);
+        repository.save(promocion);
+        // Convertir el porcentaje a factor decimal ej: 15.00 / 100 = 0.15
+        BigDecimal factorDescuento = promocion.getDescuento().divide(new BigDecimal("100"));
+        // Calcular cuánto paga el cliente ej: 1 - 0.15 = 0.85
+        BigDecimal factorMontoFinal = BigDecimal.ONE.subtract(factorDescuento);
+        // Devolver el precio final ej: $50.000 * 0.85 = $42.500
+        return montoCompra.multiply(factorMontoFinal);
+    }
+
 }
