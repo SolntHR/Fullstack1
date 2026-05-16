@@ -2,6 +2,8 @@ package com.microsrvicio.promociones.repository;
 
 import com.microsrvicio.promociones.model.Promociones;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,6 +17,20 @@ public interface PromocionesRepository extends JpaRepository<Promociones, Intege
 
     List<Promociones> findByNombrePromocionContainingIgnoreCase(String nombrePromocion);
 
-    
+    Optional<Promociones> findByCodigoPromocional(String codigoPromocional);
+
+    List<Promociones> findByFechaInicioAfter(LocalDate fechaInicio);
+
+    List<Promociones> findByFechaFinBefore(LocalDate fechaFin);
+
+    List<Promociones> findByBetweenFechaInicioAndFechaFin(LocalDate fechaInicio, LocalDate fechaFin);
+
+    List<Promociones> findByMontoMinimoGreaterThan(BigDecimal montoMinimo);
+
+    List<Promociones> findByVecesUsoLessThan(Integer vecesUso);
+
+    List<Promociones> findByDescuentoGreaterThan(BigDecimal descuento);
+
+    List<Promociones> findByDescuentoLessThan(BigDecimal descuento);
 
 }

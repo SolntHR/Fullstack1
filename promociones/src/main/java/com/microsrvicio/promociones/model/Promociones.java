@@ -3,8 +3,6 @@ package com.microsrvicio.promociones.model;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import jakarta.persistence.*;               // Permite mapear la clase a una tabla en la base de atos
 import lombok.AllArgsConstructor;           //Genera automaticamente un construcotr con todos los atributos 
 import lombok.Data;                         //Genera getters, setters, toString, equals, y haschCode autoamticamente
@@ -48,11 +46,6 @@ public class Promociones {
     @NotNull(message = "La fecha de fin no puede ser nula")
     @Column(name = "fecha_fin", nullable = false)
     private LocalDate fechaFin;
-
-    // ESTADO
-    @NotNull(message = "El estado no puede ser nulo")
-    @Column(name = "estado", nullable = false)
-    private Boolean estado;
 
     // VECES DE USO
     @NotNull(message = "Las veces de uso no pueden ser nulas")

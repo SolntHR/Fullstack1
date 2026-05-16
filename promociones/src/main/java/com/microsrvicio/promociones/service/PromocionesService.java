@@ -37,11 +37,6 @@ public class PromocionesService {
         return repository.findByCodigoPromocional(codigoPromocional);
     }
 
-    // OBTENER PROMOCIONES ACTIVAS
-    public List<Promociones> buscarPorPromocionesActivas() {
-        return repository.findByEstado(true);
-    }
-
     // OBTENER PROMOCIONES POR FECHA DE INICIO
     public List<Promociones> buscarPorFechaInicio(LocalDate fechaInicio) {
         return repository.findByFechaInicioAfter(fechaInicio);
@@ -93,7 +88,6 @@ public class PromocionesService {
             promocion.setDescuento(promocionActualizada.getDescuento());
             promocion.setFechaInicio(promocionActualizada.getFechaInicio());
             promocion.setFechaFin(promocionActualizada.getFechaFin());
-            promocion.setEstado(promocionActualizada.getEstado());
             promocion.setVecesUso(promocionActualizada.getVecesUso());
             promocion.setMontoMinimo(promocionActualizada.getMontoMinimo());
             return repository.save(promocion);
@@ -109,20 +103,5 @@ public class PromocionesService {
         }
     return false;
     }
-
-    // DESACTIVAR PROMOCION POR ID
-    public Optional<Promociones> desactivarPromocion(Integer idPromocion) {
-        return repository.findByIdPromocion(idPromocion).map(promocion -> {
-            promocion.setEstado(false);
-            return repository.save(promocion);
-        });
-    }
-
-    // ACTIVAR PROMOCION POR ID
-    public Optional<Promociones> activarPromocion(Integer idPromocion) {
-        return repository.findByIdPromocion(idPromocion).map(promocion -> {
-            promocion.setEstado(true);
-            return repository.save(promocion);
-        });
-    }
+   
 }
