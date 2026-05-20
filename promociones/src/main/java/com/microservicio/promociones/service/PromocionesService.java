@@ -3,11 +3,13 @@ package com.microservicio.promociones.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.microservicio.promociones.dto.PromocionesSimpleDTO;
 import com.microservicio.promociones.model.Promociones;
 import com.microservicio.promociones.repository.PromocionesRepository;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -144,4 +146,23 @@ public class PromocionesService {
         return montoCompra.multiply(factorMontoFinal);
     }
 
+    /*------------------------------------------------------------------------*/
+
+    // GET: DTO
+    public List<PromocionesSimpleDTO> listarPromocionesSimpleDTO() {
+
+    List<Promociones> promociones = repository.findAll();
+    List<PromocionesSimpleDTO> promocionesSimpleDTO = new ArrayList<>();
+    
+    for(Promociones promocion : promociones){
+        PromocionesSimpleDTO dto = new PromocionesSimpleDTO();
+        dto.setNombrePromocion(promocion.getNombrePromocion());
+        dto.setCodigoPromocional(promocion.getCodigoPromocional());
+        dto.setDescuento(promocion.getDescuento());
+        promocionesSimpleDTO.add(dto);
+    }
+    return promocionesSimpleDTO;
+    }
 }
+
+

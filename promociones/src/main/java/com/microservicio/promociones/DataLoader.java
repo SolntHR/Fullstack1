@@ -67,4 +67,5 @@ public class DataLoader {
             System.out.println("La promoción con código " + codigo + " ya existe. Saltando...");
         }
     }
+
 }
