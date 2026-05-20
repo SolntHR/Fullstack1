@@ -60,23 +60,23 @@ public class UsuarioController {
     
     // PUT: Actualizar un usuario existente
     @PutMapping("/actualizar/{idUsuario}")
-    public String actualizarUsuario(@PathVariable Integer idUsuario, @RequestBody Usuario usuarioActualizado) {
+    public ResponseEntity<String> actualizarUsuario(@PathVariable Integer idUsuario, @Valid @RequestBody Usuario usuarioActualizado) {
         Optional<Usuario> usuario = service.actualizarUsuario(idUsuario, usuarioActualizado);
         if(usuario.isPresent()) {
-            return "Usuario actualizado exitosamente";
+            return ResponseEntity.status(200).body("Usuario actualizado exitosamente");
         }
-        return "Usuario no encontrado" + idUsuario;
+        return ResponseEntity.status(404).body("Usuario no encontrado" + idUsuario);
     }
 
     // DELETE: Eliminar un usuario por ID
     @DeleteMapping("/eliminar/{idUsuario}")
-    public String eliminarUsuario(@PathVariable Integer idUsuario) {
+    public ResponseEntity<String> eliminarUsuario(@PathVariable Integer idUsuario) {
         Optional<Usuario> usuario = service.buscarPorId(idUsuario);
         if(usuario.isPresent()) {
             service.eliminarUsuario(idUsuario);
-            return "Usuario eliminado exitosamente";
+            return ResponseEntity.status(200).body("Usuario eliminado exitosamente");
         }
-        return "Usuario no encontrado" + idUsuario;
+        return ResponseEntity.status(404).body("Usuario no encontrado" + idUsuario);
     }
 
     // GET: Lista a todos los usuarios con su rol (DTO)

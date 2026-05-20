@@ -46,13 +46,13 @@ public class RolController {
 
     // PUT: Actualizar un rol existente
     @PutMapping("/actualizarRol/{idRol}")
-    public String actualizarRol(@PathVariable Integer idRol, @RequestBody Rol rolActualizado) {
+    public ResponseEntity<String> actualizarRol(@PathVariable Integer idRol, @Valid @RequestBody Rol rolActualizado) {
         Optional<Rol> rolExiste = service.buscarPorIdRol(idRol);
         if(rolExiste.isPresent()) {
             service.actualizarRol(idRol, rolActualizado);
-            return "Rol actualizado exitosamente";
+            return ResponseEntity.status(200).body("Rol actualizado exitosamente");
         }else {
-            return "Rol no encontrado";
+            return ResponseEntity.status(404).body("Rol no encontrado");
         }
     }
 

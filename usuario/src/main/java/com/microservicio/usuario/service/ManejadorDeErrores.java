@@ -28,7 +28,7 @@ public class ManejadorDeErrores {
         // Crea un objeto ErrorDTO con la información del error
         ErrorDTO errorDTO = new ErrorDTO(
             LocalDateTime.now(), // Fecha y hora actual del error
-            400, // Código de estado HTTP para error de validación
+            409, // Código de estado HTTP para error de validación
             "Error de validación", // Mensaje general del error
             errores, // Mapa de errores de validación
             request.getRequestURI() // url de la solicitud que causó el error
