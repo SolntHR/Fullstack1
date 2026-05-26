@@ -26,19 +26,17 @@ public class CategoriaController {
 
     @Autowired
     private CategoriaService service;
-    // Se inyecta el servicio
-
-    //Get: listar todas las categorias
+    
     @GetMapping("/listarcategoria")
     public List<Categoria> listarCategoria(){
         return service.listarCategoria();
     }
-    //Get: Buscar por id
+ 
     @GetMapping("/categoriaI/{id}")
     public Optional<Categoria> buscarPorId(@PathVariable Integer id){
         return service.idCategoria(id);
     }
-    //Get: Buscar por nombre
+
     @GetMapping("/categoriaN/{nombre}")
     public Optional <Categoria> buscarPorNombre(@PathVariable String nombre){
         return service.nombreCategoria(nombre);
@@ -71,7 +69,7 @@ public class CategoriaController {
         }
     }
 
-    //DTO
+
     @GetMapping("/listar-dto")
     public List<CategoriaListadoDTO> listarDTO(){
         return service.listarDTO();

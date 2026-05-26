@@ -20,7 +20,7 @@ public class ProductoController {
     @Autowired
     private ProductoService service;
 
-    //Get: se listan los productos
+
     @GetMapping("/listar")
     public List<Producto> listar(){
         return service.listaProductos();
@@ -68,7 +68,7 @@ public class ProductoController {
         }
     }
 
-    //DTO
+
     @GetMapping("/listado-dto")
     public List<ProductoListadoDTO> obtenerListado(){
         return service.listarProductoDTO();

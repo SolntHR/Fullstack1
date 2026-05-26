@@ -20,32 +20,32 @@ public class ProductoService {
     @Autowired
     private ProductoRepository repository;
 
-    // GET: listar todos los productos
+
     public List<Producto> listaProductos() {
         return repository.findAll();
     }
 
-    // GET: buscar por id
+   
     public Optional<Producto> buscarPorId(Integer id) {
         return repository.findById(id);
     }
 
-    // GET: buscar por nombre
+   
     public List<Producto> buscarPorNombre(String nombre) {
         return repository.findByNombreProductoIgnoreCase(nombre);
     }
 
-    // GET: buscar por categoria (objeto Categoria completo)
+  
     public List<Producto> buscarPorCategoria(Integer idCategoria) {
         return repository.findByCategoriaIdCategoria(idCategoria);
     }
 
-    // POST: agregar producto
+   
     public Producto agregar(Producto producto) {
         return repository.save(producto);
     }
 
-    // PUT: actualizar producto
+   
     public Optional<Producto> productoUpdate(Integer id, Producto productoActualizado) {
         return repository.findById(id).map(productoExistente -> {
             productoExistente.setNombreProducto(productoActualizado.getNombreProducto());
@@ -56,7 +56,7 @@ public class ProductoService {
         });
     }
 
-    // DELETE: eliminar producto
+    
     public boolean eliminar(Integer id) {
         if (repository.existsById(id)) {
             repository.deleteById(id);
@@ -65,7 +65,7 @@ public class ProductoService {
         return false;
     }
 
-    //DTO   Listado
+  
     public List<ProductoListadoDTO> listarProductoDTO(){
         List<Producto> productos = repository.findAll();
         List<ProductoListadoDTO> listaDTO = new ArrayList<>();
@@ -73,7 +73,7 @@ public class ProductoService {
         for(Producto p : productos){
             ProductoListadoDTO dto = new ProductoListadoDTO();
             dto.setIdproducto(p.getIdproducto());
-            dto.setNombre_producto(p.getNombreProducto());
+            dto.setNombreProducto(p.getNombreProducto());
             dto.setPrecio_producto(p.getPrecio());
             dto.setStock_producto(p.getStock());
 
@@ -84,7 +84,7 @@ public class ProductoService {
         }
         return listaDTO;
     }
-    //DTO   Simple
+  
     public List<ProductoSimpleDTO> listarProductoSimpleDTO(){
         List<Producto> productos = repository.findAll();
         List<ProductoSimpleDTO> listaDTO = new ArrayList<>();
@@ -92,13 +92,13 @@ public class ProductoService {
         for(Producto p : productos){
             ProductoSimpleDTO dto = new ProductoSimpleDTO();
             dto.setIdproducto(p.getIdproducto());
-            dto.setNombre_producto(p.getNombreProducto());
+            dto.setNombreProducto(p.getNombreProducto());
 
             listaDTO.add(dto);
         }
         return listaDTO;
     }
-    //DTO   Detalle
+  
     public ProductoDetalleDTO obtenerDetalleProducto(Integer id){
         Producto p = repository.findById(id).orElse(null);
         if(p == null){
@@ -106,7 +106,7 @@ public class ProductoService {
         }
         ProductoDetalleDTO dto = new ProductoDetalleDTO();
         dto.setIdproducto(p.getIdproducto());
-        dto.setNombre_producto(p.getNombreProducto());
+        dto.setNombreProducto(p.getNombreProducto());
         dto.setDescripcion_producto(p.getDescripcion_producto());
         dto.setPrecio_producto(p.getPrecio());
         dto.setStock_producto(p.getStock());
