@@ -16,7 +16,6 @@ public class DataLoader {
     CommandLineRunner initDatabase(PromocionesRepository repository) {
         return args -> {
             
-            // Cargar cada promoción validando de manera individual por su código único
             crearPromocionSiNoExiste(repository, 
                 "Descuento de Verano", "VERANO2024", 
                 "2024-06-01", "2024-08-31", "50.00", 100, "10.00");
@@ -48,7 +47,6 @@ public class DataLoader {
                                           int vecesUso, 
                                           String descuento) {
                                               
-        // Buscamos si ya existe por el código promocional único
         Optional<Promociones> promoOpt = repo.findByCodigoPromocional(codigo);
         
         if (promoOpt.isEmpty()) {

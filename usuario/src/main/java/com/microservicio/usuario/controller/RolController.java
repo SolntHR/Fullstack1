@@ -19,32 +19,27 @@ public class RolController {
     @Autowired
     private RolService service;
 
-    // GET: Lista a todos los roles
     @GetMapping("/listarRol")
     public List<Rol> listarRoles() {
         return service.listarRoles();
     }
     
-    // GET: Buscar por ID
     @GetMapping("/rol/{idRol}")
     public Optional<Rol> buscarPorIdRol(@PathVariable Integer idRol) {
         return service.buscarPorIdRol(idRol);
     }
 
-    // GET: Buscar por nombre
     @GetMapping("/nombre-rol/{nombreRol}")
     public Optional<Rol> buscarPorNombreRol(@PathVariable String nombreRol) {
         return service.buscarPorNombreRol(nombreRol);
     }
 
-    // POST: Agregar un nuevo rol
     @PostMapping("/agregarRol")
     public ResponseEntity<Rol> agregarRol(@Valid @RequestBody Rol rol) {
         Rol nuevoRol = service.agregarRol(rol);
         return ResponseEntity.status(201).body(nuevoRol);
     }
 
-    // PUT: Actualizar un rol existente
     @PutMapping("/actualizarRol/{idRol}")
     public ResponseEntity<String> actualizarRol(@PathVariable Integer idRol, @Valid @RequestBody Rol rolActualizado) {
         Optional<Rol> rolExiste = service.buscarPorIdRol(idRol);

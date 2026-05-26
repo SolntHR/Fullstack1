@@ -15,14 +15,13 @@ public class Seguridad {
         return new BCryptPasswordEncoder();
     }
 
-    // Desactivar seguridad automaticas
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http
-            .csrf(csrf -> csrf.disable()) // Desactivar CSRF para facilitar pruebas en postman
-            .authorizeHttpRequests(auth -> auth // configura permisos para las solicitudes HTTP
-                .anyRequest().permitAll() // Permite acceso libre a todos los endpoints
+            .csrf(csrf -> csrf.disable())
+            .authorizeHttpRequests(auth -> auth
+                .anyRequest().permitAll()
             );
         return http.build();
     }

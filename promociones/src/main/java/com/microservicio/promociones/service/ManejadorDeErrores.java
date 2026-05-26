@@ -24,12 +24,9 @@ public class ManejadorDeErrores {
         ex.getBindingResult().getFieldErrors().forEach(error -> {
             errores.put(error.getField(), error.getDefaultMessage());
         });
-        // Se crea un objeto ErrorDTO con la información del error y se devuelve con un status 400 Bad Request
         ErrorDTO errorDTO = new ErrorDTO(LocalDateTime.now(), 400, "Error de validación", errores, request.getRequestURI());
         return ResponseEntity.status(400).body(errorDTO);
     }
-
-    // MANEJADOR DE ERRORES PARA LA BD
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<ErrorDTO> manejarErroresDeBaseDeDatos(DataIntegrityViolationException ex, HttpServletRequest request) {
