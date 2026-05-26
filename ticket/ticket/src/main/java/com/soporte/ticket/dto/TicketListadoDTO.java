@@ -1,5 +1,14 @@
 package com.soporte.ticket.dto;
 
-public class TicketListadoDTO {
+import com.soporte.ticket.model.enums.EstadoTicket;
 
+import lombok.Data;
+
+@Data
+public class TicketListadoDTO {
+    private Integer idTicket;
+    private Long idCliente;
+    private String descripcion;
+    private String fechaCreacion;
+    private EstadoTicket estado;
 }

@@ -1,5 +1,9 @@
 package com.soporte.ticket.dto;
 
-public class TicketSimpleDTO {
+import lombok.Data;
 
+@Data
+public class TicketSimpleDTO {
+    private Integer idTicket;
+    private String descripcion;
 }
