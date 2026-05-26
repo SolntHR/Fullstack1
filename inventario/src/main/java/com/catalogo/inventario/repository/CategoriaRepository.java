@@ -2,7 +2,7 @@ package com.catalogo.inventario.repository;
 
 import com.catalogo.inventario.model.Categoria;
 
-//import java.util.List;
+
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;

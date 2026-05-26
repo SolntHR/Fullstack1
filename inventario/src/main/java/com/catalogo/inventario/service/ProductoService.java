@@ -20,32 +20,32 @@ public class ProductoService {
     @Autowired
     private ProductoRepository repository;
 
-    // GET: listar todos los productos
+
     public List<Producto> listaProductos() {
         return repository.findAll();
     }
 
-    // GET: buscar por id
+   
     public Optional<Producto> buscarPorId(Integer id) {
         return repository.findById(id);
     }
 
-    // GET: buscar por nombre
+   
     public List<Producto> buscarPorNombre(String nombre) {
         return repository.findByNombreProductoIgnoreCase(nombre);
     }
 
-    // GET: buscar por categoria (objeto Categoria completo)
+  
     public List<Producto> buscarPorCategoria(Integer idCategoria) {
         return repository.findByCategoriaIdCategoria(idCategoria);
     }
 
-    // POST: agregar producto
+   
     public Producto agregar(Producto producto) {
         return repository.save(producto);
     }
 
-    // PUT: actualizar producto
+   
     public Optional<Producto> productoUpdate(Integer id, Producto productoActualizado) {
         return repository.findById(id).map(productoExistente -> {
             productoExistente.setNombreProducto(productoActualizado.getNombreProducto());
@@ -56,7 +56,7 @@ public class ProductoService {
         });
     }
 
-    // DELETE: eliminar producto
+    
     public boolean eliminar(Integer id) {
         if (repository.existsById(id)) {
             repository.deleteById(id);
@@ -65,7 +65,7 @@ public class ProductoService {
         return false;
     }
 
-    //DTO   Listado
+  
     public List<ProductoListadoDTO> listarProductoDTO(){
         List<Producto> productos = repository.findAll();
         List<ProductoListadoDTO> listaDTO = new ArrayList<>();
@@ -84,7 +84,7 @@ public class ProductoService {
         }
         return listaDTO;
     }
-    //DTO   Simple
+  
     public List<ProductoSimpleDTO> listarProductoSimpleDTO(){
         List<Producto> productos = repository.findAll();
         List<ProductoSimpleDTO> listaDTO = new ArrayList<>();
@@ -98,7 +98,7 @@ public class ProductoService {
         }
         return listaDTO;
     }
-    //DTO   Detalle
+  
     public ProductoDetalleDTO obtenerDetalleProducto(Integer id){
         Producto p = repository.findById(id).orElse(null);
         if(p == null){

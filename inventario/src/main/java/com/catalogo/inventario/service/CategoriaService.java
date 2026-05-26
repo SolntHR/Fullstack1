@@ -25,27 +25,27 @@ public class CategoriaService {
     @Autowired
     private ProductoRepository productoRepository;
 
-    // GET: listar todas las categorias
+   
     public List<Categoria> listarCategoria() {
         return repository.findAll();
     }
 
-    // GET: buscar por id
+
     public Optional<Categoria> idCategoria(Integer id) {
         return repository.findById(id);
     }
 
-    // GET: buscar por nombre
+   
     public Optional<Categoria> nombreCategoria(String nombre) {
         return repository.findByNombreIgnoreCase(nombre);
     }
 
-    // POST: agregar categoria
+   
     public Categoria guardarCategoria(Categoria categoria) {
         return repository.save(categoria);
     }
 
-    // PUT: actualizar categoria 
+  
     public Optional<Categoria> actualizarCategoria(Integer id, Categoria categoriaActualizada) {
         return repository.findById(id).map(categoriaExistente -> {
             categoriaExistente.setNombre(categoriaActualizada.getNombre());
@@ -53,7 +53,7 @@ public class CategoriaService {
         });
     }
 
-    // DELETE: eliminar categoria
+  
     public boolean eliminarCategoria(Integer id) {
         if (repository.existsById(id)) {
             repository.deleteById(id);
@@ -62,7 +62,7 @@ public class CategoriaService {
         return false;
     }
 
-    //DTO
+   
     public List<CategoriaListadoDTO> listarDTO(){
 
         List<Categoria> categoria = repository.findAll();
