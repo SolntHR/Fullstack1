@@ -22,9 +22,14 @@ public class Reportes {
     @Column(name = "nombreReporte", length = 20, nullable = false, unique = true)
     private String nombreReporte;
 
+    @NotBlank(message = "La descripcion del reporte no puede estar vacia")
+    @Column(name = "descripcionReporte", length = 100, nullable = false)
+    private String descripcionReporte;
+
     @NotBlank(message = "El tipo del reporte no puede estar vacio")
     @Column(name = "tipoReporte", length = 20, nullable = false)
-    private String tipoReporte;
+    @Enumerated(EnumType.STRING)
+    private TipoReporte tipoReporte;
 
     @NotNull(message = "La fecha de inicio del reporte no puede ser nula")
     @Column(name = "fechaInicio", nullable = false)
