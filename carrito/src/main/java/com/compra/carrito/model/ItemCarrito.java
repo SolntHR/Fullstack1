@@ -1,0 +1,42 @@
+package com.compra.carrito.model;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Entity
+@Table(name = "itemCarrito")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class ItemCarrito {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @NotNull(message = "Debe ingresar la ID del producto")
+    private Integer idproducto;
+
+    @NotBlank(message = "El nombre del producto no puede esta vacio")
+    @Column(nullable = false, length = 100)
+    private String nombreProducto;
+
+    @NotNull(message = "Deba ingresar una cantidad")
+    @Min(value = 1, message = "La cantidad debe ser mayor a 0")
+    private Integer cantidad;
+
+    @ManyToOne
+    @JoinColumn(name = "carrito_id")
+    private Carrito carrito;
+
+    @Positive(message = "El precio debe ser mayor a 0")
+    @NotNull(message = "Debe ingresar un precio")
+    private Integer precio;
+
+    public int getSubTotal(){
+        return cantidad * precio;
+    }
+}

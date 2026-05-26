@@ -73,7 +73,7 @@ public class ProductoService {
         for(Producto p : productos){
             ProductoListadoDTO dto = new ProductoListadoDTO();
             dto.setIdproducto(p.getIdproducto());
-            dto.setNombre_producto(p.getNombreProducto());
+            dto.setNombreProducto(p.getNombreProducto());
             dto.setPrecio_producto(p.getPrecio());
             dto.setStock_producto(p.getStock());
 
@@ -92,7 +92,7 @@ public class ProductoService {
         for(Producto p : productos){
             ProductoSimpleDTO dto = new ProductoSimpleDTO();
             dto.setIdproducto(p.getIdproducto());
-            dto.setNombre_producto(p.getNombreProducto());
+            dto.setNombreProducto(p.getNombreProducto());
 
             listaDTO.add(dto);
         }
@@ -106,7 +106,7 @@ public class ProductoService {
         }
         ProductoDetalleDTO dto = new ProductoDetalleDTO();
         dto.setIdproducto(p.getIdproducto());
-        dto.setNombre_producto(p.getNombreProducto());
+        dto.setNombreProducto(p.getNombreProducto());
         dto.setDescripcion_producto(p.getDescripcion_producto());
         dto.setPrecio_producto(p.getPrecio());
         dto.setStock_producto(p.getStock());

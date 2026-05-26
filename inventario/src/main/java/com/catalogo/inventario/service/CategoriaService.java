@@ -116,7 +116,7 @@ public class CategoriaService {
         for(Producto p : productoEnti){
             ProductoDetalleDTO pDTO = new ProductoDetalleDTO();
             pDTO.setIdproducto(p.getIdproducto());
-            pDTO.setNombre_producto(p.getNombreProducto());
+            pDTO.setNombreProducto(p.getNombreProducto());
             pDTO.setDescripcion_producto(p.getDescripcion_producto());
             pDTO.setPrecio_producto(p.getPrecio());
             pDTO.setStock_producto(p.getStock());
