@@ -11,6 +11,9 @@ import java.util.List;
 import java.util.Optional;
 
 import com.soporte.ticket.model.enums.EstadoTicket;
+import com.soporte.ticket.dto.TicketDetalleDTO;
+import com.soporte.ticket.dto.TicketListadoDTO;
+import com.soporte.ticket.dto.TicketSimpleDTO;
 import com.soporte.ticket.model.Ticket;
 import com.soporte.ticket.service.TicketService;
 
@@ -20,11 +23,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-
-
-
-
 
 @RestController
 @RequestMapping("/soporte")
@@ -37,10 +35,22 @@ public class TicketController {
     public List<Ticket> listarTickets(){
         return service.listarTickets();
     }
-
-
-
     
+    @GetMapping("/ticket/{idTicket}")
+    public Optional<Ticket> buscarPorIdTicket(@PathVariable Integer idTicket){
+        return service.buscarPorIdTicket(idTicket);
+    }
+
+    @GetMapping("/cliente/{idCliente}")
+    public List<Ticket> buscarPorIdCliente(@PathVariable Long idCliente){
+        return service.buscarPorIdCliente(idCliente);
+    }
+
+    @GetMapping("/estado/{estado}")
+    public List<Ticket> buscarPorEstado(@PathVariable EstadoTicket estado){
+        return service.buscarPorEstado(estado);
+    }
+
     @PostMapping("/agregarTicket")
     public ResponseEntity<Ticket> agregarTicket(@Valid @RequestBody Ticket ticket) {
         Ticket nuevoTicket = service.agregarTicket(ticket);
@@ -58,7 +68,7 @@ public class TicketController {
     
     @DeleteMapping("/eliminar/{idTicket}")
     public ResponseEntity<String> eliminarTicket(@PathVariable Integer idTicket){
-        Optional<Ticket> ticket = service.buscarPorId(idTicket);
+        Optional<Ticket> ticket = service.buscarPorIdTicket(idTicket);
         if(ticket.isPresent()){
             service.eliminarTicket(idTicket);
             return ResponseEntity.status(200).body("Ticket eliminado con exito");
@@ -66,10 +76,22 @@ public class TicketController {
         return ResponseEntity.status(400).body("El ticket que indica no ha sido encontrado");
     }
 
-    //dto
-    @GetMapping("path")
-    public String getMethodName(@RequestParam String param) {
-        return new String();
+    @GetMapping("/listadoDTO")
+    public List<TicketListadoDTO> obtenerListado(){
+        return service.listarDTO();
     }
     
+    @GetMapping("/simpleDTO")
+    public List<TicketSimpleDTO> obtenerSimple() {
+        return service.listarSimpleDTO();
+    }
+
+    @GetMapping("/{idTicket}/detalleDTO")
+    public ResponseEntity<TicketDetalleDTO> obtenerDetalle(@PathVariable Integer idTicket) {
+        TicketDetalleDTO dto = service.obtenerDetalleDTO(idTicket);
+        if(dto == null){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(dto);
+    }
 }

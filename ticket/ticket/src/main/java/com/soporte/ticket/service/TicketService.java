@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import com.soporte.ticket.model.Ticket;
 import com.soporte.ticket.model.enums.EstadoTicket;
 import com.soporte.ticket.repository.TicketRepository;
-
 import com.soporte.ticket.dto.TicketDetalleDTO;
 import com.soporte.ticket.dto.TicketListadoDTO;
 import com.soporte.ticket.dto.TicketSimpleDTO;
@@ -14,7 +13,6 @@ import com.soporte.ticket.dto.TicketSimpleDTO;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 
 @Service
 public class TicketService {
@@ -25,7 +23,7 @@ public class TicketService {
         return repository.findAll();
     }
 
-    public Optional<Ticket> buscarPorId(Integer idTicket){
+    public Optional<Ticket> buscarPorIdTicket(Integer idTicket){
         return repository.findById(idTicket);
     }
 
@@ -46,34 +44,18 @@ public class TicketService {
             ticketExistente.setIdCliente(ticketActualizado.getIdCliente());
             ticketExistente.setDescripcion(ticketActualizado.getDescripcion());
             ticketExistente.setFechaCreacion(ticketActualizado.getFechaCreacion());
-            ticketExistente.setEstado(ticketActualizado.getEstado()); // FK
+            ticketExistente.setEstado(ticketActualizado.getEstado());
             return repository.save(ticketExistente);
         });
     }
-//
+
+
     public boolean eliminarTicket(Integer idTicket){
         if(repository.existsById(idTicket)){
             repository.deleteById(idTicket);
             return true;
         }
         return false;
-    }
-
-public List<TicketDetalleDTO> listarDetalleDTO(){
-        List<Ticket> tickets = repository.findAll();
-        List<TicketDetalleDTO> listaDTO = new ArrayList<>();
-
-        for(Ticket t : tickets){
-            TicketDetalleDTO dto = new TicketDetalleDTO();
-            dto.setIdTicket(t.getIdTicket());
-            dto.setIdCliente(t.getIdCliente());
-            dto.setDescripcion(t.getDescripcion());
-            dto.setFechaCreacion(t.getFechaCreacion());
-            dto.setEstado(t.getEstado());
-
-            listaDTO.add(dto);
-        }
-        return listaDTO;
     }
 
     public List<TicketListadoDTO> listarDTO(){
@@ -104,5 +86,16 @@ public List<TicketDetalleDTO> listarDetalleDTO(){
             listaDTO.add(dto);
         }
         return listarSimpleDTO();
+    }
+
+    public TicketDetalleDTO obtenerDetalleDTO(Integer idTicket){
+        Ticket t = repository.findByIdTicket(idTicket).orElse(null);
+        TicketDetalleDTO dto = new TicketDetalleDTO();
+        dto.setIdTicket(t.getIdTicket());
+        dto.setIdCliente(t.getIdCliente());
+        dto.setDescripcion(t.getDescripcion());
+        dto.setFechaCreacion(t.getFechaCreacion());
+        dto.setEstado(t.getEstado());
+        return dto;
     }
 }
