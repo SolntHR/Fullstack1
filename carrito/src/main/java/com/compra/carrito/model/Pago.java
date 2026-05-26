@@ -1,5 +1,7 @@
 package com.compra.carrito.model;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -26,4 +28,6 @@ public class Pago {
     private Integer monto;
 
     private String estado;
+
+    private LocalDateTime fechaCreacion;
 }

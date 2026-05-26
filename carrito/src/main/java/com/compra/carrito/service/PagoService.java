@@ -1,5 +1,6 @@
 package com.compra.carrito.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -28,7 +29,7 @@ public class PagoService {
     public Pago guardar(Pago pago) {
 
         pago.setEstado("APROBADO");
-
+        pago.setFechaCreacion(LocalDateTime.now());
         return pagoRepository.save(pago);
     }
 
