@@ -21,7 +21,7 @@ public class TicketService {
     @Autowired
     private TicketRepository repository;
 
-    public List<Ticket> listar(){
+    public List<Ticket> listarTickets(){
         return repository.findAll();
     }
 
@@ -50,8 +50,8 @@ public class TicketService {
             return repository.save(ticketExistente);
         });
     }
-
-    public boolean eliminar(Integer idTicket){
+//
+    public boolean eliminarTicket(Integer idTicket){
         if(repository.existsById(idTicket)){
             repository.deleteById(idTicket);
             return true;
@@ -59,11 +59,50 @@ public class TicketService {
         return false;
     }
 
+public List<TicketDetalleDTO> listarDetalleDTO(){
+        List<Ticket> tickets = repository.findAll();
+        List<TicketDetalleDTO> listaDTO = new ArrayList<>();
+
+        for(Ticket t : tickets){
+            TicketDetalleDTO dto = new TicketDetalleDTO();
+            dto.setIdTicket(t.getIdTicket());
+            dto.setIdCliente(t.getIdCliente());
+            dto.setDescripcion(t.getDescripcion());
+            dto.setFechaCreacion(t.getFechaCreacion());
+            dto.setEstado(t.getEstado());
+
+            listaDTO.add(dto);
+        }
+        return listaDTO;
+    }
+
     public List<TicketListadoDTO> listarDTO(){
         List<Ticket> tickets = repository.findAll();
         List<TicketListadoDTO> listaDTO = new ArrayList<>();
 
-        for(Ticket t : tickets)
+        for(Ticket t : tickets){
+            TicketListadoDTO dto = new TicketListadoDTO();
+            dto.setIdTicket(t.getIdTicket());
+            dto.setIdCliente(t.getIdCliente());
+            dto.setDescripcion(t.getDescripcion());
+            dto.setFechaCreacion(t.getFechaCreacion());
+            dto.setEstado(t.getEstado());
+
+            listaDTO.add(dto);
+        }
+        return listaDTO;
     }
 
+    public List<TicketSimpleDTO> listarSimpleDTO(){
+        List<Ticket> tickets = repository.findAll();
+        List<TicketSimpleDTO> listaDTO = new ArrayList<>();
+
+        for(Ticket t : tickets){
+            TicketSimpleDTO dto = new TicketSimpleDTO();
+            dto.setIdTicket(t.getIdTicket());
+            dto.setDescripcion(t.getDescripcion());
+            listaDTO.add(dto);
+        }
+        return listarSimpleDTO();
+    }
 }
