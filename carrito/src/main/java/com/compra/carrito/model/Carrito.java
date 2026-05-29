@@ -30,4 +30,6 @@ public class Carrito {
 
     private Integer total;
 
+    private String estado;
+
 }

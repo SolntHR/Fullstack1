@@ -7,6 +7,7 @@ public class ItemDTO {
 
     private Integer idproducto;
     private String nombreProducto;
+    private Integer stock;
     private Integer cantidad;
     private Integer precio;
     

@@ -4,6 +4,7 @@ import com.catalogo.inventario.dto.ProductoDetalleDTO;
 import com.catalogo.inventario.dto.ProductoListadoDTO;
 import com.catalogo.inventario.dto.ProductoSimpleDTO;
 import com.catalogo.inventario.model.Producto;
+import com.catalogo.inventario.repository.ProductoRepository;
 import com.catalogo.inventario.service.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class ProductoController {
     
     @Autowired
     private ProductoService service;
-
+    private ProductoRepository productoRepository;
 
     @GetMapping("/listar")
     public List<Producto> listar(){
@@ -86,6 +87,18 @@ public class ProductoController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(dto);
+    }
+
+    @PutMapping("/{id}/descontar/{cantidad}")
+    public Producto descontarStock(@PathVariable Integer idproducto, @PathVariable Integer cantidad) {
+
+    Producto producto = productoRepository
+            .findById(idproducto)
+            .orElseThrow();
+
+    producto.setStock(producto.getStock() - cantidad);
+
+    return productoRepository.save(producto);
     }
 }
 
