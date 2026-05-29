@@ -7,7 +7,7 @@ import jakarta.validation.constraints.*;
 import lombok.*;
 
 @Entity
-@Table(name="carrito")
+@Table(name="/carrito")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
