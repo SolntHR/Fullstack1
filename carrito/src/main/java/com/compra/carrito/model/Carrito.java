@@ -7,7 +7,7 @@ import jakarta.validation.constraints.*;
 import lombok.*;
 
 @Entity
-@Table(name="carrito")
+@Table(name="/carrito")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -24,6 +24,12 @@ public class Carrito {
     @OneToMany(mappedBy = "carrito", cascade = CascadeType.ALL)
     private List<ItemCarrito> items = new ArrayList<>();
 
+    private String codigoCupon;
+
+    private Integer descuentoAplicado;
+
     private Integer total;
+
+    private String estado;
 
 }

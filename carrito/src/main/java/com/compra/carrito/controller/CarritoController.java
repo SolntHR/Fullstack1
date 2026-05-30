@@ -8,7 +8,11 @@ import com.compra.carrito.service.CarritoService;
 import jakarta.validation.Valid;
 
 @RestController
+<<<<<<< HEAD
 @RequestMapping("/carrito")
+=======
+@RequestMapping(name ="/carrito")
+>>>>>>> 743fae7f3ecb974f138eff258e4eaa42d3e5279d
 @Validated
 public class CarritoController {
 
@@ -23,7 +27,7 @@ public class CarritoController {
         return carritoService.listar();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/buscar/{id}")
     public Carrito buscar(@PathVariable Integer id){
         return carritoService.buscar(id);
     }
@@ -33,7 +37,7 @@ public class CarritoController {
         return carritoService.guardar(carrito);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/eliminar/{id}")
     public void eliminar(@PathVariable Integer id){
         carritoService.eliminar(id);
     }
