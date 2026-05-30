@@ -1,4 +1,4 @@
-package DTO;
+package com.microservicio.reportes.DTO;
 
 import lombok.Data;
 

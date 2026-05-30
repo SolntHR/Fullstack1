@@ -1,9 +1,15 @@
 package com.microservicio.reportes.service;
 
+import com.microservicio.reportes.model.Pago;
 import com.microservicio.reportes.model.Reportes;
 import com.microservicio.reportes.repository.ReportesRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,13 +33,6 @@ public class ReportesService {
         return repository.findByNombreReporte(nombreReporte);
     }
 
-    public List<Reportes> buscarReportePorTipo(String tipoReporte) {
-        return repository.findByTipoReporte(tipoReporte);
-    }
-
-    public List<Reportes> buscarReportePorFecha(String fechaInicio, String fechaFin) {
-        return repository.findByFechaInicioBetween(fechaInicio, fechaFin);
-    }
     public Reportes agregarReporte(Reportes reporte) {
         return repository.save(reporte);
     }
@@ -58,4 +57,22 @@ public class ReportesService {
         }
     }
 
+    public List<Pago> obtenerPagos(Integer idReporte) {
+    Reportes reporte = repository.findByIdReporte(idReporte).get();
+    
+    RestTemplate restTemplate = new RestTemplate();
+
+    String url = "http://localhost:8084/carrito/pagos/rango-fechas?inicio=" 
+                 + reporte.getFechaInicio() + "&fin=" + reporte.getFechaFin();
+
+    try {
+        Pago[] pagos = restTemplate.getForObject(url, Pago[].class);
+        return Arrays.asList(pagos);
+    } catch (Exception e) {
+        return new ArrayList<>();
+    }
+    }
 }
+
+
+

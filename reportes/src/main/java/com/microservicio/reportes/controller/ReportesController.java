@@ -1,5 +1,6 @@
 package com.microservicio.reportes.controller;
 
+import com.microservicio.reportes.model.Pago;
 import com.microservicio.reportes.model.Reportes;
 import com.microservicio.reportes.service.ReportesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,35 +28,10 @@ public class ReportesController {
         return service.buscarReportePorId(idReporte);
     }
 
-    @GetMapping("/buscar-por-nombre/{nombreReporte}")
-    public List<Reportes> buscarReportePorNombre(@PathVariable String nombreReporte) {
-        return service.buscarReportePorNombre(nombreReporte);
-    }
-
-    @GetMapping("/buscar-por-tipo/{tipoReporte}")
-    public List<Reportes> buscarReportePorTipo(@PathVariable String tipoReporte) {
-        return service.buscarReportePorTipo(tipoReporte);
-    }
-
-    @GetMapping("/buscar-por-fecha")
-    public List<Reportes> buscarReportePorFecha(@RequestParam String fechaInicio, @RequestParam String fechaFin) {
-        return service.buscarReportePorFecha(fechaInicio, fechaFin);
-    }
-
     @PostMapping("/agregar")
     public ResponseEntity<Reportes> agregarReporte(@Valid @RequestBody Reportes reporte) {
         Reportes nuevoReporte = service.agregarReporte(reporte);
         return ResponseEntity.status(201).body(nuevoReporte);
-    }
-
-    @PutMapping("/actualizar/{idReporte}")
-    public ResponseEntity<String> actualizarReporte(@PathVariable Integer idReporte, @Valid @RequestBody Reportes reporteActualizado) {
-        Optional<Reportes> reporteExistente = service.buscarReportePorId(idReporte);
-        if (reporteExistente.isEmpty()) {
-            return ResponseEntity.status(404).body("Reporte no encontrado.");
-        }
-        service.actualizarReporte(idReporte, reporteActualizado);
-        return ResponseEntity.status(200).body("Reporte actualizado exitosamente.");
     }
 
     @DeleteMapping("/eliminar/{idReporte}")
@@ -68,6 +44,8 @@ public class ReportesController {
         }
     }
 
-    
-
+    @GetMapping("/{id}/ver-pagos")
+    public List<Pago> verPagosDelReporte(@PathVariable Integer id) {
+        return service.obtenerPagos(id);
+    }
 }
