@@ -23,9 +23,10 @@ public class PagoService {
     private InventarioCliente inventarioCliente;
     private CarritoRepository carritoRepository;
 
-    public PagoService(PagoRepository pagoRepository) {
-        this.pagoRepository = pagoRepository;
-    }
+    public PagoService(PagoRepository pagoRepository, CarritoRepository carritoRepository) {
+    this.pagoRepository = pagoRepository;
+    this.carritoRepository = carritoRepository;
+}
 
     public List<Pago> listar() {
         return pagoRepository.findAll();
@@ -74,6 +75,7 @@ public class PagoService {
         pagoDTO.setMonto(pago.getMonto());
         pagoDTO.setEstado(pago.getEstado());
         pagoDTO.setFechaCreacion(pago.getFechaCreacion());
+        pagoDTO.setMetodoPago(pago.getMetodoPago());
         return pagoDTO;
     }
 
