@@ -8,7 +8,7 @@ import com.compra.carrito.service.CarritoService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping(name = "carrito/carrito")
+@RequestMapping("/carrito")
 @Validated
 public class CarritoController {
 
@@ -28,7 +28,7 @@ public class CarritoController {
         return carritoService.buscar(id);
     }
 
-    @PostMapping
+    @PostMapping("/guardar-carrito")
     public Carrito guardar(@Valid @RequestBody Carrito carrito){
         return carritoService.guardar(carrito);
     }
