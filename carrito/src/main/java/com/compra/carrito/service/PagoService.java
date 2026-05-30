@@ -7,13 +7,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-<<<<<<< HEAD
-import com.compra.carrito.dto.PagoSimpleDTO;
-=======
 import com.compra.carrito.cliente.InventarioCliente;
+import com.compra.carrito.dto.PagoSimpleDTO;
 import com.compra.carrito.model.Carrito;
 import com.compra.carrito.model.ItemCarrito;
->>>>>>> 743fae7f3ecb974f138eff258e4eaa42d3e5279d
 import com.compra.carrito.model.Pago;
 import com.compra.carrito.repository.CarritoRepository;
 import com.compra.carrito.repository.PagoRepository;
@@ -64,7 +61,6 @@ public class PagoService {
         pagoRepository.deleteById(id);
     }
 
-<<<<<<< HEAD
     public PagoSimpleDTO obtenerPagoSimpleDTO(Integer id){
         Optional<Pago> pagoOpt = pagoRepository.findById(id);
 
@@ -96,8 +92,6 @@ public class PagoService {
                 dto.setMetodoPago(pago.getMetodoPago());
                 return dto;
             }).toList();
-}
-=======
 
->>>>>>> 743fae7f3ecb974f138eff258e4eaa42d3e5279d
+    }
 }

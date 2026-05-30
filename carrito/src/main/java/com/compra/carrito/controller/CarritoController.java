@@ -8,11 +8,7 @@ import com.compra.carrito.service.CarritoService;
 import jakarta.validation.Valid;
 
 @RestController
-<<<<<<< HEAD
 @RequestMapping("/carrito")
-=======
-@RequestMapping(name ="/carrito")
->>>>>>> 743fae7f3ecb974f138eff258e4eaa42d3e5279d
 @Validated
 public class CarritoController {
 
