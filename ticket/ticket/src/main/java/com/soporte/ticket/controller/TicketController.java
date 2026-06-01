@@ -42,8 +42,8 @@ public class TicketController {
     }
 
     @GetMapping("/cliente/{idCliente}")
-    public List<Ticket> buscarPorIdCliente(@PathVariable Long idCliente){
-        return service.buscarPorIdCliente(idCliente);
+    public List<Ticket> buscarPorIdUsuario(@PathVariable Integer idUsuario){
+        return service.buscarPorIdUsuario(idUsuario);
     }
 
     @GetMapping("/estado/{estado}")

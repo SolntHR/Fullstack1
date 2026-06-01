@@ -27,8 +27,19 @@ public class UsuarioController {
     }
 
     @GetMapping("/user/{idUsuario}")
-    public Optional<Usuario> buscarPorId(@PathVariable Integer idUsuario) {
-        return service.buscarPorId(idUsuario);
+    public ResponseEntity<Usuario> buscarPorId(@PathVariable Integer idUsuario) {
+        Optional<Usuario> usuario = service.buscarPorId(idUsuario);
+
+        if (usuario.isPresent()) {
+            return ResponseEntity.ok(usuario.get());
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/existe/{idUsuario}")
+    public ResponseEntity<Boolean> existeUsuario(@PathVariable Integer idUsuario) {
+        boolean existe = service.buscarPorId(idUsuario).isPresent();
+        return ResponseEntity.ok(existe);
     }
 
     @GetMapping("/nombre/{nombre}")

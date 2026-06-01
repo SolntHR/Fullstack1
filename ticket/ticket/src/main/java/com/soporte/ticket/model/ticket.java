@@ -1,5 +1,7 @@
 package com.soporte.ticket.model;
 
+import java.time.LocalDateTime;
+
 import com.soporte.ticket.model.enums.EstadoTicket;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -8,6 +10,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -27,19 +30,27 @@ public class Ticket {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idTicket;
 
-    @Column(name = "idCliente", nullable = false)
-    private Long idCliente;
+    @Column(name = "idUsuario", nullable = false)
+    private Integer idUsuario;
     
     @NotBlank(message = "La descripción no puede estar vacia")
     @Size(min = 20, max = 2000, message = "Por favor, explica el problema con más detalle (mínimo 20 caracteres)")
     @Column(nullable = false, length = 2000)     // Esto puede estar en las demás variables. Indica que ese atributo no puede ir vacio (null) y el largo del varchar es 100.
     private String descripcion;
     
-    @Column(name = "fechaCreacion", nullable = false)
-    private String fechaCreacion;
+
+    @Column(name = "fechaCreacion", nullable = false, updatable = false)
+    private LocalDateTime fechaCreacion;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     private EstadoTicket estado;
+
+    @PrePersist
+    public void prePersist() {
+        if (this.fechaCreacion == null) {
+            this.fechaCreacion = LocalDateTime.now();
+        }
+    }
 
 }

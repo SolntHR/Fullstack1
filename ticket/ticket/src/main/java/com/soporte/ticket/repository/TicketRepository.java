@@ -17,7 +17,7 @@ public interface TicketRepository extends JpaRepository<Ticket,Integer>{
 
     Optional<Ticket> findByIdTicket(Integer idTicket);
 
-    List<Ticket> findByIdCliente(Long idCliente);
+    List<Ticket> findByIdUsuario(Integer idUsuario);
 
     List<Ticket> findByEstado(EstadoTicket estado);
 

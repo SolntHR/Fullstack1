@@ -1,13 +1,15 @@
 package com.soporte.ticket.dto;
 
+import java.time.LocalDateTime;
+
 import com.soporte.ticket.model.enums.EstadoTicket;
 
 import lombok.Data;
 @Data
 public class TicketDetalleDTO {
-private Integer idTicket;
-    private Long idCliente;
+    private Integer idTicket;
+    private Integer idUsuario;
     private String descripcion;
-    private String fechaCreacion;
+    private LocalDateTime fechaCreacion;
     private EstadoTicket estado;
 }

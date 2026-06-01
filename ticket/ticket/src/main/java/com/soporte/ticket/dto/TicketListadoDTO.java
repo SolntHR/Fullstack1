@@ -1,5 +1,7 @@
 package com.soporte.ticket.dto;
 
+import java.time.LocalDateTime;
+
 import com.soporte.ticket.model.enums.EstadoTicket;
 
 import lombok.Data;
@@ -7,8 +9,8 @@ import lombok.Data;
 @Data
 public class TicketListadoDTO {
     private Integer idTicket;
-    private Long idCliente;
+    private Integer idUsuario;
     private String descripcion;
-    private String fechaCreacion;
+    private LocalDateTime fechaCreacion;
     private EstadoTicket estado;
 }
