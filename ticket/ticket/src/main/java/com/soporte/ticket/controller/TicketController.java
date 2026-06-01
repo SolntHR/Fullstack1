@@ -1,6 +1,7 @@
 package com.soporte.ticket.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,7 +42,7 @@ public class TicketController {
         return service.buscarPorIdTicket(idTicket);
     }
 
-    @GetMapping("/cliente/{idCliente}")
+    @GetMapping("/cliente/{idUsuario}")
     public List<Ticket> buscarPorIdUsuario(@PathVariable Integer idUsuario){
         return service.buscarPorIdUsuario(idUsuario);
     }
@@ -54,7 +55,7 @@ public class TicketController {
     @PostMapping("/agregarTicket")
     public ResponseEntity<Ticket> agregarTicket(@Valid @RequestBody Ticket ticket) {
         Ticket nuevoTicket = service.agregarTicket(ticket);
-        return ResponseEntity.status(201).body(nuevoTicket);
+        return ResponseEntity.status(HttpStatus.CREATED).body(nuevoTicket);
     }
     
     @PutMapping("/actualizar/{idTicket}")

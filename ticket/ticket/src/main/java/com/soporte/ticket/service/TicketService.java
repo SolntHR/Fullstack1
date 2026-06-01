@@ -1,11 +1,19 @@
 package com.soporte.ticket.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.ResourceAccessException;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.beans.factory.annotation.Value;
 
 import com.soporte.ticket.model.Ticket;
 import com.soporte.ticket.model.enums.EstadoTicket;
 import com.soporte.ticket.repository.TicketRepository;
+
+
 import com.soporte.ticket.dto.TicketDetalleDTO;
 import com.soporte.ticket.dto.TicketListadoDTO;
 import com.soporte.ticket.dto.TicketSimpleDTO;
@@ -16,8 +24,15 @@ import java.util.Optional;
 
 @Service
 public class TicketService {
+    
     @Autowired
     private TicketRepository repository;
+
+    @Autowired
+    private RestTemplate restTemplate;
+
+    @Value("${usuario.service.url}")
+    private String usuarioServiceUrl;
 
     public List<Ticket> listarTickets(){
         return repository.findAll();
@@ -36,8 +51,18 @@ public class TicketService {
     }
 
     public Ticket agregarTicket(Ticket ticket){
+        String url = usuarioServiceUrl + "/usuarios/existe/" + ticket.getIdUsuario();
+
+        ResponseEntity<Boolean> response = restTemplate.getForEntity(url, Boolean.class);
+        Boolean existeUsuario = response.getBody();
+
+        if (existeUsuario == null || !existeUsuario) {
+            throw new RuntimeException("El usuario con id " + ticket.getIdUsuario() + " no existe");
+        }
+
         return repository.save(ticket);
     }
+
 
     public Optional<Ticket> ticketUpdate(Integer idTicket, Ticket ticketActualizado) {
         return repository.findById(idTicket).map(ticketExistente -> {
