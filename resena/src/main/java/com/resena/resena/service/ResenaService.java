@@ -17,6 +17,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
 @Service
 public class ResenaService {
 
@@ -25,8 +26,9 @@ public class ResenaService {
     
     @Autowired
     private RestTemplate restTemplate;
-    
-    @Value
+
+    @Value("${pedido.service.url}")
+    private String pedidoServiceUrl;
 
 
 }
