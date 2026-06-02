@@ -19,7 +19,6 @@ public class CarritoService {
 
     @Autowired
     private final CarritoRepository carritoRepository;
-    private Promocion promocion;
     private InventarioCliente inventarioCliente;
 
 
