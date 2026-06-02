@@ -1,5 +1,6 @@
 package com.compra.carrito.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -28,8 +29,10 @@ public class ItemCarrito {
     @Min(value = 1, message = "La cantidad debe ser mayor a 0")
     private Integer cantidad;
 
+
     @ManyToOne
-    @JoinColumn(name = "carrito_id")
+    @JoinColumn(name = "id_carrito")
+    @JsonIgnore
     private Carrito carrito;
 
     @Positive(message = "El precio debe ser mayor a 0")
