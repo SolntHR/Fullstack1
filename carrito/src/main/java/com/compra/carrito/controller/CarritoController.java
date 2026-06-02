@@ -18,7 +18,7 @@ public class CarritoController {
         this.carritoService = carritoService;
     }
 
-    @GetMapping
+    @GetMapping("/listar")
     public List<Carrito> listar(){
         return carritoService.listar();
     }
