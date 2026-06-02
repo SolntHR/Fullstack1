@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @RestController
 
-@RequestMapping("/producto")
+@RequestMapping("/inventario/producto")
 public class ProductoController {
     
     @Autowired
@@ -42,7 +42,7 @@ public class ProductoController {
         return service.buscarPorCategoria(id_Categoria);
     }
 
-    @PostMapping
+    @PostMapping("/agregar-producto")
     public Producto crear(@RequestBody Producto producto){
         return service.agregar(producto);
     }

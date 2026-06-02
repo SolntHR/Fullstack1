@@ -21,7 +21,7 @@ import com.catalogo.inventario.dto.CategoriaSimpleDTO;
 
 @RestController
 
-@RequestMapping("/categoria")
+@RequestMapping("/inventario/categoria")
 public class CategoriaController {
 
     @Autowired
@@ -42,7 +42,7 @@ public class CategoriaController {
         return service.nombreCategoria(nombre);
     }
     
-    @PostMapping
+    @PostMapping("/agregar-categoria")
     public Categoria crear(@RequestBody Categoria categoria){
         return service.guardarCategoria(categoria);
     }
