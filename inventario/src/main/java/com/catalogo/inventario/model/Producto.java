@@ -40,6 +40,9 @@ public class Producto {
     @NotNull(message = "Debe ingresar la cantidad de stock")
     private Integer stock;
 
+    @NotNull(message = "Deba ingresar una cantidad")
+    @Min(value = 1, message = "La cantidad debe ser mayor a 0")
+    private Integer cantidad;
    
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_categoria", nullable = false) 
