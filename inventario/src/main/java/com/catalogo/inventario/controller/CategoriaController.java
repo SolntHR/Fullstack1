@@ -20,7 +20,6 @@ import com.catalogo.inventario.dto.CategoriaListadoDTO;
 import com.catalogo.inventario.dto.CategoriaSimpleDTO;
 
 @RestController
-
 @RequestMapping("/inventario/categoria")
 public class CategoriaController {
 

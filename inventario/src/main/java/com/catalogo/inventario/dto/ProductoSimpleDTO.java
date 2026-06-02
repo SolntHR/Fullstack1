@@ -3,6 +3,6 @@ import lombok.Data;
 
 @Data
 public class ProductoSimpleDTO {
-    private Integer idproducto;
+    private Integer idProducto;
     private String nombreProducto;
 }

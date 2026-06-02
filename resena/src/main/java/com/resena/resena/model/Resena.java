@@ -36,7 +36,7 @@ public class Resena {
     private Integer idProducto;
 
     @Column(nullable = false)
-    private Integer idCarrito;
+    private Integer idPago;
 
     @Min(value = 1, message = "La calificación mínima es 1")
     @Max(value = 5, message = "La calificación máxima es 5")
@@ -44,7 +44,7 @@ public class Resena {
     @NotNull(message = "La calificación es obligatoria")
     private Integer estrellas;
 
-    @Size(max = 500, message = "El comentario no puede superar los 1000 caracteres")
+    @Size(max = 500, message = "El comentario no puede superar los 500 caracteres")
     @Column(length = 500)
     private String comentario;
 

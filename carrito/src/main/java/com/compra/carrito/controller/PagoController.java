@@ -1,6 +1,8 @@
 package com.compra.carrito.controller;
 
 import java.util.List;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.compra.carrito.dto.PagoSimpleDTO;
@@ -44,8 +46,17 @@ public class PagoController {
     }
 
     @GetMapping("/rango-fechas")
-public List<PagoSimpleDTO> listarPorRango(@RequestParam String inicio, @RequestParam String fin) {
-    return pagoService.buscarPorRangoSimple(inicio, fin);
-}
+    public List<PagoSimpleDTO> listarPorRango(@RequestParam String inicio, @RequestParam String fin) {
+        return pagoService.buscarPorRangoSimple(inicio, fin);
+    }
 
+    @GetMapping("/validar-compra/{idPago}/{idUsuario}/{idProducto}")
+    public ResponseEntity<Boolean> validarCompra(
+            @PathVariable Integer idPago,
+            @PathVariable Integer idUsuario,
+            @PathVariable Integer idProducto) {
+
+        boolean valida = pagoService.validarCompra(idPago, idUsuario, idProducto);
+        return ResponseEntity.ok(valida);
+    }
 }

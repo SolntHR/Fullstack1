@@ -19,7 +19,7 @@ public class ItemCarrito {
     private Integer id;
 
     @NotNull(message = "Debe ingresar la ID del producto")
-    private Integer idproducto;
+    private Integer idProducto;
 
     @NotBlank(message = "El nombre del producto no puede esta vacio")
     @Column(nullable = false, length = 100)

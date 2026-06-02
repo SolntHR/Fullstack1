@@ -1,15 +1,15 @@
 package com.catalogo.inventario.model;
 
-import jakarta.persistence.*;              
-import lombok.AllArgsConstructor;         
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;        
-import jakarta.validation.constraints.*;    
+import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.*;
 
-@Entity                             
-@Table(name="categoria")               
-@Data                                  
-@NoArgsConstructor                   
+@Entity
+@Table(name="categoria")
+@Data
+@NoArgsConstructor
 @AllArgsConstructor
 
 public class Categoria {

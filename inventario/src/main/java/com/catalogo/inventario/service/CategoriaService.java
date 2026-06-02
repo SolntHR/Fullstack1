@@ -25,7 +25,7 @@ public class CategoriaService {
     @Autowired
     private ProductoRepository productoRepository;
 
-   
+
     public List<Categoria> listarCategoria() {
         return repository.findAll();
     }
@@ -35,17 +35,17 @@ public class CategoriaService {
         return repository.findById(id);
     }
 
-   
+
     public Optional<Categoria> nombreCategoria(String nombre) {
         return repository.findByNombreIgnoreCase(nombre);
     }
 
-   
+
     public Categoria guardarCategoria(Categoria categoria) {
         return repository.save(categoria);
     }
 
-  
+
     public Optional<Categoria> actualizarCategoria(Integer id, Categoria categoriaActualizada) {
         return repository.findById(id).map(categoriaExistente -> {
             categoriaExistente.setNombre(categoriaActualizada.getNombre());
@@ -53,7 +53,7 @@ public class CategoriaService {
         });
     }
 
-  
+
     public boolean eliminarCategoria(Integer id) {
         if (repository.existsById(id)) {
             repository.deleteById(id);
@@ -62,7 +62,7 @@ public class CategoriaService {
         return false;
     }
 
-   
+
     public List<CategoriaListadoDTO> listarDTO(){
 
         List<Categoria> categoria = repository.findAll();
@@ -115,7 +115,7 @@ public class CategoriaService {
 
         for(Producto p : productoEnti){
             ProductoDetalleDTO pDTO = new ProductoDetalleDTO();
-            pDTO.setIdproducto(p.getIdproducto());
+            pDTO.setIdProducto(p.getIdProducto());
             pDTO.setNombreProducto(p.getNombreProducto());
             pDTO.setDescripcion_producto(p.getDescripcion_producto());
             pDTO.setPrecio_producto(p.getPrecio());

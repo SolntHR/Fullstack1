@@ -13,20 +13,21 @@ import com.compra.carrito.cliente.InventarioCliente;
 import com.compra.carrito.dto.CuponDTO;
 import com.compra.carrito.dto.ItemDTO;
 import com.compra.carrito.model.Carrito;
-import com.compra.carrito.model.ItemCarrito;
 import com.compra.carrito.model.Pago;
 import com.compra.carrito.repository.CarritoRepository;
 import com.compra.carrito.repository.PagoRepository;
 
 @Service
 public class CarritoService {
-
-    @Autowired
-    private final CarritoRepository carritoRepository;
-    private InventarioCliente inventarioCliente;
+    
     @Autowired
     private PagoRepository pagoRepository;
 
+    @Autowired
+    private CarritoRepository carritoRepository;
+
+    private InventarioCliente inventarioCliente;
+    
 
     public CarritoService(CarritoRepository carritoRepository){
         this.carritoRepository = carritoRepository;
@@ -92,11 +93,11 @@ public class CarritoService {
     }
 
     public void eliminar(Integer id){
-        carritoRepository.deleteById(id.longValue());
+        carritoRepository.deleteById(id);
     }
 
     public Carrito buscar(Integer id){
-        return carritoRepository.findById(id.longValue())
+        return carritoRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Carrito no encontrado"));
     }
 

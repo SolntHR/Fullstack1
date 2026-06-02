@@ -35,17 +35,17 @@ public class ProductoService {
         return repository.findByNombreProductoIgnoreCase(nombre);
     }
 
-  
+
     public List<Producto> buscarPorCategoria(Integer idCategoria) {
         return repository.findByCategoriaIdCategoria(idCategoria);
     }
 
-   
+
     public Producto agregar(Producto producto) {
         return repository.save(producto);
     }
 
-   
+
     public Optional<Producto> productoUpdate(Integer id, Producto productoActualizado) {
         return repository.findById(id).map(productoExistente -> {
             productoExistente.setNombreProducto(productoActualizado.getNombreProducto());
@@ -65,14 +65,14 @@ public class ProductoService {
         return false;
     }
 
-  
+
     public List<ProductoListadoDTO> listarProductoDTO(){
         List<Producto> productos = repository.findAll();
         List<ProductoListadoDTO> listaDTO = new ArrayList<>();
         
         for(Producto p : productos){
             ProductoListadoDTO dto = new ProductoListadoDTO();
-            dto.setIdproducto(p.getIdproducto());
+            dto.setIdProducto(p.getIdProducto());
             dto.setNombreProducto(p.getNombreProducto());
             dto.setPrecio_producto(p.getPrecio());
             dto.setStock_producto(p.getStock());
@@ -84,28 +84,28 @@ public class ProductoService {
         }
         return listaDTO;
     }
-  
+
     public List<ProductoSimpleDTO> listarProductoSimpleDTO(){
         List<Producto> productos = repository.findAll();
         List<ProductoSimpleDTO> listaDTO = new ArrayList<>();
 
         for(Producto p : productos){
             ProductoSimpleDTO dto = new ProductoSimpleDTO();
-            dto.setIdproducto(p.getIdproducto());
+            dto.setIdProducto(p.getIdProducto());
             dto.setNombreProducto(p.getNombreProducto());
 
             listaDTO.add(dto);
         }
         return listaDTO;
     }
-  
+
     public ProductoDetalleDTO obtenerDetalleProducto(Integer id){
         Producto p = repository.findById(id).orElse(null);
         if(p == null){
             return null;
         }
         ProductoDetalleDTO dto = new ProductoDetalleDTO();
-        dto.setIdproducto(p.getIdproducto());
+        dto.setIdProducto(p.getIdProducto());
         dto.setNombreProducto(p.getNombreProducto());
         dto.setDescripcion_producto(p.getDescripcion_producto());
         dto.setPrecio_producto(p.getPrecio());

@@ -1,16 +1,15 @@
 package com.resena.resena.dto;
 
-import java.time.LocalDateTime;
-
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
-public class ResenaResponseDTO {
-    
+public class ResenaDetalleDTO {
     private Integer idResena;
     private Integer idUsuario;
     private Integer idProducto;
-    private Integer idCarrito;
+    private Integer idPago;
     private Integer estrellas;
     private String comentario;
     private LocalDateTime fechaCreacion;

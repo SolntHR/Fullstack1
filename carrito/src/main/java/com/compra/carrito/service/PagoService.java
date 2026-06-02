@@ -27,9 +27,9 @@ public class PagoService {
     private CarritoService carritoService;
 
     public PagoService(PagoRepository pagoRepository, CarritoRepository carritoRepository) {
-    this.pagoRepository = pagoRepository;
-    this.carritoRepository = carritoRepository;
-}
+        this.pagoRepository = pagoRepository;
+        this.carritoRepository = carritoRepository;
+    }
 
     public List<Pago> listar() {
         return pagoRepository.findAll();
@@ -47,13 +47,13 @@ public class PagoService {
         Pago pagoGuardado = pagoRepository.save(pago);
 
         
-        Carrito carrito = carritoRepository.findById(pago.getIdCarrito().longValue())
+        Carrito carrito = carritoRepository.findById(pago.getIdCarrito())
             .orElseThrow(() -> new RuntimeException("Carrito no encontrado"));
 
         for(ItemCarrito item : carrito.getItems()) {
 
         inventarioCliente.descontarStock(
-            item.getIdproducto(),
+            item.getIdProducto(),
             item.getCantidad()
         );
             }
@@ -104,7 +104,7 @@ public class PagoService {
         Carrito carrito = carritoService.buscar(pago.getIdCarrito());
 
         for (ItemCarrito item : carrito.getItems()) {
-            inventarioCliente.descontarStock(item.getIdproducto(), item.getCantidad());
+            inventarioCliente.descontarStock(item.getIdProducto(), item.getCantidad());
         }
 
         pago.setEstado("APROBADO");
@@ -113,5 +113,24 @@ public class PagoService {
         return pagoRepository.save(pago);
     }
 
+    public boolean validarCompra(Integer idPago, Integer idUsuario, Integer idProducto) {
+        Pago pago = pagoRepository.findById(idPago).orElse(null);
+        if (pago == null) {
+            return false;
+        }
+        if (pago.getEstado() == null || !pago.getEstado().equalsIgnoreCase("APROBADO")) {
+            return false;
+        }
+        Carrito carrito = carritoRepository.findById(pago.getIdCarrito())
+                .orElse(null);
+        if (carrito == null) {
+            return false;
+        }
+        if (carrito.getIdUsuario() == null || !carrito.getIdUsuario().equals(idUsuario)) {
+            return false;
+        }
+        return carrito.getItems().stream()
+                .anyMatch(item -> item.getIdProducto().equals(idProducto));
+    }
 
 }

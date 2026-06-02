@@ -38,9 +38,9 @@ public class ProductoController {
         return service.buscarPorNombre(nombre);
     }
 
-    @GetMapping("/categoria/{id}")
-    public List<Producto> buscarPorCategoria(@PathVariable Integer id_Categoria){
-        return service.buscarPorCategoria(id_Categoria);
+    @GetMapping("/categoria/{idCategoria}")
+    public List<Producto> buscarPorCategoria(@PathVariable Integer idCategoria){
+        return service.buscarPorCategoria(idCategoria);
     }
 
     @PostMapping("/agregar-producto")
@@ -81,9 +81,9 @@ public class ProductoController {
         return service.listarProductoSimpleDTO();
     }
 
-    @GetMapping("/{id}/detalle")
-    public ResponseEntity<ProductoDetalleDTO> obtenerDetalle(@PathVariable Integer idproducto){
-        ProductoDetalleDTO  dto = service.obtenerDetalleProducto(idproducto);
+    @GetMapping("/{idProducto}/detalle")
+    public ResponseEntity<ProductoDetalleDTO> obtenerDetalle(@PathVariable Integer idProducto){
+        ProductoDetalleDTO  dto = service.obtenerDetalleProducto(idProducto);
         if(dto == null){
             return ResponseEntity.notFound().build();
         }

@@ -2,6 +2,7 @@ package com.compra.carrito.repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import com.compra.carrito.model.Pago;
@@ -9,5 +10,5 @@ import com.compra.carrito.model.Pago;
 public interface PagoRepository extends JpaRepository<Pago, Integer>{
 
     List<Pago> findByFechaCreacionBetween(LocalDateTime inicio, LocalDateTime fin);
-
+    Optional<Pago> findByIdCarrito(Integer idCarrito);
 }
