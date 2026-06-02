@@ -55,14 +55,6 @@ public class PromocionesService {
         return repository.findByMontoMinimoLessThan(montoMinimo);
     }
 
-    public List<Promociones> buscarPorVecesUsoMenor(Integer vecesUso) {
-        return repository.findByVecesUsoLessThan(vecesUso);
-    }
-
-    public List<Promociones> buscarPorVecesUsoMayor(Integer vecesUso) {
-        return repository.findByVecesUsoGreaterThan(vecesUso);
-    }
-
     public List<Promociones> buscarPorDescuentoMayor(BigDecimal descuento) {
         return repository.findByDescuentoGreaterThan(descuento);
     }

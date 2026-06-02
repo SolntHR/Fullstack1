@@ -29,9 +29,7 @@ public interface PromocionesRepository extends JpaRepository<Promociones, Intege
 
     List<Promociones> findByMontoMinimoLessThan(BigDecimal montoMinimo);
 
-    List<Promociones> findByVecesUsoLessThan(Integer vecesUso);
 
-    List<Promociones> findByVecesUsoGreaterThan(Integer vecesUso);
 
     List<Promociones> findByDescuentoGreaterThan(BigDecimal descuento);
 

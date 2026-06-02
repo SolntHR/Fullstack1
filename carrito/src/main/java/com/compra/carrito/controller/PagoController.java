@@ -44,10 +44,7 @@ public class PagoController {
     }
 
     @GetMapping("/rango-fechas")
-public List<PagoSimpleDTO> listarPorRango(
-        @RequestParam String inicio, 
-        @RequestParam String fin) {
-    
+public List<PagoSimpleDTO> listarPorRango(@RequestParam String inicio, @RequestParam String fin) {
     return pagoService.buscarPorRangoSimple(inicio, fin);
 }
 

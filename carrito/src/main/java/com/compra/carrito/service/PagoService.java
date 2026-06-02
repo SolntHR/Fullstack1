@@ -21,7 +21,10 @@ public class PagoService {
     private final PagoRepository pagoRepository;
     @Autowired
     private InventarioCliente inventarioCliente;
+    @Autowired
     private CarritoRepository carritoRepository;
+    @Autowired
+    private CarritoService carritoService;
 
     public PagoService(PagoRepository pagoRepository, CarritoRepository carritoRepository) {
     this.pagoRepository = pagoRepository;
@@ -96,4 +99,19 @@ public class PagoService {
             }).toList();
 
     }
+
+    public Pago procesarPago(Pago pago) {
+        Carrito carrito = carritoService.buscar(pago.getIdCarrito());
+
+        for (ItemCarrito item : carrito.getItems()) {
+            inventarioCliente.descontarStock(item.getIdproducto(), item.getCantidad());
+        }
+
+        pago.setEstado("APROBADO");
+        pago.setFechaCreacion(LocalDateTime.now());
+        
+        return pagoRepository.save(pago);
+    }
+
+
 }

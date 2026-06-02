@@ -24,16 +24,8 @@ public class InventarioCliente {
         );
     }
 
-    public void descontarStock(
-        Integer idproducto,
-        Integer cantidad){
-
-    String url =
-        "http://localhost:8083/inventario/producto/"
-        + idproducto
-        + "/descontar/"
-        + cantidad;
-
+    public void descontarStock(Integer idproducto, Integer cantidad) {
+    String url = "http://localhost:8083/inventario/producto/" + idproducto + "/descontar/" + cantidad;
     restTemplate.put(url, null);
-    }
+}
 }

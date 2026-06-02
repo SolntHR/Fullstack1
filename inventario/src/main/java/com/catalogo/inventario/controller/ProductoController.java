@@ -20,6 +20,7 @@ public class ProductoController {
     
     @Autowired
     private ProductoService service;
+    @Autowired
     private ProductoRepository productoRepository;
 
     @GetMapping("/listar")
@@ -81,24 +82,34 @@ public class ProductoController {
     }
 
     @GetMapping("/{id}/detalle")
-    public ResponseEntity<ProductoDetalleDTO> obtenerDetalle(@PathVariable Integer id){
-        ProductoDetalleDTO  dto = service.obtenerDetalleProducto(id);
+    public ResponseEntity<ProductoDetalleDTO> obtenerDetalle(@PathVariable Integer idproducto){
+        ProductoDetalleDTO  dto = service.obtenerDetalleProducto(idproducto);
         if(dto == null){
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(dto);
     }
 
-    @PutMapping("/{id}/descontar/{cantidad}")
-    public Producto descontarStock(@PathVariable Integer idproducto, @PathVariable Integer cantidad) {
+    @PutMapping("/{idproducto}/descontar/{cantidad}")
+    public ResponseEntity<?> descontar(
+        @PathVariable Integer idproducto, 
+        @PathVariable Integer cantidad) {
 
-    Producto producto = productoRepository
-            .findById(idproducto)
-            .orElseThrow();
+    Optional<Producto> productoOpt = service.buscarPorId(idproducto);
 
-    producto.setStock(producto.getStock() - cantidad);
-
-    return productoRepository.save(producto);
+    if (productoOpt.isPresent()) {
+        Producto producto = productoOpt.get();
+        if (producto.getStock() >= cantidad) {
+            producto.setStock(producto.getStock() - cantidad);
+            
+            service.productoUpdate(idproducto, producto); 
+            
+            return ResponseEntity.ok("Stock actualizado. Nuevo stock: " + producto.getStock());
+        } else {
+            return ResponseEntity.badRequest().body("Stock insuficiente para la cantidad solicitada.");
+        }
+    } else {
+        return ResponseEntity.status(404).body("Producto no encontrado con id: " + idproducto);
+    }
     }
 }
-
