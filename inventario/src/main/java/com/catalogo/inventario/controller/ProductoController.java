@@ -90,9 +90,9 @@ public class ProductoController {
         return ResponseEntity.ok(dto);
     }
 
-    @PutMapping("/{idproducto}/descontar/{cantidad}")
+    @PutMapping("/{idProducto}/descontar/{cantidad}")
     public ResponseEntity<?> descontar(
-        @PathVariable Integer idproducto, 
+        @PathVariable Integer idproducto,
         @PathVariable Integer cantidad) {
 
     Optional<Producto> productoOpt = service.buscarPorId(idproducto);
@@ -102,7 +102,7 @@ public class ProductoController {
         if (producto.getStock() >= cantidad) {
             producto.setStock(producto.getStock() - cantidad);
             
-            service.productoUpdate(idproducto, producto); 
+            service.productoUpdate(idproducto, producto);
             
             return ResponseEntity.ok("Stock actualizado. Nuevo stock: " + producto.getStock());
         } else {
