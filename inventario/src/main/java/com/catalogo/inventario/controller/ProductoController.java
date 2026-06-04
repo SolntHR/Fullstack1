@@ -4,7 +4,6 @@ import com.catalogo.inventario.dto.ProductoDetalleDTO;
 import com.catalogo.inventario.dto.ProductoListadoDTO;
 import com.catalogo.inventario.dto.ProductoSimpleDTO;
 import com.catalogo.inventario.model.Producto;
-import com.catalogo.inventario.repository.ProductoRepository;
 import com.catalogo.inventario.service.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +19,6 @@ public class ProductoController {
     
     @Autowired
     private ProductoService service;
-    @Autowired
-    private ProductoRepository productoRepository;
 
     @GetMapping("/listar")
     public List<Producto> listar(){

@@ -17,27 +17,27 @@ public class VerificacionController {
 
     private final VerificacionService service;
 
-    @GetMapping
+    @GetMapping("/listar-verif")
     public List<Verificacion> listar() {
         return service.listar();
     }
 
-    @GetMapping("/buscar/{id}")
+    @GetMapping("/buscar-verif/{id}")
     public Verificacion buscar(@PathVariable Integer id) {
         return service.buscar(id);
     }
 
-    @PostMapping
+    @PostMapping("/guardar-verif")
     public Verificacion guardar(@Valid @RequestBody Verificacion verificacion) {
         return service.guardar(verificacion);
     }
 
-    @PutMapping("/actualizar/{id}")
+    @PutMapping("/actualizar-verif/{id}")
     public Verificacion actualizar(@PathVariable Integer id,@Valid @RequestBody Verificacion verificacion) {
         return service.actualizar(id, verificacion);
     }
 
-    @DeleteMapping("/eliminar/{id}")
+    @DeleteMapping("/eliminar-verif/{id}")
     public void eliminar(@PathVariable Integer id) {
         service.eliminar(id);
     }

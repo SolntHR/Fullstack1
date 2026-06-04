@@ -20,22 +20,22 @@ public class EnvioController {
 
     private final EnvioService envioService;
 
-    @GetMapping
+    @GetMapping("/listar-envio")
     public List<Envio> listar() {
         return envioService.listar();
     }
 
-    @GetMapping("/buscar/{id}")
+    @GetMapping("/buscar-envio/{id}")
     public Optional<Envio> buscar(@PathVariable Integer idEnvio) {
         return envioService.buscar(idEnvio);
     }
 
-    @PostMapping
+    @PostMapping("/guardar-envio")
     public Envio guardar(@Valid @RequestBody Envio envio) {
         return envioService.guardar(envio);
     }
 
-    @PutMapping("/actualizar/{id}")
+    @PutMapping("/actualizar-envio/{id}")
     public Envio actualizar(
             @PathVariable Integer id,
             @Valid @RequestBody Envio envio) {
@@ -43,7 +43,7 @@ public class EnvioController {
         return envioService.actualizar(id, envio);
     }
 
-    @DeleteMapping("/eliminar/{id}")
+    @DeleteMapping("/eliminar-envio/{id}")
     public void eliminar(@PathVariable Integer id) {
         envioService.eliminar(id);
     }
