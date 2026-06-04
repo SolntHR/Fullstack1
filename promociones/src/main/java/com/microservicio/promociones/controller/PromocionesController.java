@@ -11,7 +11,6 @@ import com.microservicio.promociones.dto.PromocionesSimpleDTO;
 import com.microservicio.promociones.model.Promociones;
 import com.microservicio.promociones.service.PromocionesService;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -65,12 +64,6 @@ public class PromocionesController {
             return ResponseEntity.status(200).body("Promoción eliminada exitosamente");
         }
         return ResponseEntity.status(404).body("No se pudo encontrar el id de la promocion");
-    }
-
-    @PostMapping("/aplicar")
-    public ResponseEntity<BigDecimal> aplicarPromocion(@RequestParam String codigoPromocional, @RequestParam java.math.BigDecimal montoCompra) {
-        BigDecimal montoFinal = service.aplicarPromocion(codigoPromocional, montoCompra);
-        return ResponseEntity.status(200).body(montoFinal);
     }
 
     @GetMapping("/listar-dto")

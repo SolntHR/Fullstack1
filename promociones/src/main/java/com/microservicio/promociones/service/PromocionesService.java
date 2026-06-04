@@ -7,7 +7,6 @@ import com.microservicio.promociones.dto.PromocionesSimpleDTO;
 import com.microservicio.promociones.model.Promociones;
 import com.microservicio.promociones.repository.PromocionesRepository;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,26 +55,6 @@ public class PromocionesService {
             return true;
         }
     return false;
-    }
-
-    public BigDecimal aplicarPromocion(String codigoPromocional, BigDecimal montoCompra){
-        Promociones promocion = repository.findByCodigoPromocional(codigoPromocional)
-                .orElseThrow(() -> new RuntimeException("Promoción no encontrada"));
-        LocalDate hoy = LocalDate.now();
-        if (hoy.isBefore(promocion.getFechaInicio()) || hoy.isAfter(promocion.getFechaFin())) {
-            throw new RuntimeException("La promoción no está activa");
-        }
-        if (promocion.getVecesUso() <= 0) {
-            throw new RuntimeException("La promoción ha alcanzado su límite de uso");
-        }
-        if (montoCompra.compareTo(promocion.getMontoMinimo()) < 0) {
-            throw new RuntimeException("El monto de compra no cumple con el monto mínimo requerido");
-        }
-        promocion.setVecesUso(promocion.getVecesUso() - 1);
-        repository.save(promocion);
-        BigDecimal factorDescuento = promocion.getDescuento().divide(new BigDecimal("100"));
-        BigDecimal factorMontoFinal = BigDecimal.ONE.subtract(factorDescuento);
-        return montoCompra.multiply(factorMontoFinal);
     }
 
     public List<PromocionesSimpleDTO> listarPromocionesSimpleDTO() {
