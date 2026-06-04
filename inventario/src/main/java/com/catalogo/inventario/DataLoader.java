@@ -16,10 +16,10 @@ public class DataLoader{
     CommandLineRunner initInventario(CategoriaRepository categoriaRepository, ProductoRepository productoRepository) {
         return args -> {
 
-            Categoria audio = categoriaRepository.findByNombreIgnoreCase("Audio")
+            Categoria consolas = categoriaRepository.findByNombreIgnoreCase("Consolas")
                     .orElseGet(() -> {
                         Categoria c = new Categoria();
-                        c.setNombre("Audio");
+                        c.setNombre("Consolas");
                         return categoriaRepository.save(c);
                     });
 
@@ -37,13 +37,13 @@ public class DataLoader{
                         return categoriaRepository.save(c);
                     });
 
-            if (productoRepository.findByNombreProductoIgnoreCase("Audifonos Gamer").isEmpty()) {
+            if (productoRepository.findByNombreProductoIgnoreCase("PS5").isEmpty()) {
                 Producto p1 = new Producto();
-                p1.setNombreProducto("Audifonos Gamer");
-                p1.setDescripcion_producto("Audifonos gamer con sonido envolvente y microfono integrado");
-                p1.setPrecio(39990);
+                p1.setNombreProducto("PS5");
+                p1.setDescripcion_producto("Consola con gran potencia");
+                p1.setPrecio(399990);
                 p1.setStock(15);
-                p1.setCategoria(audio);
+                p1.setCategoria(consolas);
                 productoRepository.save(p1);
             }
 

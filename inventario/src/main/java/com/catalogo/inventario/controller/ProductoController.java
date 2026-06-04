@@ -89,24 +89,24 @@ public class ProductoController {
 
     @PutMapping("/{idProducto}/descontar/{cantidad}")
     public ResponseEntity<?> descontar(
-        @PathVariable Integer idproducto,
+        @PathVariable Integer idProducto,
         @PathVariable Integer cantidad) {
 
-    Optional<Producto> productoOpt = service.buscarPorId(idproducto);
+    Optional<Producto> productoOpt = service.buscarPorId(idProducto);
 
     if (productoOpt.isPresent()) {
         Producto producto = productoOpt.get();
         if (producto.getStock() >= cantidad) {
             producto.setStock(producto.getStock() - cantidad);
             
-            service.productoUpdate(idproducto, producto);
+            service.productoUpdate(idProducto, producto);
             
             return ResponseEntity.ok("Stock actualizado. Nuevo stock: " + producto.getStock());
         } else {
             return ResponseEntity.badRequest().body("Stock insuficiente para la cantidad solicitada.");
         }
     } else {
-        return ResponseEntity.status(404).body("Producto no encontrado con id: " + idproducto);
+        return ResponseEntity.status(404).body("Producto no encontrado con id: " + idProducto);
     }
     }
 }
