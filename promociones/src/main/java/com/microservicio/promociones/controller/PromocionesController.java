@@ -34,59 +34,10 @@ public class PromocionesController {
         return service.buscarPorId(idPromocion);
     }
 
-    @GetMapping("/buscar-nombre/{nombrePromocion}")
-    public List<Promociones> buscarPorNombre(@PathVariable String nombrePromocion) {
-        return service.buscarPorNombre(nombrePromocion);
-    }
-
-    @GetMapping("/buscar-codigo/{codigoPromocional}")
-    public Optional<Promociones> buscarPorCodigo(@PathVariable String codigoPromocional) {
-        return service.buscarPorCodigo(codigoPromocional);
-    }
-
-    @GetMapping("/buscar-fecha-inicio/{fechaInicio}")
-    public List<Promociones> buscarPorFechaInicio(@PathVariable String fechaInicio) {
-        return service.buscarPorFechaInicio(LocalDate.parse(fechaInicio)); 
-    }
 
     @GetMapping("/buscar-rango-fechas")
     public List<Promociones> buscarPorRangoFechas(@RequestParam String fechaInicio, @RequestParam String fechaFin) {
         return service.buscarPorRangoFechas(LocalDate.parse(fechaInicio), LocalDate.parse(fechaFin));
-    }
-
-    @GetMapping("/buscar-fecha-fin/{fechaFin}")
-    public List<Promociones> buscarPorFechaFin(@PathVariable String fechaFin) {
-        return service.buscarPorFechaFin(LocalDate.parse(fechaFin));
-    }
-
-    @GetMapping("/buscar-monto-minimo-mayor/{montoMinimo}")
-    public List<Promociones> buscarPorMontoMinimo(@PathVariable String montoMinimo) {
-        return service.buscarPorMontoMinimoMayor(new java.math.BigDecimal(montoMinimo));
-    }
-
-    @GetMapping("/buscar-monto-minimo-menor/{montoMinimo}")
-    public List<Promociones> buscarPorMontoMinimoMenor(@PathVariable String montoMinimo) {
-        return service.buscarPorMontoMinimoMenor(new java.math.BigDecimal(montoMinimo));
-    }
-
-    @GetMapping("/buscar-veces-uso-menor/{vecesUso}")
-    public List<Promociones> buscarPorVecesUso(@PathVariable Integer vecesUso) {
-        return service.buscarPorVecesUsoMenor(vecesUso);
-    }
-
-    @GetMapping("/buscar-veces-uso-mayor/{vecesUso}")
-    public List<Promociones> buscarPorVecesUsoMayor(@PathVariable Integer vecesUso) {
-        return service.buscarPorVecesUsoMayor(vecesUso);
-    }
-
-    @GetMapping("/buscar-descuento-mayor/{descuento}")
-    public List<Promociones> buscarPorDescuentoMayor(@PathVariable String descuento) {
-        return service.buscarPorDescuentoMayor(new java.math.BigDecimal(descuento));
-    }
-
-    @GetMapping("/buscar-descuento-menor/{descuento}")
-    public List<Promociones> buscarPorDescuentoMenor(@PathVariable String descuento) {
-        return service.buscarPorDescuentoMenor(new java.math.BigDecimal(descuento));
     }
 
     @PostMapping("/agregar")

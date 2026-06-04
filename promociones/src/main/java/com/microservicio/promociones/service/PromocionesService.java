@@ -27,41 +27,10 @@ public class PromocionesService {
         return repository.findByIdPromocion(idPromocion);
     }
 
-    public List<Promociones> buscarPorNombre(String nombrePromocion) {
-        return repository.findByNombrePromocionContainingIgnoreCase(nombrePromocion);
-    }
-
-    public Optional<Promociones> buscarPorCodigo(String codigoPromocional) {
-        return repository.findByCodigoPromocional(codigoPromocional);
-    }
-
-    public List<Promociones> buscarPorFechaInicio(LocalDate fechaInicio) {
-        return repository.findByFechaInicioAfter(fechaInicio);
-    }
-
     public List<Promociones> buscarPorRangoFechas(LocalDate fechaInicio, LocalDate fechaFin) {
         return repository.findByFechaInicioBeforeAndFechaFinAfter(fechaInicio, fechaFin);
     }
 
-    public List<Promociones> buscarPorFechaFin(LocalDate fechaFin) {
-        return repository.findByFechaFinBefore(fechaFin);
-    }
-
-    public List<Promociones> buscarPorMontoMinimoMayor(BigDecimal montoMinimo) {
-        return repository.findByMontoMinimoGreaterThan(montoMinimo);
-    }
-
-    public List<Promociones> buscarPorMontoMinimoMenor(BigDecimal montoMinimo) {
-        return repository.findByMontoMinimoLessThan(montoMinimo);
-    }
-
-    public List<Promociones> buscarPorDescuentoMayor(BigDecimal descuento) {
-        return repository.findByDescuentoGreaterThan(descuento);
-    }
-
-    public List<Promociones> buscarPorDescuentoMenor(BigDecimal descuento) {
-        return repository.findByDescuentoLessThan(descuento);
-    }
 
     public Promociones agregarPromocion(Promociones promocion) {
         return repository.save(promocion);
