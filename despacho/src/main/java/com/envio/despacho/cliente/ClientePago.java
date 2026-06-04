@@ -16,7 +16,7 @@ public class ClientePago {
     public CarritoDTO obtenerCarrito(Integer idCarrito) {
         try{    
             String url =
-                    "http://localhost:8084/carrito/carrito/buscar/"
+                    "http://localhost:8084/carrito/buscar/"
                     + idCarrito;
 
             return restTemplate.getForObject(
