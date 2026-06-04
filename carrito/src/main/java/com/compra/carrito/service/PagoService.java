@@ -42,23 +42,26 @@ public class PagoService {
 
     public Pago guardar(Pago pago) {
 
-        pago.setEstado("APROBADO");
-        pago.setFechaCreacion(LocalDateTime.now());
-        Pago pagoGuardado = pagoRepository.save(pago);
-
-        
         Carrito carrito = carritoRepository.findById(pago.getIdCarrito())
-            .orElseThrow(() -> new RuntimeException("Carrito no encontrado"));
+                .orElseThrow(() -> new RuntimeException("Carrito no encontrado"));
 
-        for(ItemCarrito item : carrito.getItems()) {
+        Pago pagoExistente = pagoRepository.findByIdCarrito(pago.getIdCarrito())
+                .orElseGet(Pago::new);
 
-        inventarioCliente.descontarStock(
-            item.getIdProducto(),
-            item.getCantidad()
-        );
-            }
+        pagoExistente.setIdCarrito(carrito.getIdCarrito());
+        pagoExistente.setMetodoPago(pago.getMetodoPago());
+        pagoExistente.setMonto(carrito.getTotal());
+        pagoExistente.setEstado("APROBADO");
+        pagoExistente.setFechaCreacion(LocalDateTime.now());
 
-        return pagoGuardado;
+        for (ItemCarrito item : carrito.getItems()) {
+            inventarioCliente.descontarStock(
+                    item.getIdProducto(),
+                    item.getCantidad()
+            );
+        }
+
+        return pagoRepository.save(pagoExistente);
     }
 
     public void eliminar(Integer id) {
