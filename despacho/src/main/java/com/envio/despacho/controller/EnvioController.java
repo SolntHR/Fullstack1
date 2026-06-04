@@ -25,7 +25,7 @@ public class EnvioController {
         return envioService.listar();
     }
 
-    @GetMapping("/buscar-envio/{id}")
+    @GetMapping("/buscar-envio/{idEnvio}")
     public Optional<Envio> buscar(@PathVariable Integer idEnvio) {
         return envioService.buscar(idEnvio);
     }
