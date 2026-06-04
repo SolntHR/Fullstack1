@@ -20,12 +20,12 @@ public class PagoController {
         this.pagoService = pagoService;
     }
 
-    @GetMapping
+    @GetMapping("/listar-pago")
     public List<Pago> listar(){
         return pagoService.listar();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/buscar-pago/{id}")
     public Pago buscar(@PathVariable Integer id) {
         return pagoService.buscar(id);
     }
@@ -35,12 +35,12 @@ public class PagoController {
         return pagoService.guardar(pago);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/eliminar-pago{id}")
     public void eliminar(@PathVariable Integer id) {
         pagoService.eliminar(id);
     }
 
-    @GetMapping("/pago-simple-dto/{id}")
+    @GetMapping("/pago-simple/{id}")
     public PagoSimpleDTO obtenerDTO(@PathVariable Integer id) {
     return pagoService.obtenerPagoSimpleDTO(id);
     }
