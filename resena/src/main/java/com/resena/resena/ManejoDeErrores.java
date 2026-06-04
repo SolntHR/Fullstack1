@@ -18,10 +18,8 @@ import java.util.Map;
 @RestControllerAdvice
 public class ManejoDeErrores {
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorDTO> manejarErroresValidacion(
-            MethodArgumentNotValidException ex,
-            HttpServletRequest request) {
+        @ExceptionHandler(MethodArgumentNotValidException.class)
+        public ResponseEntity<ErrorDTO> manejarErroresValidacion(MethodArgumentNotValidException ex, HttpServletRequest request) {
 
         Map<String, String> errors = new HashMap<>();
 
@@ -38,12 +36,10 @@ public class ManejoDeErrores {
         );
 
         return ResponseEntity.badRequest().body(errorDTO);
-    }
+        }
 
-    @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<ErrorDTO> manejarErroresBaseDatos(
-            DataIntegrityViolationException ex,
-            HttpServletRequest request) {
+        @ExceptionHandler(DataIntegrityViolationException.class)
+        public ResponseEntity<ErrorDTO> manejarErroresBaseDatos( DataIntegrityViolationException ex, HttpServletRequest request) {
 
         ErrorDTO errorDTO = new ErrorDTO(
                 LocalDateTime.now(),
@@ -54,12 +50,12 @@ public class ManejoDeErrores {
         );
 
         return ResponseEntity.badRequest().body(errorDTO);
-    }
+        }
 
-    @ExceptionHandler(ResourceAccessException.class)
-    public ResponseEntity<ErrorDTO> manejarServicioPagoNoDisponible(
-            ResourceAccessException ex,
-            HttpServletRequest request) {
+        @ExceptionHandler(ResourceAccessException.class)
+        public ResponseEntity<ErrorDTO> manejarServicioPagoNoDisponible(
+        ResourceAccessException ex,
+        HttpServletRequest request) {
 
         ErrorDTO errorDTO = new ErrorDTO(
                 LocalDateTime.now(),
@@ -70,12 +66,12 @@ public class ManejoDeErrores {
         );
 
         return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(errorDTO);
-    }
+        }
 
-    @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<ErrorDTO> manejarRuntime(
-            RuntimeException ex,
-            HttpServletRequest request) {
+        @ExceptionHandler(RuntimeException.class)
+        public ResponseEntity<ErrorDTO> manejarRuntime(
+        RuntimeException ex,
+        HttpServletRequest request) {
 
         ErrorDTO errorDTO = new ErrorDTO(
                 LocalDateTime.now(),
@@ -86,12 +82,12 @@ public class ManejoDeErrores {
         );
 
         return ResponseEntity.badRequest().body(errorDTO);
-    }
+        }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorDTO> manejarErrorGeneral(
-            Exception ex,
-            HttpServletRequest request) {
+        @ExceptionHandler(Exception.class)
+        public ResponseEntity<ErrorDTO> manejarErrorGeneral(
+        Exception ex,
+        HttpServletRequest request) {
 
         ErrorDTO errorDTO = new ErrorDTO(
                 LocalDateTime.now(),
@@ -102,5 +98,5 @@ public class ManejoDeErrores {
         );
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDTO);
-    }
+        }
 }
