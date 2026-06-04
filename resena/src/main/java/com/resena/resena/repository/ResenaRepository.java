@@ -15,6 +15,6 @@ public interface ResenaRepository extends JpaRepository<Resena,Integer>{
 
     List<Resena> findByIdProducto(Integer idProducto);
 
-    boolean existsByIdUsuarioAndIdProducto(Integer idUsuario, Integer idProducto);
+    boolean existsByIdUsuarioAndIdProductoAndIdPago(Integer idUsuario, Integer idProducto, Integer idPago);
 
 }

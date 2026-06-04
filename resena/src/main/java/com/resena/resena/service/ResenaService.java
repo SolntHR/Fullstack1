@@ -57,8 +57,8 @@ public class ResenaService {
             throw new RuntimeException("El pago no corresponde a una compra válida para ese usuario y producto");
         }
 
-        if (repository.existsByIdUsuarioAndIdProducto(resena.getIdUsuario(), resena.getIdProducto())) {
-            throw new RuntimeException("El usuario ya registró una reseña para este producto");
+        if (repository.existsByIdUsuarioAndIdProductoAndIdPago(resena.getIdUsuario(), resena.getIdProducto(), resena.getIdPago())) {
+            throw new RuntimeException("Ya existe una reseña para esta compra");
         }
 
         return repository.save(resena);

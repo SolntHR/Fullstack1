@@ -19,7 +19,7 @@ public class DataLoader {
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
-            if (!repository.existsByIdUsuarioAndIdProducto(1, 1)) {
+            if (!repository.existsByIdUsuarioAndIdProductoAndIdPago(1, 1,1)) {
                 Resena r1 = new Resena();
                 r1.setIdUsuario(1);
                 r1.setIdProducto(1);
@@ -30,7 +30,7 @@ public class DataLoader {
                 repository.save(r1);
             }
 
-            if (!repository.existsByIdUsuarioAndIdProducto(1, 2)) {
+            if (!repository.existsByIdUsuarioAndIdProductoAndIdPago(1, 2,1)) {
                 Resena r2 = new Resena();
                 r2.setIdUsuario(1);
                 r2.setIdProducto(2);
@@ -41,7 +41,7 @@ public class DataLoader {
                 repository.save(r2);
             }
 
-            if (!repository.existsByIdUsuarioAndIdProducto(2, 3)) {
+            if (!repository.existsByIdUsuarioAndIdProductoAndIdPago(2, 3,2)) {
                 Resena r3 = new Resena();
                 r3.setIdUsuario(2);
                 r3.setIdProducto(3);
@@ -52,7 +52,7 @@ public class DataLoader {
                 repository.save(r3);
             }
 
-            if (!repository.existsByIdUsuarioAndIdProducto(2, 4)) {
+            if (!repository.existsByIdUsuarioAndIdProductoAndIdPago(2, 4,2)) {
                 Resena r4 = new Resena();
                 r4.setIdUsuario(2);
                 r4.setIdProducto(4);
