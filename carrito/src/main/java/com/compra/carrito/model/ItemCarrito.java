@@ -19,9 +19,11 @@ public class ItemCarrito {
     private Integer id;
 
     @NotNull(message = "Debe ingresar la ID del producto")
+    @Positive(message = "La ID del producto debe ser mayor a 0")
     private Integer idProducto;
 
     @NotBlank(message = "El nombre del producto no puede estar vacio")
+    @Size(min = 3, max = 100, message = "El nombre del producto debe tener entre 3 y 100 caracteres")
     @Column(nullable = false, length = 100)
     private String nombreProducto;
 

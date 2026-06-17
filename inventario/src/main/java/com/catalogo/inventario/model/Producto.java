@@ -21,10 +21,12 @@ public class Producto {
     private Integer idProducto;
 
     @NotBlank(message = "El nombre del producto no puede estar vacio")
+    @Size(min = 3, max = 100, message = "El nombre del producto debe tener entre 3 y 100 caracteres")
     @Column(nullable = false, length = 100)
     private String nombreProducto;
     
     @NotBlank(message = "La descripcion no puede estar vacia")
+    @Size(min = 10, max = 100, message = "La descripción debe tener entre 10 y 100 caracteres")
     @Column(nullable = false, length = 100)
     private String descripcionProducto;
     

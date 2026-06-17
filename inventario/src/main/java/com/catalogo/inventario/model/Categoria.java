@@ -14,12 +14,13 @@ import jakarta.validation.constraints.*;
 
 public class Categoria {
 
-    //IDCATEGORIA
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idCategoria;
-    //NOMBRE_CATEGORIA
-    @NotBlank(message = "El nombre del producto no puede esta vacio")
+
+    @NotBlank(message = "El nombre de la categoria no puede estar vacio")
+    @Size(min = 3, max = 40, message = "El nombre de la categoría debe tener entre 3 y 40 caracteres")
     @Column(nullable = false, length = 40, unique = true)
     private String nombreCategoria;
 }
