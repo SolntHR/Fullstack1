@@ -6,8 +6,8 @@ import java.util.List;
 @Data
 public class CategoriaSimpleDTO {
 
-    private Integer idcategoria;
-    private String nombre_categoria;
+    private Integer idCategoria;
+    private String nombreCategoria;
 
     private List<String> producto; 
 

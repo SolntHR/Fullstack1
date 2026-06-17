@@ -20,6 +20,6 @@ public class Categoria {
     private Integer idCategoria;
     //NOMBRE_CATEGORIA
     @NotBlank(message = "El nombre del producto no puede esta vacio")
-    @Column(nullable = false, length = 40)
-    private String nombre;
+    @Column(nullable = false, length = 40, unique = true)
+    private String nombreCategoria;
 }

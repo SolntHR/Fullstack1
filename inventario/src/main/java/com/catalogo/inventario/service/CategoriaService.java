@@ -31,13 +31,13 @@ public class CategoriaService {
     }
 
 
-    public Optional<Categoria> idCategoria(Integer id) {
-        return repository.findById(id);
+    public Optional<Categoria> idCategoria(Integer idCategoria) {
+        return repository.findByIdCategoria(idCategoria);
     }
 
 
-    public Optional<Categoria> nombreCategoria(String nombre) {
-        return repository.findByNombreIgnoreCase(nombre);
+    public Optional<Categoria> nombreCategoria(String nombreCategoria) {
+        return repository.findByNombreCategoriaIgnoreCase(nombreCategoria);
     }
 
 
@@ -46,17 +46,17 @@ public class CategoriaService {
     }
 
 
-    public Optional<Categoria> actualizarCategoria(Integer id, Categoria categoriaActualizada) {
-        return repository.findById(id).map(categoriaExistente -> {
-            categoriaExistente.setNombre(categoriaActualizada.getNombre());
+    public Optional<Categoria> actualizarCategoria(Integer idCategoria, Categoria categoriaActualizada) {
+        return repository.findById(idCategoria).map(categoriaExistente -> {
+            categoriaExistente.setNombreCategoria(categoriaActualizada.getNombreCategoria());
             return repository.save(categoriaExistente);
         });
     }
 
 
-    public boolean eliminarCategoria(Integer id) {
-        if (repository.existsById(id)) {
-            repository.deleteById(id);
+    public boolean eliminarCategoria(Integer idCategoria) {
+        if (repository.existsById(idCategoria)) {
+            repository.deleteById(idCategoria);
             return true;
         }
         return false;
@@ -70,56 +70,56 @@ public class CategoriaService {
 
         for(Categoria c : categoria){
             CategoriaListadoDTO dto = new CategoriaListadoDTO();
-            dto.setIdcategoria(c.getIdCategoria());
-            dto.setNombre_categoria(c.getNombre());
+            dto.setIdCategoria(c.getIdCategoria());
+            dto.setNombreCategoria(c.getNombreCategoria());
 
             lista.add(dto);
         }
         return lista;
     }
 
-    public CategoriaSimpleDTO obtenerDetalleSimple(Integer id){
-        Optional<Categoria> categoriaOpt = repository.findById(id);
+    public CategoriaSimpleDTO obtenerDetalleSimple(Integer idCategoria){
+        Optional<Categoria> categoriaOpt = repository.findByIdCategoria(idCategoria);
 
         if(categoriaOpt.isEmpty()){
             return null;
         }
 
         Categoria categoria = categoriaOpt.get();
-        List<Producto> productos = productoRepository.findByCategoriaIdCategoria(id);
+        List<Producto> productos = productoRepository.findByCategoriaIdCategoria(idCategoria);
 
-        List<String> nombre_producto = new ArrayList<>();
+        List<String> nombreProducto = new ArrayList<>();
 
         for(Producto p : productos){
-            nombre_producto.add(p.getNombreProducto());
+            nombreProducto.add(p.getNombreProducto());
         }
 
         CategoriaSimpleDTO dto = new CategoriaSimpleDTO();
-        dto.setIdcategoria(categoria.getIdCategoria());
-        dto.setNombre_categoria(categoria.getNombre());
-        dto.setProducto(nombre_producto);
+        dto.setIdCategoria(categoria.getIdCategoria());
+        dto.setNombreCategoria(categoria.getNombreCategoria());
+        dto.setProducto(nombreProducto);
 
         return dto;
     }
 
-    public CategoriaDetalleDTO obtenerCategoriaConProductos(Integer id){
-        Categoria cat = repository.findById(id).orElse(null);
+    public CategoriaDetalleDTO obtenerCategoriaConProductos(Integer idCategoria){
+        Categoria cat = repository.findByIdCategoria(idCategoria).orElse(null);
         if(cat == null) return null;
 
         CategoriaDetalleDTO dto = new CategoriaDetalleDTO();
-        dto.setIdcategoria(cat.getIdCategoria());
-        dto.setNombre_categoria(cat.getNombre());
+        dto.setIdCategoria(cat.getIdCategoria());
+        dto.setNombreCategoria(cat.getNombreCategoria());
 
-        List<Producto> productoEnti = productoRepository.findByCategoriaIdCategoria(id);
+        List<Producto> productoEnti = productoRepository.findByCategoriaIdCategoria(idCategoria);
         List<ProductoDetalleDTO> listaProductosDTO = new ArrayList<>();
 
         for(Producto p : productoEnti){
             ProductoDetalleDTO pDTO = new ProductoDetalleDTO();
             pDTO.setIdProducto(p.getIdProducto());
             pDTO.setNombreProducto(p.getNombreProducto());
-            pDTO.setDescripcion_producto(p.getDescripcion_producto());
-            pDTO.setPrecio_producto(p.getPrecio());
-            pDTO.setStock_producto(p.getStock());
+            pDTO.setDescripcionProducto(p.getDescripcionProducto());
+            pDTO.setPrecioProducto(p.getPrecioProducto());
+            pDTO.setStockProducto(p.getStockProducto());
 
             listaProductosDTO.add(pDTO);
         }

@@ -25,14 +25,14 @@ public class ProductoController {
         return service.listaProductos();
     }
 
-    @GetMapping("/productoI/{id}")
-    public Optional<Producto> buscarPorId(@PathVariable Integer id){
-        return service.buscarPorId(id);
+    @GetMapping("/productoI/{idProducto}")
+    public Optional<Producto> buscarPorId(@PathVariable Integer idProducto){
+        return service.buscarPorId(idProducto);
     }
 
     @GetMapping("/productoN/{nombre}")
-    public List<Producto> buscarPorNombre(@PathVariable String nombre){
-        return service.buscarPorNombre(nombre);
+    public List<Producto> buscarPorNombre(@PathVariable String nombreProducto){
+        return service.buscarPorNombre(nombreProducto);
     }
 
     @GetMapping("/categoria/{idCategoria}")
@@ -46,24 +46,24 @@ public class ProductoController {
     }
 
     @PutMapping("/actualizar/{id}")
-    public String actualizar(@PathVariable Integer id, @RequestBody Producto producto){
-        Optional<Producto> existente = service.buscarPorId(id);
+    public String actualizar(@PathVariable Integer idProducto, @RequestBody Producto producto){
+        Optional<Producto> existente = service.buscarPorId(idProducto);
         if(existente.isPresent()){
-            service.productoUpdate(id, producto);
+            service.productoUpdate(idProducto, producto);
             return "Producto actualizado correctamente";
         }else {
-            return "Producto no encontrado por id: " + id;
+            return "Producto no encontrado por id: " + idProducto;
         }
     }
 
-    @DeleteMapping("/eliminar/{id}")
-    public String eliminar(@PathVariable Integer id){
-        Optional<Producto> pelicula = service.buscarPorId(id);
+    @DeleteMapping("/eliminar/{idProducto}")
+    public String eliminar(@PathVariable Integer idProducto){
+        Optional<Producto> pelicula = service.buscarPorId(idProducto);
         if(pelicula.isPresent()){
-            service.eliminar(id);
+            service.eliminar(idProducto);
             return "Producto eliminado correctamente";
         }else {
-            return "Producto no encontrado con id: " + id;
+            return "Producto no encontrado con id: " + idProducto;
         }
     }
 
@@ -96,12 +96,12 @@ public class ProductoController {
 
     if (productoOpt.isPresent()) {
         Producto producto = productoOpt.get();
-        if (producto.getStock() >= cantidad) {
-            producto.setStock(producto.getStock() - cantidad);
+        if (producto.getStockProducto() >= cantidad) {
+            producto.setStockProducto(producto.getStockProducto() - cantidad);
             
             service.productoUpdate(idProducto, producto);
             
-            return ResponseEntity.ok("Stock actualizado. Nuevo stock: " + producto.getStock());
+            return ResponseEntity.ok("Stock actualizado. Nuevo stock: " + producto.getStockProducto());
         } else {
             return ResponseEntity.badRequest().body("Stock insuficiente para la cantidad solicitada.");
         }

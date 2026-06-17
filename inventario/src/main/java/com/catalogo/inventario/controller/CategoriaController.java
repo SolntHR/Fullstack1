@@ -11,9 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import com.catalogo.inventario.dto.CategoriaDetalleDTO;
 import com.catalogo.inventario.dto.CategoriaListadoDTO;
@@ -31,14 +28,14 @@ public class CategoriaController {
         return service.listarCategoria();
     }
  
-    @GetMapping("/categoriaI/{id}")
-    public Optional<Categoria> buscarPorId(@PathVariable Integer id){
-        return service.idCategoria(id);
+    @GetMapping("/categoriaI/{idCategoria}")
+    public Optional<Categoria> buscarPorId(@PathVariable Integer idCategoria){
+        return service.idCategoria(idCategoria);
     }
 
-    @GetMapping("/categoriaN/{nombre}")
-    public Optional <Categoria> buscarPorNombre(@PathVariable String nombre){
-        return service.nombreCategoria(nombre);
+    @GetMapping("/categoriaN/{nombreCategoria}")
+    public Optional <Categoria> buscarPorNombre(@PathVariable String nombreCategoria){
+        return service.nombreCategoria(nombreCategoria);
     }
     
     @PostMapping("/agregar-categoria")
@@ -46,25 +43,25 @@ public class CategoriaController {
         return service.guardarCategoria(categoria);
     }
 
-    @PutMapping("/actualizar-categoria/{id}")
-    public String actualizar(@Valid @PathVariable Integer id, @RequestBody Categoria categoria){
-        Optional<Categoria> existente = service.idCategoria(id);
+    @PutMapping("/actualizar-categoria/{idCategoria}")
+    public String actualizar(@Valid @PathVariable Integer idCategoria, @RequestBody Categoria categoria){
+        Optional<Categoria> existente = service.idCategoria(idCategoria);
         if(existente.isPresent()){
-            service.actualizarCategoria(id, categoria);
+            service.actualizarCategoria(idCategoria, categoria);
             return "Categoria Actualizada Correctamente";
         }else {
-            return "Categoria no encontrada con id: "+id;
+            return "Categoria no encontrada con id: "+idCategoria;
         }
     }
 
-    @DeleteMapping("/eliminar/{id}")
-    public String eliminarCategoria(@PathVariable Integer id){
-        Optional<Categoria> existente = service.idCategoria(id);
+    @DeleteMapping("/eliminar/{idCategoria}")
+    public String eliminarCategoria(@PathVariable Integer idCategoria){
+        Optional<Categoria> existente = service.idCategoria(idCategoria);
         if(existente.isPresent()){
-            service.eliminarCategoria(id);
+            service.eliminarCategoria(idCategoria);
             return "Categoria eliminada correctamente";
         }else{
-            return "Categoria no encontrada con id: " + id;
+            return "Categoria no encontrada con id: " + idCategoria;
         }
     }
 
@@ -75,13 +72,13 @@ public class CategoriaController {
     }
 
     @GetMapping("/{id}/detalle-simple")
-    public CategoriaSimpleDTO obtenerDetalleSimple(@PathVariable Integer id){
-        return service.obtenerDetalleSimple(id);
+    public CategoriaSimpleDTO obtenerDetalleSimple(@PathVariable Integer idCategoria){
+        return service.obtenerDetalleSimple(idCategoria);
     }
 
     @GetMapping("/{id}/detalle-completo")
-    public ResponseEntity<CategoriaDetalleDTO> obtenerDetalleCompleto(@PathVariable Integer id){
-        CategoriaDetalleDTO dto = service.obtenerCategoriaConProductos(id);
+    public ResponseEntity<CategoriaDetalleDTO> obtenerDetalleCompleto(@PathVariable Integer idCategoria){
+        CategoriaDetalleDTO dto = service.obtenerCategoriaConProductos(idCategoria);
         if(dto == null){
             return ResponseEntity.notFound().build();
         }

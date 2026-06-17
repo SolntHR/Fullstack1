@@ -13,6 +13,6 @@ public interface CategoriaRepository extends JpaRepository<Categoria, Integer>{
 
     Optional<Categoria> findByIdCategoria(Integer idCategoria);
 
-    Optional<Categoria> findByNombreIgnoreCase(String nombre);
+    Optional<Categoria> findByNombreCategoriaIgnoreCase(String nombreCategoria);
     
 }

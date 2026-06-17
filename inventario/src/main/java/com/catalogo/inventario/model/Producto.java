@@ -20,21 +20,21 @@ public class Producto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idProducto;
 
-    @NotBlank(message = "El nombre del producto no puede esta vacio")
+    @NotBlank(message = "El nombre del producto no puede estar vacio")
     @Column(nullable = false, length = 100)
     private String nombreProducto;
     
     @NotBlank(message = "La descripcion no puede estar vacia")
     @Column(nullable = false, length = 100)
-    private String descripcion_producto;
+    private String descripcionProducto;
     
     @Min(value = 0, message = "El precio debe ser mayor a 0")
     @NotNull(message = "Debe ingresar un precio")
-    private Integer precio;
+    private Integer precioProducto;
 
     @Min(value = 0, message = "El stock debe ser mayor a 0")
     @NotNull(message = "Debe ingresar la cantidad de stock")
-    private Integer stock;
+    private Integer stockProducto;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_categoria", nullable = false) 

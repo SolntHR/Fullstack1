@@ -16,33 +16,33 @@ public class DataLoader{
     CommandLineRunner initInventario(CategoriaRepository categoriaRepository, ProductoRepository productoRepository) {
         return args -> {
 
-            Categoria consolas = categoriaRepository.findByNombreIgnoreCase("Consolas")
+            Categoria consolas = categoriaRepository.findByNombreCategoriaIgnoreCase("Consolas")
                     .orElseGet(() -> {
                         Categoria c = new Categoria();
-                        c.setNombre("Consolas");
+                        c.setNombreCategoria("Consolas");
                         return categoriaRepository.save(c);
                     });
 
-            Categoria perifericos = categoriaRepository.findByNombreIgnoreCase("Periféricos")
+            Categoria perifericos = categoriaRepository.findByNombreCategoriaIgnoreCase("Periféricos")
                     .orElseGet(() -> {
                         Categoria c = new Categoria();
-                        c.setNombre("Periféricos");
+                        c.setNombreCategoria("Periféricos");
                         return categoriaRepository.save(c);
                     });
 
-            Categoria monitores = categoriaRepository.findByNombreIgnoreCase("Monitores")
+            Categoria monitores = categoriaRepository.findByNombreCategoriaIgnoreCase("Monitores")
                     .orElseGet(() -> {
                         Categoria c = new Categoria();
-                        c.setNombre("Monitores");
+                        c.setNombreCategoria("Monitores");
                         return categoriaRepository.save(c);
                     });
 
             if (productoRepository.findByNombreProductoIgnoreCase("PS5").isEmpty()) {
                 Producto p1 = new Producto();
                 p1.setNombreProducto("PS5");
-                p1.setDescripcion_producto("Consola con gran potencia");
-                p1.setPrecio(399990);
-                p1.setStock(15);
+                p1.setDescripcionProducto("Consola con gran potencia");
+                p1.setPrecioProducto(399990);
+                p1.setStockProducto(15);
                 p1.setCategoria(consolas);
                 productoRepository.save(p1);
             }
@@ -50,9 +50,9 @@ public class DataLoader{
             if (productoRepository.findByNombreProductoIgnoreCase("Mouse Inalambrico").isEmpty()) {
                 Producto p2 = new Producto();
                 p2.setNombreProducto("Mouse Inalambrico");
-                p2.setDescripcion_producto("Mouse inalambrico ergonomico para uso diario y gaming casual");
-                p2.setPrecio(14990);
-                p2.setStock(20);
+                p2.setDescripcionProducto("Mouse inalambrico ergonomico para uso diario y gaming casual");
+                p2.setPrecioProducto(14990);
+                p2.setStockProducto(20);
                 p2.setCategoria(perifericos);
                 productoRepository.save(p2);
             }
@@ -60,9 +60,9 @@ public class DataLoader{
             if (productoRepository.findByNombreProductoIgnoreCase("Teclado Mecanico").isEmpty()) {
                 Producto p3 = new Producto();
                 p3.setNombreProducto("Teclado Mecanico");
-                p3.setDescripcion_producto("Teclado mecanico con retroiluminacion y switches de alto rendimiento");
-                p3.setPrecio(45990);
-                p3.setStock(12);
+                p3.setDescripcionProducto("Teclado mecanico con retroiluminacion y switches de alto rendimiento");
+                p3.setPrecioProducto(45990);
+                p3.setStockProducto(12);
                 p3.setCategoria(perifericos);
                 productoRepository.save(p3);
             }
@@ -70,9 +70,9 @@ public class DataLoader{
             if (productoRepository.findByNombreProductoIgnoreCase("Monitor 24 Pulgadas").isEmpty()) {
                 Producto p4 = new Producto();
                 p4.setNombreProducto("Monitor 24 Pulgadas");
-                p4.setDescripcion_producto("Monitor full hd de 24 pulgadas ideal para juego y estudio");
-                p4.setPrecio(129990);
-                p4.setStock(8);
+                p4.setDescripcionProducto("Monitor full hd de 24 pulgadas ideal para juego y estudio");
+                p4.setPrecioProducto(129990);
+                p4.setStockProducto(8);
                 p4.setCategoria(monitores);
                 productoRepository.save(p4);
             }

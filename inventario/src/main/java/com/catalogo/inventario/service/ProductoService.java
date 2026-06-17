@@ -26,13 +26,13 @@ public class ProductoService {
     }
 
    
-    public Optional<Producto> buscarPorId(Integer id) {
-        return repository.findById(id);
+    public Optional<Producto> buscarPorId(Integer idProducto) {
+        return repository.findById(idProducto);
     }
 
    
-    public List<Producto> buscarPorNombre(String nombre) {
-        return repository.findByNombreProductoIgnoreCase(nombre);
+    public List<Producto> buscarPorNombre(String nombreProducto) {
+        return repository.findByNombreProductoIgnoreCase(nombreProducto);
     }
 
 
@@ -46,20 +46,20 @@ public class ProductoService {
     }
 
 
-    public Optional<Producto> productoUpdate(Integer id, Producto productoActualizado) {
-        return repository.findById(id).map(productoExistente -> {
+    public Optional<Producto> productoUpdate(Integer idProducto, Producto productoActualizado) {
+        return repository.findById(idProducto).map(productoExistente -> {
             productoExistente.setNombreProducto(productoActualizado.getNombreProducto());
-            productoExistente.setPrecio(productoActualizado.getPrecio());
-            productoExistente.setStock(productoActualizado.getStock());
+            productoExistente.setPrecioProducto(productoActualizado.getPrecioProducto());
+            productoExistente.setStockProducto(productoActualizado.getStockProducto());
             productoExistente.setCategoria(productoActualizado.getCategoria()); // FK
             return repository.save(productoExistente);
         });
     }
 
     
-    public boolean eliminar(Integer id) {
-        if (repository.existsById(id)) {
-            repository.deleteById(id);
+    public boolean eliminar(Integer idProducto) {
+        if (repository.existsById(idProducto)) {
+            repository.deleteById(idProducto);
             return true;
         }
         return false;
@@ -74,11 +74,11 @@ public class ProductoService {
             ProductoListadoDTO dto = new ProductoListadoDTO();
             dto.setIdProducto(p.getIdProducto());
             dto.setNombreProducto(p.getNombreProducto());
-            dto.setPrecio_producto(p.getPrecio());
-            dto.setStock_producto(p.getStock());
+            dto.setPrecioProducto(p.getPrecioProducto());
+            dto.setStockProducto(p.getStockProducto());
 
             if (p.getCategoria() != null) {
-                dto.setNombre_categoria(p.getCategoria().getNombre());
+                dto.setNombreCategoria(p.getCategoria().getNombreCategoria());
             }
             listaDTO.add(dto);
         }
@@ -99,22 +99,22 @@ public class ProductoService {
         return listaDTO;
     }
 
-    public ProductoDetalleDTO obtenerDetalleProducto(Integer id){
-        Producto p = repository.findById(id).orElse(null);
+    public ProductoDetalleDTO obtenerDetalleProducto(Integer idProducto){
+        Producto p = repository.findById(idProducto).orElse(null);
         if(p == null){
             return null;
         }
         ProductoDetalleDTO dto = new ProductoDetalleDTO();
         dto.setIdProducto(p.getIdProducto());
         dto.setNombreProducto(p.getNombreProducto());
-        dto.setDescripcion_producto(p.getDescripcion_producto());
-        dto.setPrecio_producto(p.getPrecio());
-        dto.setStock_producto(p.getStock());
+        dto.setDescripcionProducto(p.getDescripcionProducto());
+        dto.setPrecioProducto(p.getPrecioProducto());
+        dto.setStockProducto(p.getStockProducto());
 
         if(p.getCategoria() != null){
             CategoriaListadoDTO catDTO = new CategoriaListadoDTO();
-            catDTO.setIdcategoria(p.getCategoria().getIdCategoria());
-            catDTO.setNombre_categoria(p.getCategoria().getNombre());
+            catDTO.setIdCategoria(p.getCategoria().getIdCategoria());
+            catDTO.setNombreCategoria(p.getCategoria().getNombreCategoria());
             dto.setCategoria(catDTO);
         }
         return dto;
