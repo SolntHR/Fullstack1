@@ -25,9 +25,9 @@ public class PagoController {
         return pagoService.listar();
     }
 
-    @GetMapping("/buscar-pago/{id}")
-    public Pago buscar(@PathVariable Integer id) {
-        return pagoService.buscar(id);
+    @GetMapping("/buscar-pago/{idPago}")
+    public Pago buscar(@PathVariable Integer idPago) {
+        return pagoService.buscar(idPago);
     }
 
     @PostMapping("/guardar-pago")
@@ -35,14 +35,14 @@ public class PagoController {
         return pagoService.guardar(pago);
     }
 
-    @DeleteMapping("/eliminar-pago/{id}")
-    public void eliminar(@PathVariable Integer id) {
-        pagoService.eliminar(id);
+    @DeleteMapping("/eliminar-pago/{idPago}")
+    public void eliminar(@PathVariable Integer idPago) {
+        pagoService.eliminar(idPago);
     }
 
-    @GetMapping("/pago-simple/{id}")
-    public PagoSimpleDTO obtenerDTO(@PathVariable Integer id) {
-    return pagoService.obtenerPagoSimpleDTO(id);
+    @GetMapping("/pago-simple/{idPago}")
+    public PagoSimpleDTO obtenerDTO(@PathVariable Integer idPago) {
+    return pagoService.obtenerPagoSimpleDTO(idPago);
     }
 
     @GetMapping("/rango-fechas")

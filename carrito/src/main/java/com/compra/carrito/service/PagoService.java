@@ -77,7 +77,7 @@ public class PagoService {
 
         Pago pago = pagoOpt.get();
         PagoSimpleDTO pagoDTO = new PagoSimpleDTO();
-        pagoDTO.setId(pago.getId());
+        pagoDTO.setIdPago(pago.getIdPago());
         pagoDTO.setMonto(pago.getMonto());
         pagoDTO.setEstado(pago.getEstado());
         pagoDTO.setFechaCreacion(pago.getFechaCreacion());
@@ -93,7 +93,7 @@ public class PagoService {
             .stream()
             .map(pago -> {
                 PagoSimpleDTO dto = new PagoSimpleDTO();
-                dto.setId(pago.getId());
+                dto.setIdPago(pago.getIdPago());
                 dto.setMonto(pago.getMonto());
                 dto.setEstado(pago.getEstado());
                 dto.setFechaCreacion(pago.getFechaCreacion());

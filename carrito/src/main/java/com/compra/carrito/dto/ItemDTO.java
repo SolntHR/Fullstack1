@@ -5,9 +5,9 @@ import lombok.Data;
 @Data
 public class ItemDTO {
 
-    private Integer idproducto;
+    private Integer idProducto;
     private String nombreProducto;
-    private Integer stock;
+    private Integer stockProducto;
     private Integer cantidad;
     private Integer precio;
     

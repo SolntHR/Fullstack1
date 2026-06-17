@@ -49,7 +49,7 @@ public class CarritoService {
                     "Producto no encontrado");
         }
 
-        if(producto.getStock() < cantidad){
+        if(producto.getStockProducto() < cantidad){
             throw new RuntimeException(
                     "Stock insuficiente");
         }

@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public class PagoSimpleDTO {
-    private Integer id;
+    private Integer idPago;
     private Integer monto;
     private String estado;
     private LocalDateTime fechaCreacion;

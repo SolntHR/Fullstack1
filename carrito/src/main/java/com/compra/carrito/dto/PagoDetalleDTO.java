@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class PagoDetalleDTO {
     
-    private Integer id;
+    private Integer idPago;
     private Integer idCarrito;
     private String metodoPago;
     private Integer monto;

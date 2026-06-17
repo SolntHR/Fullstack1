@@ -21,14 +21,13 @@ public class ItemCarrito {
     @NotNull(message = "Debe ingresar la ID del producto")
     private Integer idProducto;
 
-    @NotBlank(message = "El nombre del producto no puede esta vacio")
+    @NotBlank(message = "El nombre del producto no puede estar vacio")
     @Column(nullable = false, length = 100)
     private String nombreProducto;
 
-    @NotNull(message = "Deba ingresar una cantidad")
+    @NotNull(message = "Debe ingresar una cantidad mayor a 0")
     @Min(value = 1, message = "La cantidad debe ser mayor a 0")
     private Integer cantidad;
-
 
     @ManyToOne
     @JoinColumn(name = "id_carrito")
