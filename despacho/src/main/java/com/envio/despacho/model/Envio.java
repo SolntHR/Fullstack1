@@ -15,18 +15,22 @@ public class Envio {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idEnvio;
 
-    @NotNull
+    @NotNull(message = "El ID del carrito es obligatorio")
     private Integer idCarrito;
 
-    @NotBlank
+    @NotBlank(message = "La dirección es obligatoria")
+    @Column(nullable = false, length = 200)
     private String direccion;
 
-    @NotBlank
+    @NotBlank(message = "La comuna es obligatoria")
+    @Column(nullable = false, length = 100)
     private String comuna;
 
-    @NotBlank
+    @NotBlank(message = "La región es obligatoria")
+    @Column(nullable = false, length = 100)
     private String region;
 
-    @NotBlank
+    @NotBlank(message = "El estado es obligatorio")
+    @Column(nullable = false, length = 30)
     private String estado;
 }

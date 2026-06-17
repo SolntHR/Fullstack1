@@ -15,15 +15,17 @@ public class Verificacion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idVerificacion;
 
-    @NotNull
+    @NotNull(message = "El ID del envío es obligatorio")
     private Integer idEnvio;
 
-    @NotBlank
+    @NotNull(message = "La fecha de entrega es obligatoria")
     private String fechaEntrega;
 
-    @NotBlank
+    @NotBlank(message = "El estado de entrega es obligatorio")
+    @Column(nullable = false, length = 30)
     private String estadoEntrega;
 
+    @Column(length = 500)
     private String observacion;
 
 }
