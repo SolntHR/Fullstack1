@@ -13,10 +13,9 @@ public class SwaggerConfig {
         return new OpenAPI()
             .info(new Info()
                 .title("Servicio de Tickets")
-                .description("API REST para gestión de tickets de soporte, para clientes, administraores y empleados")
+                .description("Microservicio REST encargado de administrar tickets de soporte, incluyendo operaciones CRUD y generación de respuestas DTO para distintos niveles de detalle")
                 .version("1.0")
-                .contact(new Contact().name("Solange Hernández - Jesus Oropeza - Maximiliano Quezada")
-                                    .email("so.hernandezr@duocuc.cl - je.oropeza@duocuc.cl - max.quezadac@duocuc.cl")
+                .contact(new Contact().name("Solange Hernández, Jesus Oropeza y Maximiliano Quezada")
                                     .url("https://github.com/SolntHR/Fullstack1")));
 
     }
