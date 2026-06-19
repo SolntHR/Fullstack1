@@ -20,14 +20,22 @@ import java.util.Optional;
 @RequestMapping("/resenas")
 public class ResenaController {
 
-    @Autowired
-    private ResenaService service;
+    private final ResenaService service;
 
-    @GetMapping("/listar")
-    public List<Resena> listarResenas() {
-        return service.listarResenas();
+    public ResenaController(ResenaService service) {
+        this.service = service;
     }
 
+    @Operation(summary = "Listar todos las reseñas", description = "Obtiene la lista completa de reseñas registradas",tags = {"1. Consultas"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Lista de reseñas obtenida correctamente")
+    })
+    @GetMapping("/listar")
+    public ResponseEntity<List<Resena>> listarResenas() {
+        return ResponseEntity.ok(service.listarResenas());
+    }
+
+    
     @GetMapping("/resena/{idResena}")
     public Optional<Resena> buscarPorIdResena(@PathVariable Integer idResena) {
         return service.buscarPorIdResena(idResena);

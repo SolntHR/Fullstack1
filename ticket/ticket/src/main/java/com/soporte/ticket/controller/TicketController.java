@@ -34,7 +34,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/soporte")
-@Tag(name = "Ticket Controller", description = "Endpoints para la gestión de tickets de soporte")
 public class TicketController {
 
     private final TicketService service;

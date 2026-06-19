@@ -10,13 +10,13 @@ spring:
       server:
         webflux:
           routes:
-            - id: ruta-personas
-              uri: lb://PERSONAS
+            - id: ruta-usuarios
+              uri: lb://USUARIOS
               predicates:
                 - Path=/personas,/personas/**
 
-            - id: ruta-peliculas
-              uri: lb://PELICULAS
+            - id: ruta-roles
+              uri: lb://ROLES
               predicates:
                 - Path=/peliculas,/peliculas/**
 
