@@ -10,15 +10,53 @@ spring:
       server:
         webflux:
           routes:
-            - id: ruta-personas
-              uri: lb://PERSONAS
+            # 1. SERVICIO USUARIO (Roles y Usuarios)
+            - id: ruta-usuario
+              uri: lb://usuario
               predicates:
-                - Path=/personas,/personas/**
+                - Path=/roles/**, /usuarios/**
 
-            - id: ruta-peliculas
-              uri: lb://PELICULAS
+            # 2. SERVICIO INVENTARIO (Categorías y Productos)
+            - id: ruta-inventario
+              uri: lb://inventario
               predicates:
-                - Path=/peliculas,/peliculas/**
+                - Path=/inventario/**
+
+            # 3. SERVICIO CARRITO (Carrito y Pagos)
+            - id: ruta-carrito
+              uri: lb://carrito
+              predicates:
+                - Path=/carrito/**
+
+            # 4. SERVICIO DESPACHO (Envíos y Verificaciones)
+            - id: ruta-despacho
+              uri: lb://despacho
+              predicates:
+                - Path=/api/envios/**, /verificaciones/**
+
+            # 5. SERVICIO SOPORTE (Tickets)
+            - id: ruta-soporte
+              uri: lb://soporte
+              predicates:
+                - Path=/soporte/**
+
+            # 6. SERVICIO REPORTES (Reportes)
+            - id: ruta-reportes
+              uri: lb://reportes
+              predicates:
+                - Path=/reportes/**
+
+            # 7. SERVICIO PROMOCIONES (Promociones)
+            - id: ruta-promociones
+              uri: lb://promociones
+              predicates:
+                - Path=/promociones/**
+
+            # 8. SERVICIO RESEÑA (Reseñas)
+            - id: ruta-resena
+              uri: lb://resena
+              predicates:
+                - Path=/resenas/**
 
 eureka:
   client:
