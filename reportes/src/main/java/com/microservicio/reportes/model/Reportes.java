@@ -1,5 +1,8 @@
 package com.microservicio.reportes.model;
 
+import java.time.LocalDateTime;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +10,7 @@ import lombok.NoArgsConstructor;
 import jakarta.validation.constraints.*;
 
 @Entity
-@Table(name="Reportes")
+@Table(name="reportes")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor 
@@ -16,6 +19,7 @@ public class Reportes {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(description = "ID único del reporte generado automáticamente", accessMode = Schema.AccessMode.READ_ONLY)
     private Integer idReporte;
 
     @NotBlank(message = "El nombre del reporte no puede estar vacio")
@@ -33,10 +37,12 @@ public class Reportes {
 
     @NotNull(message = "La fecha de inicio del reporte no puede ser nula")
     @Column(name = "fechaInicio", nullable = false)
-    private String fechaInicio; 
+    @Schema(description = "Fecha de inicio del reporte")
+    private LocalDateTime fechaInicio; 
 
     @NotNull(message = "La fecha de fin del reporte no puede ser nula")
     @Column(name = "fechaFin", nullable = false)
-    private String fechaFin;
+    @Schema(description = "Fecha de fin del reporte")
+    private LocalDateTime fechaFin;
 
 }
