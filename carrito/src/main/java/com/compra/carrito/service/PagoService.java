@@ -85,10 +85,8 @@ public class PagoService {
         return pagoDTO;
     }
 
-    public List<PagoSimpleDTO> buscarPorRangoSimple(String inicio, String fin) {
-    LocalDateTime fechaInicio = LocalDateTime.parse(inicio);
-    LocalDateTime fechaFin = LocalDateTime.parse(fin);
-
+    public List<PagoSimpleDTO> buscarPorRangoSimple(LocalDateTime fechaInicio, LocalDateTime fechaFin) {
+    
     return pagoRepository.findByFechaCreacionBetween(fechaInicio, fechaFin)
             .stream()
             .map(pago -> {
@@ -100,7 +98,6 @@ public class PagoService {
                 dto.setMetodoPago(pago.getMetodoPago());
                 return dto;
             }).toList();
-
     }
 
     public Pago procesarPago(Pago pago) {
