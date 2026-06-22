@@ -35,8 +35,8 @@ spring:
                 - Path=/api/envios/**, /verificaciones/**
 
             # 5. SERVICIO SOPORTE (Tickets)
-            - id: ruta-soporte
-              uri: lb://soporte
+            - id: ruta-ticket
+              uri: lb://ticket
               predicates:
                 - Path=/soporte/**
 
