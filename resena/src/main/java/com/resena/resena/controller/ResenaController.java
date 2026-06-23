@@ -41,18 +41,22 @@ public class ResenaController {
 
     
     @GetMapping("/resena/{idResena}")
-    public Optional<Resena> buscarPorIdResena(@PathVariable Integer idResena) {
-        return service.buscarPorIdResena(idResena);
+    public ResponseEntity<Resena> buscarPorIdResena(@PathVariable Integer idResena) {
+        Optional<Resena> resena = service.buscarPorIdResena(idResena);
+        return resena.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping("/usuario/{idUsuario}")
-    public List<Resena> buscarPorIdUsuario(@PathVariable Integer idUsuario) {
-        return service.buscarPorIdUsuario(idUsuario);
+    public ResponseEntity<List<Resena>> buscarPorIdUsuario(@PathVariable Integer idUsuario) {
+        List<Resena> resenas = service.buscarPorIdUsuario(idUsuario);
+        return ResponseEntity.ok(resenas);
     }
 
     @GetMapping("/producto/{idProducto}")
-    public List<Resena> buscarPorIdProducto(@PathVariable Integer idProducto) {
-        return service.buscarPorIdProducto(idProducto);
+    public ResponseEntity<List<Resena>> buscarPorIdProducto(@PathVariable Integer idProducto) {
+        List<Resena> resenas = service.buscarPorIdProducto(idProducto);
+        return ResponseEntity.ok(resenas);
     }
 
     @PostMapping("/agregarResena")
@@ -81,13 +85,13 @@ public class ResenaController {
     }
 
     @GetMapping("/listadoDTO")
-    public List<ResenaListadoDTO> obtenerListado() {
-        return service.listarDTO();
+    public ResponseEntity<List<ResenaListadoDTO>>obtenerListado() {
+        return ResponseEntity.ok(service.listarDTO());
     }
 
     @GetMapping("/simpleDTO")
-    public List<ResenaSimpleDTO> obtenerSimple() {
-        return service.listarSimpleDTO();
+    public ResponseEntity<List<ResenaSimpleDTO>> obtenerSimple() {
+        return ResponseEntity.ok(service.listarSimpleDTO());
     }
 
     @GetMapping("/{idResena}/detalleDTO")

@@ -9,7 +9,7 @@ public class ResenaDetalleDTO {
     private Integer idResena;
     private Integer idUsuario;
     private Integer idProducto;
-    private Integer IdItemCarrito;
+    private Integer idItemCarrito;
     private Integer estrellas;
     private String comentario;
     private LocalDateTime fechaCreacion;
