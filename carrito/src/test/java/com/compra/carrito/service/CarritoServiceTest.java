@@ -14,6 +14,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.client.RestTemplate;
@@ -56,7 +57,7 @@ class CarritoServiceTest {
     }
 
     @Test
-    void guardarDebeCompletarCarritoYCrearPagoPendiente() {
+    void guardarDebeDejarCarritoPendienteDePagoYCrearPagoPendiente() {
         Carrito carrito = new Carrito();
         carrito.setIdUsuario(25);
         carrito.setEstado("ACTIVO");
@@ -77,13 +78,18 @@ class CarritoServiceTest {
         when(pagoRepository.save(any(Pago.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         Carrito resultado = carritoService.guardar(carrito);
+        ArgumentCaptor<Pago> pagoCaptor = ArgumentCaptor.forClass(Pago.class);
 
         assertEquals(30000, resultado.getTotal());
         assertEquals(0, resultado.getDescuentoAplicado());
-        assertEquals("COMPLETADO", resultado.getEstado());
+        assertEquals("PENDIENTE_PAGO", resultado.getEstado());
         assertSame(resultado, resultado.getItems().getFirst().getCarrito());
         verify(carritoRepository).save(carrito);
-        verify(pagoRepository).save(any(Pago.class));
+        verify(pagoRepository).save(pagoCaptor.capture());
+        assertEquals(99, pagoCaptor.getValue().getIdCarrito());
+        assertEquals(30000, pagoCaptor.getValue().getMonto());
+        assertEquals("PENDIENTE", pagoCaptor.getValue().getEstado());
+        assertEquals("PENDIENTE", pagoCaptor.getValue().getMetodoPago());
     }
 
     @Test

@@ -1,12 +1,13 @@
 package com.compra.carrito.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,6 +18,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.compra.carrito.cliente.InventarioCliente;
+import com.compra.carrito.dto.PagoSimpleDTO;
 import com.compra.carrito.model.Carrito;
 import com.compra.carrito.model.ItemCarrito;
 import com.compra.carrito.model.Pago;
@@ -41,48 +43,68 @@ class PagoServiceTest {
     void setUp() {
         pagoService = new PagoService(
                 pagoRepository,
-                inventarioCliente,
                 carritoRepository,
+                inventarioCliente,
                 carritoService);
     }
 
     @Test
-    void guardarDebeAprobarPagoYDescontarStock() {
-        Carrito carrito = crearCarrito();
+    void guardarDebeAsignarValoresPorDefectoCuandoFaltan() {
         Pago pagoEntrada = new Pago();
         pagoEntrada.setIdCarrito(10);
         pagoEntrada.setMetodoPago("TARJETA");
-        pagoEntrada.setMonto(1);
-        pagoEntrada.setEstado("PENDIENTE");
-        pagoEntrada.setFechaCreacion(java.time.LocalDateTime.now());
-
-        when(carritoRepository.findById(10)).thenReturn(Optional.of(carrito));
-        when(pagoRepository.findByIdCarrito(10)).thenReturn(Optional.empty());
+        pagoEntrada.setMonto(50000);
         when(pagoRepository.save(any(Pago.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         Pago resultado = pagoService.guardar(pagoEntrada);
 
-        assertEquals("APROBADO", resultado.getEstado());
+        assertEquals("PENDIENTE", resultado.getEstado());
         assertEquals("TARJETA", resultado.getMetodoPago());
         assertEquals(50000, resultado.getMonto());
-        verify(inventarioCliente, times(2)).descontarStock(any(Integer.class), any(Integer.class));
-        verify(pagoRepository).save(any(Pago.class));
+        assertNotNull(resultado.getFechaCreacion());
+        verify(pagoRepository).save(pagoEntrada);
     }
 
     @Test
-    void validarCompraDebeRetornarTrueCuandoElPagoYElProductoCoinciden() {
+    void procesarPagoDebeAprobarPagoYDescontarStock() {
         Carrito carrito = crearCarrito();
         Pago pago = new Pago();
         pago.setIdPago(7);
         pago.setIdCarrito(10);
+        pago.setMetodoPago("TARJETA");
+        pago.setMonto(50000);
+        pago.setEstado("PENDIENTE");
+
+        when(carritoService.buscar(10)).thenReturn(carrito);
+        when(pagoRepository.save(any(Pago.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        Pago resultado = pagoService.procesarPago(pago);
+
+        assertEquals("APROBADO", resultado.getEstado());
+        assertNotNull(resultado.getFechaCreacion());
+        verify(inventarioCliente, times(2)).descontarStock(any(Integer.class), any(Integer.class));
+        verify(pagoRepository).save(pago);
+    }
+
+    @Test
+    void obtenerPagoSimpleDTODebeMapearLosCamposDelPago() {
+        Pago pago = new Pago();
+        pago.setIdPago(7);
+        pago.setIdCarrito(10);
+        pago.setMetodoPago("TARJETA");
+        pago.setMonto(50000);
         pago.setEstado("APROBADO");
+        pago.setFechaCreacion(LocalDateTime.now());
 
         when(pagoRepository.findById(7)).thenReturn(Optional.of(pago));
-        when(carritoRepository.findById(10)).thenReturn(Optional.of(carrito));
 
-        boolean resultado = pagoService.validarCompra(7, 99, 2);
+        PagoSimpleDTO resultado = pagoService.obtenerPagoSimpleDTO(7);
 
-        assertTrue(resultado);
+        assertNotNull(resultado);
+        assertEquals(7, resultado.getIdPago());
+        assertEquals(50000, resultado.getMonto());
+        assertEquals("APROBADO", resultado.getEstado());
+        assertEquals("TARJETA", resultado.getMetodoPago());
     }
 
     private Carrito crearCarrito() {
