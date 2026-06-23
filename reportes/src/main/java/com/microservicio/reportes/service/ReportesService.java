@@ -4,6 +4,7 @@ import com.microservicio.reportes.model.Pago;
 import com.microservicio.reportes.model.Reportes;
 import com.microservicio.reportes.repository.ReportesRepository;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -16,6 +17,8 @@ import java.util.Optional;
 public class ReportesService {
 
     private final ReportesRepository repository;
+    @Value("${carrito.service.url}")
+    private String carritoServiceUrl;
 
     ReportesService(ReportesRepository repository) {
         this.repository = repository;
@@ -66,7 +69,7 @@ public class ReportesService {
         
         RestTemplate restTemplate = new RestTemplate();
 
-        String url = "http://localhost:8084/carrito/pagos/rango-fechas?inicio=" 
+        String url = carritoServiceUrl + "/carrito/pagos/rango-fechas?inicio="
                      + reporte.getFechaInicio() + "&fin=" + reporte.getFechaFin();
 
         try {

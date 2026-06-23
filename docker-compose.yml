@@ -1,0 +1,378 @@
+services:
+  mysql-usuario:
+    image: mysql:8.4
+    container_name: mysql-usuario
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: usuario
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-usuario-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p$$MYSQL_ROOT_PASSWORD"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - microservices-net
+
+  mysql-inventario:
+    image: mysql:8.4
+    container_name: mysql-inventario
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: inventario
+    ports:
+      - "3308:3306"
+    volumes:
+      - mysql-inventario-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p$$MYSQL_ROOT_PASSWORD"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - microservices-net
+
+  mysql-carrito:
+    image: mysql:8.4
+    container_name: mysql-carrito
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: carrito
+    ports:
+      - "3309:3306"
+    volumes:
+      - mysql-carrito-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p$$MYSQL_ROOT_PASSWORD"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - microservices-net
+
+  mysql-despacho:
+    image: mysql:8.4
+    container_name: mysql-despacho
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: Despacho
+    ports:
+      - "3310:3306"
+    volumes:
+      - mysql-despacho-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p$$MYSQL_ROOT_PASSWORD"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - microservices-net
+
+  mysql-ticket:
+    image: mysql:8.4
+    container_name: mysql-ticket
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: soporte
+    ports:
+      - "3311:3306"
+    volumes:
+      - mysql-ticket-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p$$MYSQL_ROOT_PASSWORD"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - microservices-net
+
+  mysql-reportes:
+    image: mysql:8.4
+    container_name: mysql-reportes
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: reportes
+    ports:
+      - "3312:3306"
+    volumes:
+      - mysql-reportes-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p$$MYSQL_ROOT_PASSWORD"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - microservices-net
+
+  mysql-promociones:
+    image: mysql:8.4
+    container_name: mysql-promociones
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: promociones
+    ports:
+      - "3313:3306"
+    volumes:
+      - mysql-promociones-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p$$MYSQL_ROOT_PASSWORD"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - microservices-net
+
+  mysql-resena:
+    image: mysql:8.4
+    container_name: mysql-resena
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: resenas
+    ports:
+      - "3314:3306"
+    volumes:
+      - mysql-resena-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p$$MYSQL_ROOT_PASSWORD"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - microservices-net
+
+  eureka-server:
+    build:
+      context: ./eureka-server
+    container_name: eureka-server
+    ports:
+      - "8761:8761"
+    environment:
+      EUREKA_INSTANCE_HOSTNAME: eureka-server
+    networks:
+      - microservices-net
+
+  usuario:
+    build:
+      context: ./usuario
+    container_name: usuario
+    ports:
+      - "8081:8081"
+    depends_on:
+      mysql-usuario:
+        condition: service_healthy
+      eureka-server:
+        condition: service_started
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-usuario:3306/usuario?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      EUREKA_SERVER_URL: http://eureka-server:8761/eureka/
+      EUREKA_INSTANCE_HOSTNAME: usuario
+    networks:
+      - microservices-net
+
+  inventario:
+    build:
+      context: ./inventario
+    container_name: inventario
+    ports:
+      - "8083:8083"
+    depends_on:
+      mysql-inventario:
+        condition: service_healthy
+      eureka-server:
+        condition: service_started
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-inventario:3306/inventario?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      EUREKA_SERVER_URL: http://eureka-server:8761/eureka/
+      EUREKA_INSTANCE_HOSTNAME: inventario
+    networks:
+      - microservices-net
+
+  promociones:
+    build:
+      context: ./promociones
+    container_name: promociones
+    ports:
+      - "8088:8088"
+    depends_on:
+      mysql-promociones:
+        condition: service_healthy
+      eureka-server:
+        condition: service_started
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-promociones:3306/promociones?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      EUREKA_SERVER_URL: http://eureka-server:8761/eureka/
+      EUREKA_INSTANCE_HOSTNAME: promociones
+    networks:
+      - microservices-net
+
+  carrito:
+    build:
+      context: ./carrito
+    container_name: carrito
+    ports:
+      - "8084:8084"
+    depends_on:
+      mysql-carrito:
+        condition: service_healthy
+      eureka-server:
+        condition: service_started
+      inventario:
+        condition: service_started
+      promociones:
+        condition: service_started
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-carrito:3306/carrito?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      EUREKA_SERVER_URL: http://eureka-server:8761/eureka/
+      EUREKA_INSTANCE_HOSTNAME: carrito
+      INVENTARIO_BASE_URL: http://inventario
+      PROMOCIONES_BASE_URL: http://promociones
+    networks:
+      - microservices-net
+
+  despacho:
+    build:
+      context: ./despacho
+    container_name: despacho
+    ports:
+      - "8085:8085"
+    depends_on:
+      mysql-despacho:
+        condition: service_healthy
+      eureka-server:
+        condition: service_started
+      carrito:
+        condition: service_started
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-despacho:3306/Despacho?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      EUREKA_SERVER_URL: http://eureka-server:8761/eureka/
+      EUREKA_INSTANCE_HOSTNAME: despacho
+      CARRITO_SERVICE_URL: http://carrito:8084
+    networks:
+      - microservices-net
+
+  ticket:
+    build:
+      context: ./ticket/ticket
+    container_name: ticket
+    ports:
+      - "8086:8086"
+    depends_on:
+      mysql-ticket:
+        condition: service_healthy
+      eureka-server:
+        condition: service_started
+      usuario:
+        condition: service_started
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-ticket:3306/soporte?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      EUREKA_SERVER_URL: http://eureka-server:8761/eureka/
+      EUREKA_INSTANCE_HOSTNAME: ticket
+      USUARIO_SERVICE_URL: http://usuario:8081
+    networks:
+      - microservices-net
+
+  reportes:
+    build:
+      context: ./reportes
+    container_name: reportes
+    ports:
+      - "8087:8087"
+    depends_on:
+      mysql-reportes:
+        condition: service_healthy
+      eureka-server:
+        condition: service_started
+      carrito:
+        condition: service_started
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-reportes:3306/reportes?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      EUREKA_SERVER_URL: http://eureka-server:8761/eureka/
+      EUREKA_INSTANCE_HOSTNAME: reportes
+      CARRITO_SERVICE_URL: http://carrito:8084
+    networks:
+      - microservices-net
+
+  resena:
+    build:
+      context: ./resena
+    container_name: resena
+    ports:
+      - "8089:8089"
+    depends_on:
+      mysql-resena:
+        condition: service_healthy
+      eureka-server:
+        condition: service_started
+      carrito:
+        condition: service_started
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-resena:3306/resenas?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      EUREKA_SERVER_URL: http://eureka-server:8761/eureka/
+      EUREKA_INSTANCE_HOSTNAME: resena
+      CARRITO_SERVICE_URL: http://carrito:8084
+    networks:
+      - microservices-net
+
+  api-gateway:
+    build:
+      context: ./api-gateway
+    container_name: api-gateway
+    ports:
+      - "8090:8090"
+    depends_on:
+      eureka-server:
+        condition: service_started
+      usuario:
+        condition: service_started
+      inventario:
+        condition: service_started
+      carrito:
+        condition: service_started
+      despacho:
+        condition: service_started
+      ticket:
+        condition: service_started
+      reportes:
+        condition: service_started
+      promociones:
+        condition: service_started
+      resena:
+        condition: service_started
+    environment:
+      EUREKA_SERVER_URL: http://eureka-server:8761/eureka/
+      EUREKA_INSTANCE_HOSTNAME: api-gateway
+    networks:
+      - microservices-net
+
+networks:
+  microservices-net:
+    driver: bridge
+
+volumes:
+  mysql-usuario-data:
+  mysql-inventario-data:
+  mysql-carrito-data:
+  mysql-despacho-data:
+  mysql-ticket-data:
+  mysql-reportes-data:
+  mysql-promociones-data:
+  mysql-resena-data:
