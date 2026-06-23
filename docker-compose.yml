@@ -3,7 +3,7 @@ services:
     image: mysql:8.4
     container_name: mysql-usuario
     environment:
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
       MYSQL_DATABASE: usuario
     ports:
       - "3307:3306"
@@ -21,7 +21,7 @@ services:
     image: mysql:8.4
     container_name: mysql-inventario
     environment:
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
       MYSQL_DATABASE: inventario
     ports:
       - "3308:3306"
@@ -39,7 +39,7 @@ services:
     image: mysql:8.4
     container_name: mysql-carrito
     environment:
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
       MYSQL_DATABASE: carrito
     ports:
       - "3309:3306"
@@ -57,7 +57,7 @@ services:
     image: mysql:8.4
     container_name: mysql-despacho
     environment:
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
       MYSQL_DATABASE: Despacho
     ports:
       - "3310:3306"
@@ -75,7 +75,7 @@ services:
     image: mysql:8.4
     container_name: mysql-ticket
     environment:
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
       MYSQL_DATABASE: soporte
     ports:
       - "3311:3306"
@@ -93,7 +93,7 @@ services:
     image: mysql:8.4
     container_name: mysql-reportes
     environment:
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
       MYSQL_DATABASE: reportes
     ports:
       - "3312:3306"
@@ -111,7 +111,7 @@ services:
     image: mysql:8.4
     container_name: mysql-promociones
     environment:
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
       MYSQL_DATABASE: promociones
     ports:
       - "3313:3306"
@@ -129,7 +129,7 @@ services:
     image: mysql:8.4
     container_name: mysql-resena
     environment:
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
       MYSQL_DATABASE: resenas
     ports:
       - "3314:3306"
@@ -151,6 +151,7 @@ services:
       - "8761:8761"
     environment:
       EUREKA_INSTANCE_HOSTNAME: eureka-server
+      SPRING_PROFILES_ACTIVE: docker
     networks:
       - microservices-net
 
@@ -166,11 +167,8 @@ services:
       eureka-server:
         condition: service_started
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-usuario:3306/usuario?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: root
-      EUREKA_SERVER_URL: http://eureka-server:8761/eureka/
-      EUREKA_INSTANCE_HOSTNAME: usuario
+      SPRING_PROFILES_ACTIVE: docker
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
     networks:
       - microservices-net
 
@@ -186,11 +184,8 @@ services:
       eureka-server:
         condition: service_started
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-inventario:3306/inventario?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: root
-      EUREKA_SERVER_URL: http://eureka-server:8761/eureka/
-      EUREKA_INSTANCE_HOSTNAME: inventario
+      SPRING_PROFILES_ACTIVE: docker
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
     networks:
       - microservices-net
 
@@ -206,11 +201,8 @@ services:
       eureka-server:
         condition: service_started
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-promociones:3306/promociones?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: root
-      EUREKA_SERVER_URL: http://eureka-server:8761/eureka/
-      EUREKA_INSTANCE_HOSTNAME: promociones
+      SPRING_PROFILES_ACTIVE: docker
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
     networks:
       - microservices-net
 
@@ -230,13 +222,8 @@ services:
       promociones:
         condition: service_started
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-carrito:3306/carrito?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: root
-      EUREKA_SERVER_URL: http://eureka-server:8761/eureka/
-      EUREKA_INSTANCE_HOSTNAME: carrito
-      INVENTARIO_BASE_URL: http://inventario
-      PROMOCIONES_BASE_URL: http://promociones
+      SPRING_PROFILES_ACTIVE: docker
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
     networks:
       - microservices-net
 
@@ -254,12 +241,8 @@ services:
       carrito:
         condition: service_started
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-despacho:3306/Despacho?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: root
-      EUREKA_SERVER_URL: http://eureka-server:8761/eureka/
-      EUREKA_INSTANCE_HOSTNAME: despacho
-      CARRITO_SERVICE_URL: http://carrito:8084
+      SPRING_PROFILES_ACTIVE: docker
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
     networks:
       - microservices-net
 
@@ -277,12 +260,8 @@ services:
       usuario:
         condition: service_started
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-ticket:3306/soporte?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: root
-      EUREKA_SERVER_URL: http://eureka-server:8761/eureka/
-      EUREKA_INSTANCE_HOSTNAME: ticket
-      USUARIO_SERVICE_URL: http://usuario:8081
+      SPRING_PROFILES_ACTIVE: docker
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
     networks:
       - microservices-net
 
@@ -300,12 +279,8 @@ services:
       carrito:
         condition: service_started
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-reportes:3306/reportes?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: root
-      EUREKA_SERVER_URL: http://eureka-server:8761/eureka/
-      EUREKA_INSTANCE_HOSTNAME: reportes
-      CARRITO_SERVICE_URL: http://carrito:8084
+      SPRING_PROFILES_ACTIVE: docker
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
     networks:
       - microservices-net
 
@@ -323,12 +298,8 @@ services:
       carrito:
         condition: service_started
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-resena:3306/resenas?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: root
-      EUREKA_SERVER_URL: http://eureka-server:8761/eureka/
-      EUREKA_INSTANCE_HOSTNAME: resena
-      CARRITO_SERVICE_URL: http://carrito:8084
+      SPRING_PROFILES_ACTIVE: docker
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
     networks:
       - microservices-net
 
@@ -358,8 +329,7 @@ services:
       resena:
         condition: service_started
     environment:
-      EUREKA_SERVER_URL: http://eureka-server:8761/eureka/
-      EUREKA_INSTANCE_HOSTNAME: api-gateway
+      SPRING_PROFILES_ACTIVE: docker
     networks:
       - microservices-net
 
