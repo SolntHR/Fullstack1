@@ -1,31 +1,33 @@
 package com.compra.carrito.cliente;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import com.compra.carrito.dto.ItemDTO;
 
 @Service
-
 public class InventarioCliente {
 
-    @Autowired
-    private RestTemplate restTemplate;
+    private final RestTemplateSelector restTemplateSelector;
+    private final String inventarioBaseUrl;
+
+    public InventarioCliente(
+            RestTemplateSelector restTemplateSelector,
+            @Value("${services.inventario.base-url:http://inventario}") String inventarioBaseUrl) {
+        this.restTemplateSelector = restTemplateSelector;
+        this.inventarioBaseUrl = inventarioBaseUrl;
+    }
 
     public ItemDTO obtenerProducto(Integer idproducto) {
-
-        String url =
-            "http://localhost:8083/inventario/producto/productoI/" + idproducto;
-
-        return restTemplate.getForObject(
+        String url = inventarioBaseUrl + "/inventario/producto/productoI/" + idproducto;
+        return restTemplateSelector.select(inventarioBaseUrl).getForObject(
                 url,
                 ItemDTO.class
         );
     }
 
     public void descontarStock(Integer idproducto, Integer cantidad) {
-    String url = "http://localhost:8083/inventario/producto/" + idproducto + "/descontar/" + cantidad;
-    restTemplate.put(url, null);
-}
+        String url = inventarioBaseUrl + "/inventario/producto/" + idproducto + "/descontar/" + cantidad;
+        restTemplateSelector.select(inventarioBaseUrl).put(url, null);
+    }
 }

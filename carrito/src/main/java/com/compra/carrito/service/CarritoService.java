@@ -5,11 +5,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import com.compra.carrito.cliente.InventarioCliente;
+import com.compra.carrito.cliente.RestTemplateSelector;
 import com.compra.carrito.dto.CuponDTO;
 import com.compra.carrito.dto.ItemDTO;
 import com.compra.carrito.model.Carrito;
@@ -19,18 +19,24 @@ import com.compra.carrito.repository.PagoRepository;
 
 @Service
 public class CarritoService {
-    
-    @Autowired
-    private PagoRepository pagoRepository;
 
-    @Autowired
-    private CarritoRepository carritoRepository;
+    private final PagoRepository pagoRepository;
+    private final CarritoRepository carritoRepository;
+    private final InventarioCliente inventarioCliente;
+    private final RestTemplateSelector restTemplateSelector;
+    private final String promocionesBaseUrl;
 
-    private InventarioCliente inventarioCliente;
-    
-
-    public CarritoService(CarritoRepository carritoRepository){
+    public CarritoService(
+            PagoRepository pagoRepository,
+            CarritoRepository carritoRepository,
+            InventarioCliente inventarioCliente,
+            RestTemplateSelector restTemplateSelector,
+            @Value("${services.promociones.base-url:http://promociones}") String promocionesBaseUrl) {
+        this.pagoRepository = pagoRepository;
         this.carritoRepository = carritoRepository;
+        this.inventarioCliente = inventarioCliente;
+        this.restTemplateSelector = restTemplateSelector;
+        this.promocionesBaseUrl = promocionesBaseUrl;
     }
 
     public List<Carrito> listar(){
@@ -102,13 +108,11 @@ public class CarritoService {
     }
 
     public Integer aplicarCupon(Integer total, String codigoPromocional) {
-
-        RestTemplate restTemplate = new RestTemplate();
-        
-        String url = "http://localhost:8088/promociones/buscar-codigo/" + codigoPromocional;
+        String url = promocionesBaseUrl + "/promociones/buscar-codigo/" + codigoPromocional;
 
         try {
-            CuponDTO cupon = restTemplate.getForObject(url, CuponDTO.class);
+            CuponDTO cupon = restTemplateSelector.select(promocionesBaseUrl)
+                    .getForObject(url, CuponDTO.class);
 
             if (cupon != null) {
                 LocalDate hoy = LocalDate.now();

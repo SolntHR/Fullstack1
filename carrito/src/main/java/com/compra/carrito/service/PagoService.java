@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.compra.carrito.cliente.InventarioCliente;
@@ -19,16 +18,19 @@ import com.compra.carrito.repository.PagoRepository;
 public class PagoService {
 
     private final PagoRepository pagoRepository;
-    @Autowired
-    private InventarioCliente inventarioCliente;
-    @Autowired
-    private CarritoRepository carritoRepository;
-    @Autowired
-    private CarritoService carritoService;
+    private final InventarioCliente inventarioCliente;
+    private final CarritoRepository carritoRepository;
+    private final CarritoService carritoService;
 
-    public PagoService(PagoRepository pagoRepository, CarritoRepository carritoRepository) {
+    public PagoService(
+            PagoRepository pagoRepository,
+            InventarioCliente inventarioCliente,
+            CarritoRepository carritoRepository,
+            CarritoService carritoService) {
         this.pagoRepository = pagoRepository;
+        this.inventarioCliente = inventarioCliente;
         this.carritoRepository = carritoRepository;
+        this.carritoService = carritoService;
     }
 
     public List<Pago> listar() {
