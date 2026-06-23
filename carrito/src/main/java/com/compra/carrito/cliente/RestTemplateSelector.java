@@ -36,3 +36,4 @@ public class RestTemplateSelector {
                 || host.matches("\\d+\\.\\d+\\.\\d+\\.\\d+"));
     }
 }
+

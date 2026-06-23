@@ -28,8 +28,8 @@ public class PagoService {
                     InventarioCliente inventarioCliente,
                     CarritoService carritoService) {
         this.pagoRepository = pagoRepository;
-        this.carritoRepository = carritoRepository;
         this.inventarioCliente = inventarioCliente;
+        this.carritoRepository = carritoRepository;
         this.carritoService = carritoService;
     }
 

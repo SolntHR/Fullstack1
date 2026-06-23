@@ -48,8 +48,7 @@ public class CarritoController {
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Carrito encontrado"),
-            @ApiResponse(responseCode = "404", description = "Carrito no encontrado", content = @Content)
-    })
+            @ApiResponse(responseCode = "404", description = "Carrito no encontrado", content = @Content)})
     @GetMapping("/buscar/{id}")
     public ResponseEntity<Carrito> buscar(@PathVariable Integer id){
         Carrito carrito = carritoService.buscar(id);

@@ -19,8 +19,6 @@ import com.compra.carrito.model.ItemCarrito;
 import com.compra.carrito.repository.CarritoRepository;
 import com.compra.carrito.repository.PagoRepository;
 
-
-
 @Service
 public class CarritoService {
     
@@ -96,7 +94,6 @@ public class CarritoService {
         
         carrito.getItems().forEach(item -> item.setCarrito(carrito));
         Carrito carritoGuardado = carritoRepository.save(carrito);
-
         Pago nuevoPago = new Pago();
         nuevoPago.setIdCarrito(carritoGuardado.getIdCarrito());
         nuevoPago.setMonto(carritoGuardado.getTotal());
