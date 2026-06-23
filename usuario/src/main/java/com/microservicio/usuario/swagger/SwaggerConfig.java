@@ -1,6 +1,7 @@
 package com.microservicio.usuario.swagger;
 
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +15,8 @@ public class SwaggerConfig {
                 .info(new Info()
                         .title("Microservicio Usuario")
                         .version("1.0")
-                        .description("Documentación de la API del microservicio usuario"));
+                        .description("Documentación de la API del microservicio usuario")
+                        .contact(new Contact().name("Solange Hernández, Jesus Oropeza y Maximiliano Quezada")
+                                        .url("https://github.com/SolntHR/Fullstack1")));
     }
 }

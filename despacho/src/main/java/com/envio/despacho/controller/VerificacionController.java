@@ -28,7 +28,7 @@ public class VerificacionController {
     private final VerificacionService service;
 
     @Operation(
-            summary = "Listar todas las verificaciones",
+            summary = "Listar todos los despachos verificados",
             description = "Obtiene la lista completa de verificaciones de despacho",
             tags = {"1. Consultas"}
     )
