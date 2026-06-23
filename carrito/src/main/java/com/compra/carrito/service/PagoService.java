@@ -89,7 +89,7 @@ public class PagoService {
 
     public List<PagoSimpleDTO> buscarPorRangoSimple(LocalDateTime fechaInicio, LocalDateTime fechaFin) {
     
-    return pagoRepository.findByFechaCreacionBetween(fechaInicio, fechaFin)
+        return pagoRepository.findByFechaCreacionBetween(fechaInicio, fechaFin)
             .stream()
             .map(pago -> {
                 PagoSimpleDTO dto = new PagoSimpleDTO();

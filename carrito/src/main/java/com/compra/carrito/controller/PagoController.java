@@ -1,7 +1,9 @@
 package com.compra.carrito.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -56,7 +58,8 @@ public class PagoController {
 
     @GetMapping("/rango-fechas")
     @Operation(summary = "Buscar pagos por rango", description = "Lista pagos entre dos fechas ISO-8601")
-    public List<PagoSimpleDTO> listarPorRango(@RequestParam String inicio, @RequestParam String fin) {
+    public List<PagoSimpleDTO> listarPorRango(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime inicio,
+                                              @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fin) {
         return pagoService.buscarPorRangoSimple(inicio, fin);
     }
 
