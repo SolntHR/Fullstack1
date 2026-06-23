@@ -36,7 +36,7 @@ public class Carrito {
     private Integer total;
 
     @NotBlank(message = "El estado es obligatorio")
-    @Pattern(regexp = "ACTIVO|PAGADO|ABANDONADO|CANCELADO", message = "Estado de carrito no válido")
+    @Pattern(regexp = "ACTIVO|PAGADO|ABANDONADO|CANCELADO|COMPLETADO", message = "Estado de carrito no válido")
     @Column(nullable = false, length = 20)
     private String estado;
 
