@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.*;
 
 import com.envio.despacho.dto.ErrorDTO;
 
+import io.swagger.v3.oas.annotations.Hidden;
+
+@Hidden
 @RestControllerAdvice
 public class ExceptionAll {
  
