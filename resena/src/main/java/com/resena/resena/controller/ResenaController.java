@@ -2,13 +2,17 @@ package com.resena.resena.controller;
 
 import com.resena.resena.model.Resena;
 import com.resena.resena.service.ResenaService;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+
 import com.resena.resena.dto.ResenaSimpleDTO;
 import com.resena.resena.dto.ResenaListadoDTO;
 import com.resena.resena.dto.ResenaDetalleDTO;
 
 import jakarta.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

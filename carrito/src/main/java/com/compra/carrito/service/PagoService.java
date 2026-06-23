@@ -1,10 +1,10 @@
 package com.compra.carrito.service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.compra.carrito.cliente.InventarioCliente;
@@ -19,16 +19,18 @@ import com.compra.carrito.repository.PagoRepository;
 public class PagoService {
 
     private final PagoRepository pagoRepository;
-    @Autowired
-    private InventarioCliente inventarioCliente;
-    @Autowired
-    private CarritoRepository carritoRepository;
-    @Autowired
-    private CarritoService carritoService;
+    private final InventarioCliente inventarioCliente;
+    private final CarritoRepository carritoRepository;
+    private final CarritoService carritoService;
 
-    public PagoService(PagoRepository pagoRepository, CarritoRepository carritoRepository) {
+    public PagoService(PagoRepository pagoRepository,
+                    CarritoRepository carritoRepository,
+                    InventarioCliente inventarioCliente,
+                    CarritoService carritoService) {
         this.pagoRepository = pagoRepository;
         this.carritoRepository = carritoRepository;
+        this.inventarioCliente = inventarioCliente;
+        this.carritoService = carritoService;
     }
 
     public List<Pago> listar() {
@@ -41,29 +43,16 @@ public class PagoService {
     }
 
     public Pago guardar(Pago pago) {
-
-        Carrito carrito = carritoRepository.findById(pago.getIdCarrito())
-                .orElseThrow(() -> new RuntimeException("Carrito no encontrado"));
-
-        Pago pagoExistente = pagoRepository.findByIdCarrito(pago.getIdCarrito())
-                .orElseGet(Pago::new);
-
-        pagoExistente.setIdCarrito(carrito.getIdCarrito());
-        pagoExistente.setMetodoPago(pago.getMetodoPago());
-        pagoExistente.setMonto(carrito.getTotal());
-        pagoExistente.setEstado("APROBADO");
-        pagoExistente.setFechaCreacion(LocalDateTime.now());
-
-        for (ItemCarrito item : carrito.getItems()) {
-            inventarioCliente.descontarStock(
-                    item.getIdProducto(),
-                    item.getCantidad()
-            );
+        if (pago.getEstado() == null || pago.getEstado().isBlank()) {
+            pago.setEstado("PENDIENTE");
         }
 
-        return pagoRepository.save(pagoExistente);
-    }
+        if (pago.getFechaCreacion() == null) {
+            pago.setFechaCreacion(LocalDateTime.now());
+        }
 
+        return pagoRepository.save(pago);
+    }
     public void eliminar(Integer id) {
         pagoRepository.deleteById(id);
     }
@@ -85,19 +74,20 @@ public class PagoService {
         return pagoDTO;
     }
 
-    public List<PagoSimpleDTO> buscarPorRangoSimple(LocalDateTime fechaInicio, LocalDateTime fechaFin) {
-    
-    return pagoRepository.findByFechaCreacionBetween(fechaInicio, fechaFin)
-            .stream()
-            .map(pago -> {
-                PagoSimpleDTO dto = new PagoSimpleDTO();
-                dto.setIdPago(pago.getIdPago());
-                dto.setMonto(pago.getMonto());
-                dto.setEstado(pago.getEstado());
-                dto.setFechaCreacion(pago.getFechaCreacion());
-                dto.setMetodoPago(pago.getMetodoPago());
-                return dto;
-            }).toList();
+    public List<PagoSimpleDTO> buscarPorRangoSimple(LocalDate inicio, LocalDate fin) {
+        LocalDateTime fechaInicio = inicio.atStartOfDay();
+        LocalDateTime fechaFin = fin.atTime(23, 59, 59);
+        return pagoRepository.findByFechaCreacionBetween(fechaInicio, fechaFin)
+                .stream()
+                .map(pago -> {
+                    PagoSimpleDTO dto = new PagoSimpleDTO();
+                    dto.setIdPago(pago.getIdPago());
+                    dto.setMonto(pago.getMonto());
+                    dto.setEstado(pago.getEstado());
+                    dto.setFechaCreacion(pago.getFechaCreacion());
+                    dto.setMetodoPago(pago.getMetodoPago());
+                    return dto;
+                }).toList();
     }
 
     public Pago procesarPago(Pago pago) {
@@ -111,26 +101,6 @@ public class PagoService {
         pago.setFechaCreacion(LocalDateTime.now());
         
         return pagoRepository.save(pago);
-    }
-
-    public boolean validarCompra(Integer idPago, Integer idUsuario, Integer idProducto) {
-        Pago pago = pagoRepository.findById(idPago).orElse(null);
-        if (pago == null) {
-            return false;
-        }
-        if (pago.getEstado() == null || !pago.getEstado().equalsIgnoreCase("APROBADO")) {
-            return false;
-        }
-        Carrito carrito = carritoRepository.findById(pago.getIdCarrito())
-                .orElse(null);
-        if (carrito == null) {
-            return false;
-        }
-        if (carrito.getIdUsuario() == null || !carrito.getIdUsuario().equals(idUsuario)) {
-            return false;
-        }
-        return carrito.getItems().stream()
-                .anyMatch(item -> item.getIdProducto().equals(idProducto));
     }
 
 }

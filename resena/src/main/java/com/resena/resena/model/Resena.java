@@ -35,8 +35,9 @@ public class Resena {
     @Column(nullable = false)
     private Integer idProducto;
 
-    @Column(nullable = false)
-    private Integer idPago;
+    @NotNull(message = "Debe ingresar el id del item del carrito")
+    @Column(nullable = false, unique = true)
+    private Integer idItemCarrito;
 
     @Min(value = 1, message = "La calificación mínima es 1")
     @Max(value = 5, message = "La calificación máxima es 5")

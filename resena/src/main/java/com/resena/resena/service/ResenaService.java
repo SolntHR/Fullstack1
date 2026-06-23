@@ -5,9 +5,9 @@ import com.resena.resena.repository.ResenaRepository;
 import com.resena.resena.dto.ResenaSimpleDTO;
 import com.resena.resena.dto.ResenaListadoDTO;
 import com.resena.resena.dto.ResenaDetalleDTO;
+import com.resena.resena.dto.ValidacionItemResenaDTO;
 
 import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
@@ -19,21 +19,24 @@ import java.util.Optional;
 @Service
 public class ResenaService {
 
-    @Autowired
-    private ResenaRepository repository;
+    private final ResenaRepository repository;
 
-    @Autowired
-    private RestTemplate restTemplate;
+    private final RestTemplate restTemplate;
 
-    @Value("${pago.service.url}")
-    private String pagoServiceUrl;
+    @Value("${carrito.service.url}")
+    private String carritoServiceUrl;
+
+    ResenaService(ResenaRepository repository, RestTemplate restTemplate) {
+        this.repository = repository;
+        this.restTemplate = restTemplate;
+    }
 
     public List<Resena> listarResenas() {
         return repository.findAll();
     }
 
     public Optional<Resena> buscarPorIdResena(Integer idResena) {
-        return repository.findById(idResena);
+        return repository.findByIdResena(idResena);
     }
 
     public List<Resena> buscarPorIdUsuario(Integer idUsuario) {
@@ -45,20 +48,27 @@ public class ResenaService {
     }
 
     public Resena agregarResena(Resena resena) {
-        String url = pagoServiceUrl + "/carrito/pagos/validar-compra/"
-                + resena.getIdPago() + "/"
-                + resena.getIdUsuario() + "/"
-                + resena.getIdProducto();
+        String url = carritoServiceUrl
+                + "/carrito/items/" + resena.getIdItemCarrito()
+                + "/validacion-resena?idUsuario=" + resena.getIdUsuario()
+                + "&idProducto=" + resena.getIdProducto();
 
-        ResponseEntity<Boolean> response = restTemplate.getForEntity(url, Boolean.class);
-        Boolean compraValida = response.getBody();
+        ResponseEntity<ValidacionItemResenaDTO> response =
+                restTemplate.getForEntity(url, ValidacionItemResenaDTO.class);
 
-        if (compraValida == null || !compraValida) {
-            throw new RuntimeException("El pago no corresponde a una compra válida para ese usuario y producto");
+        ValidacionItemResenaDTO validacion = response.getBody();
+
+        if (validacion == null || Boolean.FALSE.equals(validacion.getItemValido())) {
+            throw new RuntimeException("El item no pertenece al usuario o no corresponde al producto");
         }
 
-        if (repository.existsByIdUsuarioAndIdProductoAndIdPago(resena.getIdUsuario(), resena.getIdProducto(), resena.getIdPago())) {
-            throw new RuntimeException("Ya existe una reseña para esta compra");
+        if (Boolean.FALSE.equals(validacion.getCarritoPagado())
+                || Boolean.FALSE.equals(validacion.getPagoAprobado())) {
+            throw new RuntimeException("La compra aún no está pagada o aprobada");
+        }
+
+        if (repository.existsByIdItemCarrito(resena.getIdItemCarrito())) {
+            throw new RuntimeException("Ya existe una reseña para este item comprado");
         }
 
         return repository.save(resena);
@@ -89,11 +99,10 @@ public class ResenaService {
             dto.setIdResena(r.getIdResena());
             dto.setIdUsuario(r.getIdUsuario());
             dto.setIdProducto(r.getIdProducto());
-            dto.setIdPago(r.getIdPago());
+            dto.setIdItemCarrito(r.getIdItemCarrito());
             dto.setEstrellas(r.getEstrellas());
             dto.setComentario(r.getComentario());
             dto.setFechaCreacion(r.getFechaCreacion());
-
             listaDTO.add(dto);
         }
 
@@ -125,7 +134,7 @@ public class ResenaService {
         dto.setIdResena(r.getIdResena());
         dto.setIdUsuario(r.getIdUsuario());
         dto.setIdProducto(r.getIdProducto());
-        dto.setIdPago(r.getIdPago());
+        dto.setIdItemCarrito(r.getIdItemCarrito());
         dto.setEstrellas(r.getEstrellas());
         dto.setComentario(r.getComentario());
         dto.setFechaCreacion(r.getFechaCreacion());
