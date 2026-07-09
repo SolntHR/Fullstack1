@@ -24,10 +24,11 @@ public class UsuarioService {
     
     private final RolRepository rolRepository;
 
-    public UsuarioService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
+
+    public UsuarioService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder, RolRepository rolRepository) {
         this.usuarioRepository = usuarioRepository;
         this.passwordEncoder = passwordEncoder;
-        this.rolRepository = null;
+        this.rolRepository = rolRepository;
     }
 
     public List<Usuario> listarUsuarios() {
@@ -66,10 +67,9 @@ public class UsuarioService {
     public Usuario agregarUsuario(Usuario usuario) {
     log.info("Intentando registrar usuario con email: {}", usuario.getEmail());
 
-        if (usuarioRepository.findByEmailIgnoreCase(usuario.getEmail()).isPresent()) {
-            log.warn("Intento de registro con email ya existente: {}", usuario.getEmail());
-            throw new IllegalArgumentException("El email ya está registrado");
-        }
+    if (usuario.getIdRol() == null) {
+        throw new IllegalArgumentException("El ID del rol es obligatorio");
+    }
 
         try {
 
@@ -82,15 +82,24 @@ public class UsuarioService {
             String passwordEncriptada = passwordEncoder.encode(usuario.getPassword());
             usuario.setPassword(passwordEncriptada);
 
-            Usuario usuarioGuardado = usuarioRepository.save(usuario);
-            log.info("Usuario creado exitosamente con id: {}", usuarioGuardado.getIdUsuario());
+    try {
+        Rol rol = rolRepository.findById(usuario.getIdRol())
+            .orElseThrow(() -> new IllegalArgumentException("Rol no encontrado con ID: " + usuario.getIdRol()));
 
-            return usuarioGuardado;
-        } catch (Exception e) {
-            log.error("Error al crear usuario con email: {}", usuario.getEmail(), e);
-            throw new RuntimeException("Error al crear el usuario");
-        }
-    }   
+        usuario.setRol(rol);
+
+        String passwordEncriptada = passwordEncoder.encode(usuario.getPassword());
+        usuario.setPassword(passwordEncriptada);
+
+        Usuario usuarioGuardado = usuarioRepository.save(usuario);
+        log.info("Usuario creado exitosamente con id: {}", usuarioGuardado.getIdUsuario());
+
+        return usuarioGuardado;
+            } catch (Exception e) {
+                log.error("Error al crear usuario con email: {}", usuario.getEmail(), e);
+                throw new RuntimeException("Error al crear el usuario");
+            }
+    }
 
     public Optional<Usuario> actualizarUsuario(Integer idUsuario, Usuario usuarioActualizado) {
         log.info("Intentando actualizar usuario con id: {}", idUsuario);

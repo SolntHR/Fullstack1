@@ -1,5 +1,6 @@
 package com.microservicio.usuario.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -44,9 +45,14 @@ public class Usuario {
     @Column(name = "password", nullable = false, length = 255)
     private String password;
 
-    @NotNull(message = "El rol es obligatorio")
+    @JsonIgnore
+    //@NotNull(message = "El rol es obligatorio")
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idRol", nullable = false)
     private Rol rol;
+
+    @Transient 
+    @Schema(description = "ID del rol asignado", example = "1")
+    private Integer idRol;
 
 }
