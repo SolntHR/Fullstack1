@@ -37,7 +37,7 @@ class UsuarioControllerTest {
     @Test
     void deberiaListarUsuarios() throws Exception {
         Rol rol = new Rol(1, "ADMIN");
-        Usuario usuario = new Usuario(1, "Juan", "Perez", "juan@gmail.com", "123456", rol);
+        Usuario usuario = new Usuario(1, "Juan", "Perez", "juan@gmail.com", "123456", rol, null);
 
         when(service.listarUsuarios()).thenReturn(List.of(usuario));
 
@@ -54,7 +54,7 @@ class UsuarioControllerTest {
     @Test
     void deberiaBuscarUsuarioPorId() throws Exception {
         Rol rol = new Rol(1, "ADMIN");
-        Usuario usuario = new Usuario(1, "Juan", "Perez", "juan@gmail.com", "123456", rol);
+        Usuario usuario = new Usuario(1, "Juan", "Perez", "juan@gmail.com", "123456", rol, null);
 
         when(service.buscarPorId(1)).thenReturn(Optional.of(usuario));
 
@@ -78,7 +78,7 @@ class UsuarioControllerTest {
     @Test
     void deberiaRetornarTrueSiExisteUsuario() throws Exception {
         Rol rol = new Rol(1, "ADMIN");
-        Usuario usuario = new Usuario(1, "Juan", "Perez", "juan@gmail.com", "123456", rol);
+        Usuario usuario = new Usuario(1, "Juan", "Perez", "juan@gmail.com", "123456", rol, null);
 
         when(service.buscarPorId(1)).thenReturn(Optional.of(usuario));
 
@@ -99,7 +99,7 @@ class UsuarioControllerTest {
     @Test
     void deberiaBuscarUsuariosPorNombre() throws Exception {
         Rol rol = new Rol(1, "ADMIN");
-        Usuario usuario = new Usuario(1, "Juan", "Perez", "juan@gmail.com", "123456", rol);
+        Usuario usuario = new Usuario(1, "Juan", "Perez", "juan@gmail.com", "123456", rol, null);
 
         when(service.buscarPorNombre("Juan")).thenReturn(List.of(usuario));
 
@@ -111,7 +111,7 @@ class UsuarioControllerTest {
     @Test
     void deberiaBuscarUsuariosPorApellido() throws Exception {
         Rol rol = new Rol(1, "ADMIN");
-        Usuario usuario = new Usuario(1, "Juan", "Perez", "juan@gmail.com", "123456", rol);
+        Usuario usuario = new Usuario(1, "Juan", "Perez", "juan@gmail.com", "123456", rol, null);
 
         when(service.buscarPorApellido("Perez")).thenReturn(List.of(usuario));
 
@@ -123,7 +123,7 @@ class UsuarioControllerTest {
     @Test
     void deberiaBuscarUsuarioPorEmail() throws Exception {
         Rol rol = new Rol(1, "ADMIN");
-        Usuario usuario = new Usuario(1, "Juan", "Perez", "juan@gmail.com", "123456", rol);
+        Usuario usuario = new Usuario(1, "Juan", "Perez", "juan@gmail.com", "123456", rol, null);
 
         when(service.buscarPorEmail("juan@gmail.com")).thenReturn(Optional.of(usuario));
 
@@ -144,7 +144,7 @@ class UsuarioControllerTest {
     @Test
     void deberiaCrearUsuario() throws Exception {
         Rol rol = new Rol(1, "ADMIN");
-        Usuario usuarioGuardado = new Usuario(1, "Juan", "Perez", "juan@gmail.com", "123456", rol);
+        Usuario usuarioGuardado = new Usuario(1, "Juan", "Perez", "juan@gmail.com", "123456", rol, null);
 
         String body = """
                 {
@@ -222,7 +222,7 @@ class UsuarioControllerTest {
     @Test
     void deberiaActualizarUsuario() throws Exception {
         Rol rol = new Rol(1, "ADMIN");
-        Usuario usuarioActualizado = new Usuario(1, "Juan", "Perez", "juan@gmail.com", "654321", rol);
+        Usuario usuarioActualizado = new Usuario(1, "Juan", "Perez", "juan@gmail.com", "654321", rol, null);
 
         String body = """
                 {

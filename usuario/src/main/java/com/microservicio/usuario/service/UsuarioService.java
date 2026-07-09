@@ -1,7 +1,9 @@
 package com.microservicio.usuario.service;
 
 import com.microservicio.usuario.dto.UsuarioDTO.UsuarioSimpleDTO;
+import com.microservicio.usuario.model.Rol;
 import com.microservicio.usuario.model.Usuario;
+import com.microservicio.usuario.repository.RolRepository;
 import com.microservicio.usuario.repository.UsuarioRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +22,12 @@ public class UsuarioService {
 
     private final PasswordEncoder passwordEncoder;
 
-    public UsuarioService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
+    private final RolRepository rolRepository;
+
+    public UsuarioService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder, RolRepository rolRepository) {
         this.usuarioRepository = usuarioRepository;
         this.passwordEncoder = passwordEncoder;
+        this.rolRepository = rolRepository;
     }
 
     public List<Usuario> listarUsuarios() {
@@ -61,24 +66,33 @@ public class UsuarioService {
     public Usuario agregarUsuario(Usuario usuario) {
     log.info("Intentando registrar usuario con email: {}", usuario.getEmail());
 
-        if (usuarioRepository.findByEmailIgnoreCase(usuario.getEmail()).isPresent()) {
-            log.warn("Intento de registro con email ya existente: {}", usuario.getEmail());
-            throw new IllegalArgumentException("El email ya está registrado");
-        }
+    if (usuario.getIdRol() == null) {
+        throw new IllegalArgumentException("El ID del rol es obligatorio");
+    }
 
-        try {
-            String passwordEncriptada = passwordEncoder.encode(usuario.getPassword());
-            usuario.setPassword(passwordEncriptada);
+    if (usuarioRepository.findByEmailIgnoreCase(usuario.getEmail()).isPresent()) {
+        log.warn("Intento de registro con email ya existente: {}", usuario.getEmail());
+        throw new IllegalArgumentException("El email ya está registrado");
+    }
 
-            Usuario usuarioGuardado = usuarioRepository.save(usuario);
-            log.info("Usuario creado exitosamente con id: {}", usuarioGuardado.getIdUsuario());
+    try {
+        Rol rol = rolRepository.findById(usuario.getIdRol())
+            .orElseThrow(() -> new IllegalArgumentException("Rol no encontrado con ID: " + usuario.getIdRol()));
 
-            return usuarioGuardado;
-        } catch (Exception e) {
-            log.error("Error al crear usuario con email: {}", usuario.getEmail(), e);
-            throw new RuntimeException("Error al crear el usuario");
-        }
-    }   
+        usuario.setRol(rol);
+
+        String passwordEncriptada = passwordEncoder.encode(usuario.getPassword());
+        usuario.setPassword(passwordEncriptada);
+
+        Usuario usuarioGuardado = usuarioRepository.save(usuario);
+        log.info("Usuario creado exitosamente con id: {}", usuarioGuardado.getIdUsuario());
+
+        return usuarioGuardado;
+            } catch (Exception e) {
+                log.error("Error al crear usuario con email: {}", usuario.getEmail(), e);
+                throw new RuntimeException("Error al crear el usuario");
+            }
+    }
 
     public Optional<Usuario> actualizarUsuario(Integer idUsuario, Usuario usuarioActualizado) {
         log.info("Intentando actualizar usuario con id: {}", idUsuario);
