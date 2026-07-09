@@ -71,21 +71,9 @@ public class UsuarioService {
         throw new IllegalArgumentException("El ID del rol es obligatorio");
     }
 
-        try {
-
-            String nombreRol = usuario.getRol().getNombreRol();
-            Rol rolExistente = rolRepository.findByNombreRol(nombreRol)
-                    .orElseThrow(() -> new IllegalArgumentException("El rol '" + nombreRol + "' no existe"));
-
-            usuario.setRol(rolExistente);
-            
-            String passwordEncriptada = passwordEncoder.encode(usuario.getPassword());
-            usuario.setPassword(passwordEncriptada);
-
     try {
         Rol rol = rolRepository.findById(usuario.getIdRol())
-            .orElseThrow(() -> new IllegalArgumentException("Rol no encontrado con ID: " + usuario.getIdRol()));
-
+                .orElseThrow(() -> new IllegalArgumentException("Rol no encontrado con ID: " + usuario.getIdRol()));
         usuario.setRol(rol);
 
         String passwordEncriptada = passwordEncoder.encode(usuario.getPassword());
@@ -95,10 +83,14 @@ public class UsuarioService {
         log.info("Usuario creado exitosamente con id: {}", usuarioGuardado.getIdUsuario());
 
         return usuarioGuardado;
-            } catch (Exception e) {
-                log.error("Error al crear usuario con email: {}", usuario.getEmail(), e);
-                throw new RuntimeException("Error al crear el usuario");
-            }
+
+    } catch (IllegalArgumentException e) {
+        log.warn("Error de validación al crear usuario: {}", e.getMessage());
+        throw e;
+        } catch (Exception e) {
+            log.error("Error inesperado al crear usuario con email: {}", usuario.getEmail(), e);
+            throw new RuntimeException("Error al crear el usuario", e);
+        }
     }
 
     public Optional<Usuario> actualizarUsuario(Integer idUsuario, Usuario usuarioActualizado) {
