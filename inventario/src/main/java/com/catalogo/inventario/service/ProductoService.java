@@ -2,7 +2,6 @@ package com.catalogo.inventario.service;
 
 import com.catalogo.inventario.model.Producto;
 import com.catalogo.inventario.repository.ProductoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.catalogo.inventario.dto.CategoriaListadoDTO;
@@ -17,8 +16,12 @@ import java.util.Optional;
 @Service
 public class ProductoService {
 
-    @Autowired
-    private ProductoRepository repository;
+    private final ProductoRepository repository;
+
+
+    ProductoService(ProductoRepository repository) {
+        this.repository = repository;
+    }
 
 
     public List<Producto> listaProductos() {
