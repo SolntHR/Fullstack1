@@ -8,6 +8,7 @@ import com.catalogo.inventario.service.ProductoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,11 +19,8 @@ import java.util.Optional;
 @RequestMapping("/inventario/producto")
 public class ProductoController {
 
-    private final ProductoService service;
-
-    ProductoController(ProductoService service) {
-        this.service = service;
-    }
+    @Autowired
+    private ProductoService service;
 
     @Operation(summary = "Listar todos los productos", description = "Obtiene la lista completa de productos registrados", tags = {"1. Consultas"})
     @ApiResponses(value = {

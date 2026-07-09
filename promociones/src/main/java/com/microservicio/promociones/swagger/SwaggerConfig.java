@@ -13,8 +13,8 @@ public class SwaggerConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
-                .title("Servicio de Promociones")
-                .description("Microservicio REST encargado de la gestión integral de promociones y descuentos del sistema. Permite crear, actualizar, consultar, listar, buscar por ID, filtrar por rango de fechas y eliminar promociones, facilitando la administración de campañas comerciales y beneficios aplicados a los productos. ")
+                .title("Servicio de Tickets")
+                .description("Microservicio REST encargado de administrar tickets de soporte, incluyendo operaciones CRUD y generación de respuestas DTO para distintos niveles de detalle")
                 .version("1.0")
                 .contact(new Contact().name("Solange Hernández, Jesus Oropeza y Maximiliano Quezada")
                                     .url("https://github.com/SolntHR/Fullstack1")));

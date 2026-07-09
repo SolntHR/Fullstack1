@@ -1,7 +1,9 @@
 package com.microservicio.usuario.service;
 
 import com.microservicio.usuario.dto.UsuarioDTO.UsuarioSimpleDTO;
+import com.microservicio.usuario.model.Rol;
 import com.microservicio.usuario.model.Usuario;
+import com.microservicio.usuario.repository.RolRepository;
 import com.microservicio.usuario.repository.UsuarioRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +21,13 @@ public class UsuarioService {
     private UsuarioRepository usuarioRepository;
 
     private final PasswordEncoder passwordEncoder;
+    
+    private final RolRepository rolRepository;
 
     public UsuarioService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
         this.passwordEncoder = passwordEncoder;
+        this.rolRepository = null;
     }
 
     public List<Usuario> listarUsuarios() {
@@ -67,6 +72,13 @@ public class UsuarioService {
         }
 
         try {
+
+            String nombreRol = usuario.getRol().getNombreRol();
+            Rol rolExistente = rolRepository.findByNombreRol(nombreRol)
+                    .orElseThrow(() -> new IllegalArgumentException("El rol '" + nombreRol + "' no existe"));
+
+            usuario.setRol(rolExistente);
+            
             String passwordEncriptada = passwordEncoder.encode(usuario.getPassword());
             usuario.setPassword(passwordEncriptada);
 

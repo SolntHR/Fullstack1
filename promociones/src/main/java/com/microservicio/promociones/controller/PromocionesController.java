@@ -29,8 +29,7 @@ public class PromocionesController {
 
     @Operation(
             summary = "Listar promociones",
-            description = "Obtiene la lista completa de promociones registradas",
-            tags = {"1. Consultas"}
+            description = "Obtiene la lista completa de promociones registradas"
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Lista de promociones obtenida correctamente"),
@@ -44,8 +43,7 @@ public class PromocionesController {
 
     @Operation(
             summary = "Buscar promoción por id",
-            description = "Busca una promoción específica a partir de su identificador",
-            tags = {"1. Consultas"}
+            description = "Busca una promoción específica a partir de su identificador"
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Promoción encontrada correctamente"),
@@ -69,8 +67,7 @@ public class PromocionesController {
 
     @Operation(
             summary = "Buscar promociones por rango de fechas",
-            description = "Obtiene la lista de promociones vigentes dentro de un rango de fechas determinado",
-            tags = {"1. Consultas"}
+            description = "Obtiene la lista de promociones vigentes dentro de un rango de fechas determinado"
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Búsqueda realizada correctamente"),
@@ -88,8 +85,7 @@ public class PromocionesController {
 
     @Operation(
             summary = "Crear promoción",
-            description = "Registra una nueva promoción en el sistema",
-            tags = {"2. Gestión"}
+            description = "Registra una nueva promoción en el sistema"
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Promoción creada correctamente"),
@@ -106,8 +102,7 @@ public class PromocionesController {
 
     @Operation(
             summary = "Actualizar promoción",
-            description = "Actualiza los datos de una promoción existente",
-            tags = {"2. Gestión"}
+            description = "Actualiza los datos de una promoción existente"
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Promoción actualizada correctamente"),
@@ -134,8 +129,7 @@ public class PromocionesController {
 
     @Operation(
             summary = "Eliminar promoción",
-            description = "Elimina una promoción existente según su id",
-            tags = {"2. Gestión"}
+            description = "Elimina una promoción existente según su id"
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Promoción personalizada eliminada correctamente"),
@@ -160,8 +154,7 @@ public class PromocionesController {
 
     @Operation(
             summary = "Obtener listado simple DTO",
-            description = "Obtiene la lista de promociones en un formato resumido simplificado",
-            tags = {"1. Consultas"}
+            description = "Obtiene la lista de promociones en un formato resumido simplificado"
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Listado DTO obtenido correctamente"),

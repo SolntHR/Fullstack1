@@ -6,7 +6,6 @@ import com.microservicio.usuario.service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +17,6 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/usuarios")
 @Slf4j
-@Tag(name = "Usuario", description = "Operaciones de consulta y gestión de usuarios")
 public class UsuarioController {
 
     private final UsuarioService service;

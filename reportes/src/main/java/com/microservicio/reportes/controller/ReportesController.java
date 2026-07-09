@@ -28,8 +28,7 @@ public class ReportesController {
 
     @Operation(
             summary = "Listar todos los reportes",
-            description = "Obtiene la lista completa de todos los reportes almacenados en el sistema",
-            tags = {"1. Consultas"}
+            description = "Obtiene la lista completa de todos los reportes almacenados en el sistema"
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Búsqueda realizada correctamente"),
@@ -43,8 +42,7 @@ public class ReportesController {
 
     @Operation(
             summary = "Buscar reporte por ID",
-            description = "Obtiene un reporte específico que coincide con el ID ingresado",
-            tags = {"1. Consultas"}
+            description = "Obtiene un reporte específico que coincide con el ID ingresado"
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Búsqueda realizada correctamente"),
@@ -67,8 +65,7 @@ public class ReportesController {
 
     @Operation(
             summary = "Agregar un nuevo reporte",
-            description = "Crea y registra un nuevo reporte validando los datos ingresados",
-            tags = {"2. Gestión"}
+            description = "Crea y registra un nuevo reporte validando los datos ingresados"
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Reporte creado exitosamente"),
@@ -91,8 +88,7 @@ public class ReportesController {
 
     @Operation(
             summary = "Eliminar un reporte por ID",
-            description = "Elimina de forma permanente el reporte que coincide con el ID ingresado",
-            tags = {"2. Gestión"}
+            description = "Elimina de forma permanente el reporte que coincide con el ID ingresado"
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Reporte eliminado exitosamente"),
@@ -114,8 +110,7 @@ public class ReportesController {
 
     @Operation(
             summary = "Ver los pagos de un reporte",
-            description = "Obtiene la lista de pagos asociados al ID del reporte ingresado",
-            tags = {"1. Consultas"}
+            description = "Obtiene la lista de pagos asociados al ID del reporte ingresado"
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Búsqueda realizada correctamente"),

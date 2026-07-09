@@ -4,6 +4,7 @@ import com.catalogo.inventario.model.Categoria;
 import com.catalogo.inventario.model.Producto;
 import com.catalogo.inventario.repository.CategoriaRepository;
 import com.catalogo.inventario.repository.ProductoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.catalogo.inventario.dto.CategoriaDetalleDTO;
@@ -18,15 +19,11 @@ import java.util.Optional;
 @Service
 public class CategoriaService {
 
-    private final CategoriaRepository repository;
+    @Autowired
+    private CategoriaRepository repository;
 
-    private final ProductoRepository productoRepository;
-
-
-    CategoriaService(CategoriaRepository repository, ProductoRepository productoRepository) {
-        this.repository = repository;
-        this.productoRepository = productoRepository;
-    }
+    @Autowired
+    private ProductoRepository productoRepository;
 
 
     public List<Categoria> listarCategoria() {
