@@ -358,6 +358,20 @@ RESENA:
 
 
 
+**Enlaces Swagger:**
+Usuario: http://localhost:8081/swagger-ui/index.html
+Inventario: http://localhost:8083/swagger-ui/index.html
+Carrito: http://localhost:8084/swagger-ui/index.html
+Despacho: http://localhost:8085/swagger-ui/index.html
+Ticket: http://localhost:8086/swagger-ui/index.html
+Reporte: http://localhost:8087/swagger-ui/index.html
+Promociones: http://localhost:8088/swagger-ui/index.html
+Reseña: http://localhost:8089/swagger-ui/index.html
+
+
+
+
+
 **Pasos para ejecutar sin Docker**:
 
 
