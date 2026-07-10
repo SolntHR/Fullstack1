@@ -6,7 +6,7 @@ El proyecto esta basado en una arquitectura de microservicios con Spring Boot, o
 
 **Descripción**: 
 
-Los microservicios están desplegados localmente en distintos puertos, cada uno con responsabilidad funcional separada: usuario (8081), inventario (8083), carrito (8084), despacho (8085), soporte (8086), reportes (8087), promociones (8088) y reseña (8089). El proyecto usa controladores REST con @RequestBody para recibir JSON y validación con @Valid/@Validated.
+Los microservicios están desplegados localmente dentro de contenedores Docker, cada uno ejecutándose en un puerto especifico y con responsabilidades separadas: usuario (8081), inventario (8083), carrito (8084), despacho (8085), soporte (8086), reportes (8087), promociones (8088) y reseña (8089). El proyecto usa controladores REST con @RequestBody para recibir JSON y @Valid/@Validated para la validación de datos de entrada. Además, se integra Swagger/OpenAPI para la documentación y visualización interactiva de los servicios, y Eureka para el registro y descubrimiento dinámico de microservicios dentro de la arquitectura. También se incorporan pruebas unitarias sobre la capa de servicio y controladores utilizando Mockito para el aislamiento de dependencias y la verificación del comportamiento.
 
 
 
@@ -358,7 +358,7 @@ RESENA:
 
 
 
-**Pasos para ejecutar**:
+**Pasos para ejecutar sin Docker**:
 
 
 
@@ -616,3 +616,11 @@ Agregar / actualizar resena
 
 
 
+**Pasos a ejecutar con Docker**:
+
+1. Iniciar Docker Desktop
+2. Descargar repositorio y descomprimirlo
+3. En la raíz del proyecto abrir terminal e ingresar el comando de construcción: docker compose up -d --build
+4. Esperar a que se creen los contenedores.
+5. Una vez que los servicios se encuentren activos se puede comprobar su registro en Eureka: http//:localhost:8761/eureka/. Y ver la documentación Swagger visitando los puertos utilizados agregando /swagger-ui/index.html
+6. En caso de realizar cambios en el repositorio los contenedores de deben actualizar manualmente usando el mismo comando de construcción.
