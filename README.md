@@ -622,5 +622,5 @@ Agregar / actualizar resena
 2. Descargar repositorio y descomprimirlo
 3. En la raíz del proyecto abrir terminal e ingresar el comando de construcción: docker compose up -d --build
 4. Esperar a que se creen los contenedores.
-5. Una vez que los servicios se encuentren activos se puede comprobar su registro en Eureka: http//:localhost:8761/eureka/. Y ver la documentación Swagger visitando los puertos utilizados agregando /swagger-ui/index.html
+5. Una vez que los servicios se encuentren activos se puede comprobar su registro en Eureka: localhost:8761. Y ver la documentación Swagger visitando los puertos utilizados agregando /swagger-ui/index.html
 6. En caso de realizar cambios en el repositorio los contenedores de deben actualizar manualmente usando el mismo comando de construcción.
